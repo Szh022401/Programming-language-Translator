@@ -4,6 +4,7 @@ package provided;
  * This class is responsible for tokenizing Jott code.
  * 
  * @author Zehua Sun
+ * @author Sean Hopkins
  **/
 import java.io.*;
 import java.util.ArrayList;
