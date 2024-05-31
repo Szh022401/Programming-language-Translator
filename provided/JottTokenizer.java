@@ -5,6 +5,7 @@ package provided;
  * 
  * @author Zehua Sun
  * @author Sean Hopkins
+ * @author Adam Harnish
  **/
 import java.io.*;
 import java.util.ArrayList;
