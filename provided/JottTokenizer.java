@@ -98,8 +98,11 @@ public class JottTokenizer {
 				if (i < lines.length() && lines.charAt(i) == '"') {
 					sb.append(lines.charAt(i));
 					i++;
+					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+				}else{
+					return null;
 				}
-				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+
 				sb.setLength(0);
 			}
 			else {
