@@ -5,7 +5,7 @@ package provided;
  * 
  * @author 
  **/
-
+import java.io.*;
 import java.util.ArrayList;
 
 public class JottTokenizer {
@@ -17,6 +17,25 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-		return null;
+		ArrayList<Token> tokens = new ArrayList<>();
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line;
+			int lineNum = 0;
+			while ((line = reader.readLine()) != null) {
+				lineNum++;
+				tokens = getTokenize(line, filename, lineNum);
+				System.out.println(line);
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("File not found: " + filename);
+		} catch (IOException e) {
+			System.err.println("Error reading file: " + filename);
+		}
+		return tokens;
+	}
+	private static ArrayList<Token> getTokenize(String line, String filename, int lineNum) {
+		ArrayList<Token> getToken = new ArrayList<>();
+
+		return  getToken;
 	}
 }
