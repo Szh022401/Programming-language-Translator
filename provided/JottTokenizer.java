@@ -3,7 +3,7 @@ package provided;
 /**
  * This class is responsible for tokenizing Jott code.
  * 
- * @author 
+ * @author Zehua Sun
  **/
 import java.io.*;
 import java.util.ArrayList;
@@ -39,26 +39,42 @@ public class JottTokenizer {
 		return tokens;
 	}
 
+	/**
+	 * Parses a single line of Jott code and produces a list of tokens.
+	 * Comments and unsupported syntax cause the parsing of the line to stop.
+	 *
+	 * @param lines the line of text to parse
+	 * @param filename the name of the file being parsed (for error reporting)
+	 * @param lineNum the line number being parsed (for error reporting)
+	 * @return a list of tokens from the line; returns null if a parsing error occurs
+	 */
 	private static ArrayList<Token> getTokenize(String lines, String filename, int lineNum) {
 		ArrayList<Token> tokens = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		char[] chars = lines.toCharArray();
-		System.out.println(lines);
+		//System.out.println(lines);
 
 		for (int i = 0; i < chars.length; i++) {
 			char currentChar = chars[i];
+			// Stop processing the line on encountering a comment symbol.
 			if(lines.charAt(i) == '#'){
 				break;
-			}else if (Character.isWhitespace(currentChar)) {
+			}
+			// Skip processing whitespace but finalize any tokens being built.
+			else if (Character.isWhitespace(currentChar)) {
 				if (sb.length() > 0) {
 					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 					sb.setLength(0);
 				}
 				continue;
-			}else if (Character.isDigit(currentChar)) {
+			}
+			// Append numeric characters to the current token
+			else if (Character.isDigit(currentChar)) {
 				sb.append(currentChar);
-			} else if (Character.isLetter(lines.charAt(i))) {
+			}// Build token strings for identifiers or keywords.
+			else if (Character.isLetter(lines.charAt(i))) {
 				sb.append(currentChar);
+				// Include subsequent alphanumeric characters in the identifier.
 				while (i + 1 < lines.length() && Character.isLetterOrDigit(lines.charAt(i + 1)) && lines.charAt(i) != ' ') {
 					i++;
 					sb.append(lines.charAt(i));
@@ -68,6 +84,7 @@ public class JottTokenizer {
 					sb.setLength(0);
 				}
 			}
+			// Handle period used in floating point numbers or ellipsis.
 			else if (currentChar == '.') {
 				if (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) )) {
 					sb.append(currentChar);
@@ -81,8 +98,9 @@ public class JottTokenizer {
 					}
 					return null;
 				}
-
-			} else if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
+			}
+			// Process operators, particularly looking for combinations like '!='.
+			else if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
 				sb.append(currentChar);
 				if (i + 1 < chars.length && chars[i + 1] == '=') {
 					i++;
@@ -92,7 +110,9 @@ public class JottTokenizer {
 				}
 				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				sb.setLength(0);
-			}else if(currentChar == '"'){
+			}
+			// Process and validate string literals enclosed in quotes.
+			else if(currentChar == '"'){
 				sb.append(currentChar);
 				i++;
 				while(i < lines.length() && lines.charAt(i) != '"'){
@@ -108,13 +128,18 @@ public class JottTokenizer {
 				}
 
 				sb.setLength(0);
-			}else if(currentChar == ':'){
-				sb.append(lines.charAt(i));
-				i++;
-				if(i < lines.length() && i == ':'){
-					sb.append(lines.charAt(i));
+			}
+			// Handle colon and possible double colon '::'.
+			else if(currentChar == ':') {
+				if (i + 1 < chars.length && chars[i + 1] == ':') {
+					sb.append(currentChar);
+					i++;
+					sb.append(chars[i]);
+					tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.FC_HEADER));
+					sb.setLength(0);
+				} else {
+					tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, getType(String.valueOf(currentChar))));
 				}
-				tokens.add(new Token(sb.toString(), filename,lineNum,getType(sb.toString())));
 			}
 			else {
 				if (sb.length() > 0) {
@@ -132,15 +157,20 @@ public class JottTokenizer {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
 		int test = 0;
-		for (Token token : tokens) {
-			test ++;
-			System.out.println(test + token.getToken());
-		}
+//		for (Token token : tokens) {
+//			test ++;
+//			System.out.println(test + token.getToken());
+//		}
 
 
 		return tokens;
 	}
-
+	/**
+	 * Determines the type of a token based on its textual representation.
+	 *
+	 * @param word the string token to classify
+	 * @return the TokenType of the token
+	 */
 	private static TokenType getType(String word) {
 
 		if (word.matches("\\d+\\.\\d*") || word.matches("\\.\\d+") || word.matches("\\d+")) {
