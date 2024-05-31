@@ -24,8 +24,12 @@ public class JottTokenizer {
 			int lineNum = 0;
 			while ((line = reader.readLine()) != null) {
 				lineNum++;
-				tokens = getTokenize(line, filename, lineNum);
-				System.out.println(line);
+				ArrayList<Token> lineTokens = getTokenize(line, filename, lineNum);
+				if (lineTokens != null) {
+					tokens.addAll(lineTokens);
+				}else {
+					return null;
+				}
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println("File not found: " + filename);
@@ -104,6 +108,13 @@ public class JottTokenizer {
 				}
 
 				sb.setLength(0);
+			}else if(currentChar == ':'){
+				sb.append(lines.charAt(i));
+				i++;
+				if(i < lines.length() && i == ':'){
+					sb.append(lines.charAt(i));
+				}
+				tokens.add(new Token(sb.toString(), filename,lineNum,getType(sb.toString())));
 			}
 			else {
 				if (sb.length() > 0) {
@@ -120,8 +131,10 @@ public class JottTokenizer {
 		if (sb.length() > 0) {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
+		int test = 0;
 		for (Token token : tokens) {
-			System.out.println(token.getToken());
+			test ++;
+			System.out.println(test + token.getToken());
 		}
 
 
