@@ -177,7 +177,6 @@ public class JottTokenizer {
 			case "==":
 				return TokenType.REL_OP;
 			default:
-				System.err.println("error but got a token list");
 				return null;
 		}
 	}
