@@ -38,7 +38,6 @@ public class JottTokenizer {
 	private static ArrayList<Token> getTokenize(String lines, String filename, int lineNum) {
 		ArrayList<Token> tokens = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
-
 		char[] chars = lines.toCharArray();
 		System.out.println(lines);
 
@@ -86,6 +85,19 @@ public class JottTokenizer {
 				}
 				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				sb.setLength(0);
+			}else if(currentChar == '"'){
+				sb.append(currentChar);
+				i++;
+				while(i < lines.length() && lines.charAt(i) != '"'){
+					sb.append(lines.charAt(i));
+					i++;
+				}
+				if (i < lines.length() && lines.charAt(i) == '"') {
+					sb.append(lines.charAt(i));
+					i++;
+				}
+				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+				sb.setLength(0);
 			}
 			else {
 				if (sb.length() > 0) {
@@ -95,6 +107,7 @@ public class JottTokenizer {
 				if (!Character.isWhitespace(currentChar)) {
 					tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, getType(String.valueOf(currentChar))));
 				}
+
 			}
 		}
 
@@ -143,6 +156,8 @@ public class JottTokenizer {
 				return TokenType.COLON;
 			case "=":
 				return TokenType.ASSIGN;
+			case "\"":
+				return TokenType.STRING;
 			case "+":
 			case "-":
 			case "*":
