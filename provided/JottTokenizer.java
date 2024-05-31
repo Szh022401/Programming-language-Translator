@@ -75,13 +75,16 @@ public class JottTokenizer {
 						tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 						sb.setLength(0);
 					}
-					tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, getType(String.valueOf(currentChar))));
+					return null;
 				}
+
 			} else if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
 				sb.append(currentChar);
 				if (i + 1 < chars.length && chars[i + 1] == '=') {
 					i++;
 					sb.append(chars[i]);
+				}else if (currentChar == '!' && !(i + 1 < chars.length && chars[i + 1] == '=')) {
+					return null;
 				}
 				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				sb.setLength(0);
@@ -171,7 +174,8 @@ public class JottTokenizer {
 			case "==":
 				return TokenType.REL_OP;
 			default:
-				throw new IllegalArgumentException("Unrecognized token: " + word);
+				System.err.println("error but got a token list");
+				return null;
 		}
 	}
 }
