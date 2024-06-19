@@ -1,0 +1,21 @@
+pseudo-code
+
+def -> always at the start
+
+<function name> -> name like "main"
+
+<function parameters> -> start with a lbracket and COULD have parameter(s) of the format--->  <name>:<datatype>   before an rbracket
+
+
+then check if :<type> is present for return type of function
+
+check for lbrace for start for function body
+---> call helper function to parse the body between lbrace and rbrace (can recurse if more rbrackets are found) then exit parsed body and
+    check for corresponding rbrace
+
+^
+|
+|
+ general structure for whole function being parsed
+
+inside the helper function for braces are all the checks for different things like math parse or
