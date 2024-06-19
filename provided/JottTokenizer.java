@@ -76,6 +76,13 @@ public class JottTokenizer {
 			// Append numeric characters to the current token
 			else if (Character.isDigit(currentChar)) {
 				sb.append(currentChar);
+				while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]))) {
+					i++;
+					sb.append(chars[i]);
+				}
+				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+				sb.setLength(0);
+
 			}// Build token strings for identifiers or keywords.
 			else if (Character.isLetter(lines.charAt(i))) {
 				sb.append(currentChar);
@@ -126,7 +133,6 @@ public class JottTokenizer {
 				}
 				if (i < lines.length() && lines.charAt(i) == '"') {
 					sb.append(lines.charAt(i));
-					i++;
 					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				}else{
 					return null;
@@ -161,11 +167,9 @@ public class JottTokenizer {
 		if (sb.length() > 0) {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
-		int test = 0;
-//		for (Token token : tokens) {
-//			test ++;
-//			System.out.println(test + token.getToken());
-//		}
+		for (Token token : tokens) {
+			System.out.println(token.getToken() + token.getTokenType());
+		}
 
 
 		return tokens;
@@ -189,6 +193,9 @@ public class JottTokenizer {
 
 
 		if (word.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
+			return TokenType.ID_KEYWORD;
+		}
+		if (word.matches("\\d+[a-zA-Z_]+[a-zA-Z0-9_]*")) {
 			return TokenType.ID_KEYWORD;
 		}
 

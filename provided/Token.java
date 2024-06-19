@@ -54,4 +54,5 @@ public class Token {
     public TokenType getTokenType() {
         return type;
     }
+
 }
