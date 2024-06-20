@@ -76,12 +76,12 @@ public class JottTokenizer {
 			// Append numeric characters to the current token
 			else if (Character.isDigit(currentChar)) {
 				sb.append(currentChar);
-				while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]))) {
-					i++;
-					sb.append(chars[i]);
-				}
-				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
-				sb.setLength(0);
+//				while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]))) {
+//					i++;
+//					sb.append(chars[i]);
+//				}
+//				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+//				sb.setLength(0);
 
 			}// Build token strings for identifiers or keywords.
 			else if (Character.isLetter(lines.charAt(i))) {
@@ -152,6 +152,53 @@ public class JottTokenizer {
 					tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, getType(String.valueOf(currentChar))));
 				}
 			}
+			else if (currentChar == '[') {
+				tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.L_BRACKET));
+				i++;
+				while (i < chars.length && chars[i] != ']') {
+					currentChar = chars[i];
+					if (Character.isWhitespace(currentChar)) {
+						i++;
+						continue;
+					}
+					if (Character.isLetterOrDigit(currentChar) || currentChar == '"') {
+						sb.append(currentChar);
+						if (currentChar == '"') {  // Handle strings within brackets
+							i++;
+							while (i < chars.length && chars[i] != '"') {
+								sb.append(chars[i]);
+								i++;
+							}
+							if (i < chars.length && chars[i] == '"') {
+								sb.append(chars[i]);
+							} else {
+								return null;  // Error: Unclosed string literal
+							}
+						} else {
+							while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]) || chars[i + 1] == '.')) {
+								i++;
+								sb.append(chars[i]);
+							}
+						}
+						tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+						sb.setLength(0);
+					} else if (currentChar == ':') {
+						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COLON));
+					} else if (currentChar == ',') {
+						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COMMA));
+					} else {
+						return null;
+					}
+					i++;
+				}
+				if (i < chars.length && chars[i] == ']') {
+					tokens.add(new Token(String.valueOf(chars[i]), filename, lineNum, TokenType.R_BRACKET));
+				} else {
+					return null;
+				}
+			}
+
+
 			else {
 				if (sb.length() > 0) {
 					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));

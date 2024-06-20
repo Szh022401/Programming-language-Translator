@@ -1,10 +1,10 @@
 package provided;
 
-public class AsmtStmtNode implements JottTree {
+public class AssignmentNode implements JottTree {
     private String variableName;
     private JottTree expression;
 
-    public AsmtStmtNode(String variableName, JottTree expression) {
+    public AssignmentNode(String variableName, JottTree expression) {
         this.variableName = variableName;
         this.expression = expression;
     }
