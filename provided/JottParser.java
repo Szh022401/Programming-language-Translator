@@ -187,6 +187,8 @@ public class JottParser {
                 return parseReturn(tokens, index);
             } else if (currentToken.getToken().equals("While")) {
                 return parseWhile(tokens, index);
+            } else if (currentToken.getToken().equals("If")) {
+               // return parseIf(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.ID_KEYWORD) {
                 return parseAssignment(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.FC_HEADER) {
@@ -199,7 +201,9 @@ public class JottParser {
             reportError("Unexpected end of input", null);
             return null;
         }
+        return null;
     }
+
     private static JottTree parseAssignment(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
             reportError("Expected an identifier", tokens.get(index[0]));
@@ -278,13 +282,36 @@ public class JottParser {
         }
 
         Token token = tokens.get(index[0]);
-        if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
+        JottTree expr;
+
+        // Handle function call expressions
+        if (token.getTokenType() == TokenType.FC_HEADER) {
+            expr = parseFunctCall(tokens, index);
+            if (expr == null) {
+                return null;
+            }
+        }
+        // Handle numbers, strings, or identifiers
+        else if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
+            expr = new ExpressionNode(token.getToken());
             index[0]++;
-            return new ExpressionNode(token.getToken());
         } else {
-            reportError("Expected a number or string", token);
+            reportError("Expected a number, string, or function call", token);
             return null;
         }
+
+        // Check for relational operator
+        if (index[0] < tokens.size() && isRelationalOperator(tokens.get(index[0]))) {
+            Token relOp = tokens.get(index[0]);
+            index[0]++;
+            JottTree rightExpr = parseExpression(tokens, index);
+            if (rightExpr == null) {
+                return null;
+            }
+            expr = new RelationalExprNode(expr, relOp.getToken(), rightExpr);
+        }
+
+        return expr;
     }
     private static JottTree parseReturn(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Return")) {
@@ -353,9 +380,55 @@ public class JottParser {
 
         return new WhileNode(condition, new BodyNode(body));
     }
+    private static JottTree parseFunctCall(ArrayList<Token> tokens, int[] index) {
+        if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
+            reportError("Expected '::' for function call", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
+            reportError("Expected function name after '::'", tokens.get(index[0]));
+            return null;
+        }
+        String functionName = tokens.get(index[0]).getToken();
+        index[0]++;
+
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
+            reportError("Expected '[' after function name", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        ArrayList<JottTree> args = new ArrayList<>();
+        while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
+            JottTree arg = parseExpression(tokens, index);
+            if (arg == null) {
+                return null;
+            }
+            args.add(arg);
+
+            if (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() == TokenType.COMMA) {
+                index[0]++;
+            } else {
+                break;
+            }
+        }
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
+            reportError("Expected ']' after function call arguments", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        return new FunctCallNode(functionName, args);
+    }
+
 
     private static boolean isTypeKeyword(String token) {
         return token.equals("Double") || token.equals("Integer") || token.equals("String") || token.equals("Boolean");
+    }
+    private static boolean isRelationalOperator(Token token) {
+        return token.getTokenType() == TokenType.REL_OP;
     }
     private static boolean isValidIdentifier(String name) {
         return name.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");

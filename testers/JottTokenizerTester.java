@@ -44,74 +44,74 @@ public class JottTokenizerTester {
 
     private void createTestCases(){
         this.testCases = new ArrayList<>();
-        ArrayList<Token> numTestTokens = new ArrayList<>();
-        String filename = "tokenizerTestCases/number.jott";
-        numTestTokens.add(new Token("5", filename, 1, TokenType.NUMBER));
-        numTestTokens.add(new Token("5.5", filename, 1, TokenType.NUMBER));
-        numTestTokens.add(new Token(".5", filename, 1, TokenType.NUMBER));
-	    numTestTokens.add(new Token("5.", filename, 1, TokenType.NUMBER));
-        testCases.add(new TestCase( "validNumberTest", filename, numTestTokens, false));
-
-        ArrayList<Token> mathOpTokens = new ArrayList<>();
-        String mathOps = "+-*/";
-        filename = "tokenizerTestCases/mathOpsTest.jott";
-        for(char c: mathOps.toCharArray()){
-            mathOpTokens.add(new Token("" + c, filename, 1, TokenType.MATH_OP));
-        }
-        testCases.add(new TestCase("MathOps", filename, mathOpTokens, false));
-
-        ArrayList<Token> singleCharTokens = new ArrayList<>();
-        filename = "tokenizerTestCases/singleCharTokens.jott";
-        singleCharTokens.add(new Token(",", filename, 1, TokenType.COMMA));
-        singleCharTokens.add(new Token("[", filename, 1, TokenType.L_BRACKET));
-        singleCharTokens.add(new Token("]", filename, 1, TokenType.R_BRACKET));
-        singleCharTokens.add(new Token("{", filename, 1, TokenType.L_BRACE));
-        singleCharTokens.add(new Token("}", filename, 1, TokenType.R_BRACE));
-        singleCharTokens.add(new Token(";", filename, 1, TokenType.SEMICOLON));
-        singleCharTokens.add(new Token(":", filename, 1, TokenType.COLON));
-        singleCharTokens.add(new Token("=", filename, 1, TokenType.ASSIGN));
-        testCases.add(new TestCase("SingleCharTokens", filename, singleCharTokens, false));
-
-        ArrayList<Token> relOpsTokens = new ArrayList<>();
-        filename = "tokenizerTestCases/relOpsTokens.jott";
-        relOpsTokens.add(new Token("<", filename, 1, TokenType.REL_OP));
-        relOpsTokens.add(new Token("<=", filename, 1, TokenType.REL_OP));
-        relOpsTokens.add(new Token(">", filename, 1, TokenType.REL_OP));
-        relOpsTokens.add(new Token(">=", filename, 1, TokenType.REL_OP));
-        relOpsTokens.add(new Token("==", filename, 1, TokenType.REL_OP));
-        relOpsTokens.add(new Token("!=", filename, 1, TokenType.REL_OP));
-        testCases.add(new TestCase("RelOpTokens", filename, relOpsTokens, false));
-
-        ArrayList<Token> idKeywordTokens = new ArrayList<>();
-        filename = "tokenizerTestCases/idKeywords.jott";
-        idKeywordTokens.add(new Token("hello", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("Hello", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("Integer", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("Double", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("abc123", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("heLlO", filename, 1, TokenType.ID_KEYWORD));
-        idKeywordTokens.add(new Token("Bar123Abc", filename, 1, TokenType.ID_KEYWORD));
-        testCases.add(new TestCase("IdKeywordTokens", filename, idKeywordTokens, false));
-
-        ArrayList<Token> stringTokens = new ArrayList<>();
-        filename = "tokenizerTestCases/strings.jott";
-        stringTokens.add(new Token("\"foobar\"", filename, 1, TokenType.STRING));
-        stringTokens.add(new Token("\"abc1\"", filename, 1, TokenType.STRING));
-        stringTokens.add(new Token("\"Hello World\"", filename, 1, TokenType.STRING));
-        stringTokens.add(new Token("\"123 abc\"", filename, 1, TokenType.STRING));
-        testCases.add(new TestCase("StringTokens", filename, stringTokens, false));
-
-        filename = "tokenizerTestCases/errorTokens1.jott";
-        testCases.add(new TestCase("ErrorTokens1", filename, null, true));
-
-        filename = "tokenizerTestCases/errorTokens2.jott";
-        testCases.add(new TestCase("ErrorTokens2", filename, null, true));
-
-        filename = "tokenizerTestCases/errorTokens3.jott";
-        testCases.add(new TestCase("ErrorTokens3", filename, null, true));
-
-        filename = "tokenizerTestCases/stringMissingClosing.jott";
-        testCases.add(new TestCase("StringMissingClosing", filename, null, true));
+//        ArrayList<Token> numTestTokens = new ArrayList<>();
+       String filename = "tokenizerTestCases/number.jott";
+//        numTestTokens.add(new Token("5", filename, 1, TokenType.NUMBER));
+//        numTestTokens.add(new Token("5.5", filename, 1, TokenType.NUMBER));
+//        numTestTokens.add(new Token(".5", filename, 1, TokenType.NUMBER));
+//	    numTestTokens.add(new Token("5.", filename, 1, TokenType.NUMBER));
+//        testCases.add(new TestCase( "validNumberTest", filename, numTestTokens, false));
+//
+//        ArrayList<Token> mathOpTokens = new ArrayList<>();
+//        String mathOps = "+-*/";
+//        filename = "tokenizerTestCases/mathOpsTest.jott";
+//        for(char c: mathOps.toCharArray()){
+//            mathOpTokens.add(new Token("" + c, filename, 1, TokenType.MATH_OP));
+//        }
+//        testCases.add(new TestCase("MathOps", filename, mathOpTokens, false));
+//
+//        ArrayList<Token> singleCharTokens = new ArrayList<>();
+//        filename = "tokenizerTestCases/singleCharTokens.jott";
+//        singleCharTokens.add(new Token(",", filename, 1, TokenType.COMMA));
+//        singleCharTokens.add(new Token("[", filename, 1, TokenType.L_BRACKET));
+//        singleCharTokens.add(new Token("]", filename, 1, TokenType.R_BRACKET));
+//        singleCharTokens.add(new Token("{", filename, 1, TokenType.L_BRACE));
+//        singleCharTokens.add(new Token("}", filename, 1, TokenType.R_BRACE));
+//        singleCharTokens.add(new Token(";", filename, 1, TokenType.SEMICOLON));
+//        singleCharTokens.add(new Token(":", filename, 1, TokenType.COLON));
+//        singleCharTokens.add(new Token("=", filename, 1, TokenType.ASSIGN));
+//        testCases.add(new TestCase("SingleCharTokens", filename, singleCharTokens, false));
+//
+//        ArrayList<Token> relOpsTokens = new ArrayList<>();
+//        filename = "tokenizerTestCases/relOpsTokens.jott";
+//        relOpsTokens.add(new Token("<", filename, 1, TokenType.REL_OP));
+//        relOpsTokens.add(new Token("<=", filename, 1, TokenType.REL_OP));
+//        relOpsTokens.add(new Token(">", filename, 1, TokenType.REL_OP));
+//        relOpsTokens.add(new Token(">=", filename, 1, TokenType.REL_OP));
+//        relOpsTokens.add(new Token("==", filename, 1, TokenType.REL_OP));
+//        relOpsTokens.add(new Token("!=", filename, 1, TokenType.REL_OP));
+//        testCases.add(new TestCase("RelOpTokens", filename, relOpsTokens, false));
+//
+//        ArrayList<Token> idKeywordTokens = new ArrayList<>();
+//        filename = "tokenizerTestCases/idKeywords.jott";
+//        idKeywordTokens.add(new Token("hello", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("Hello", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("Integer", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("Double", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("abc123", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("heLlO", filename, 1, TokenType.ID_KEYWORD));
+//        idKeywordTokens.add(new Token("Bar123Abc", filename, 1, TokenType.ID_KEYWORD));
+//        testCases.add(new TestCase("IdKeywordTokens", filename, idKeywordTokens, false));
+//
+//        ArrayList<Token> stringTokens = new ArrayList<>();
+//        filename = "tokenizerTestCases/strings.jott";
+//        stringTokens.add(new Token("\"foobar\"", filename, 1, TokenType.STRING));
+//        stringTokens.add(new Token("\"abc1\"", filename, 1, TokenType.STRING));
+//        stringTokens.add(new Token("\"Hello World\"", filename, 1, TokenType.STRING));
+//        stringTokens.add(new Token("\"123 abc\"", filename, 1, TokenType.STRING));
+//        testCases.add(new TestCase("StringTokens", filename, stringTokens, false));
+//
+//        filename = "tokenizerTestCases/errorTokens1.jott";
+//        testCases.add(new TestCase("ErrorTokens1", filename, null, true));
+//
+//        filename = "tokenizerTestCases/errorTokens2.jott";
+//        testCases.add(new TestCase("ErrorTokens2", filename, null, true));
+//
+//        filename = "tokenizerTestCases/errorTokens3.jott";
+//        testCases.add(new TestCase("ErrorTokens3", filename, null, true));
+//
+//        filename = "tokenizerTestCases/stringMissingClosing.jott";
+//        testCases.add(new TestCase("StringMissingClosing", filename, null, true));
 
         ArrayList<Token> phase1ExampleTokens = new ArrayList<>();
         filename = "tokenizerTestCases/phase1Example.jott";

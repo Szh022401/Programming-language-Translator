@@ -91,10 +91,14 @@ public class JottTokenizer {
 					i++;
 					sb.append(lines.charAt(i));
 				}
-				if (sb.length() > 0) {
-					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
-					sb.setLength(0);
+				// Handle specific keywords like While, If, and Else.
+				String keyword = sb.toString();
+				if (keyword.equals("While") || keyword.equals("If") || keyword.equals("Else") || keyword.equals("Elseif")) {
+					tokens.add(new Token(keyword, filename, lineNum, getType(keyword)));
+				} else {
+					tokens.add(new Token(keyword, filename, lineNum, getType(keyword)));
 				}
+				sb.setLength(0);
 			}
 			// Handle period used in floating point numbers or ellipsis.
 			else if (currentChar == '.') {
@@ -117,8 +121,6 @@ public class JottTokenizer {
 				if (i + 1 < chars.length && chars[i + 1] == '=') {
 					i++;
 					sb.append(chars[i]);
-				}else if (currentChar == '!' && !(i + 1 < chars.length && chars[i + 1] == '=')) {
-					return null;
 				}
 				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				sb.setLength(0);
@@ -161,7 +163,7 @@ public class JottTokenizer {
 						i++;
 						continue;
 					}
-					if (Character.isLetterOrDigit(currentChar) || currentChar == '"') {
+					if (Character.isLetterOrDigit(currentChar) || currentChar == '"' || currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
 						sb.append(currentChar);
 						if (currentChar == '"') {  // Handle strings within brackets
 							i++;
@@ -171,17 +173,26 @@ public class JottTokenizer {
 							}
 							if (i < chars.length && chars[i] == '"') {
 								sb.append(chars[i]);
+								tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.STRING));
+								sb.setLength(0);
 							} else {
 								return null;  // Error: Unclosed string literal
 							}
 						} else {
-							while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]) || chars[i + 1] == '.')) {
-								i++;
-								sb.append(chars[i]);
+							// Handle relational operators like "==", "!=", "<=", ">="
+							if ((currentChar == '=' || currentChar == '!' || currentChar == '<' || currentChar == '>') && i + 1 < chars.length && chars[i + 1] == '=') {
+								sb.append(chars[++i]);
+								tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.REL_OP));
+								sb.setLength(0);
+							} else {
+								while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]) || chars[i + 1] == '.')) {
+									i++;
+									sb.append(chars[i]);
+								}
+								tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+								sb.setLength(0);
 							}
 						}
-						tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
-						sb.setLength(0);
 					} else if (currentChar == ':') {
 						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COLON));
 					} else if (currentChar == ',') {
@@ -197,6 +208,7 @@ public class JottTokenizer {
 					return null;
 				}
 			}
+
 
 
 			else {
@@ -240,7 +252,15 @@ public class JottTokenizer {
 
 
 		if (word.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
-			return TokenType.ID_KEYWORD;
+			switch (word) {
+				case "While":
+				case "If":
+				case "Else":
+				case "Elseif":
+					return TokenType.ID_KEYWORD;
+				default:
+					return TokenType.ID_KEYWORD;
+			}
 		}
 		if (word.matches("\\d+[a-zA-Z_]+[a-zA-Z0-9_]*")) {
 			return TokenType.ID_KEYWORD;
