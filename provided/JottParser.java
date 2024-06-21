@@ -188,7 +188,7 @@ public class JottParser {
             } else if (currentToken.getToken().equals("While")) {
                 return parseWhile(tokens, index);
             } else if (currentToken.getToken().equals("If")) {
-               // return parseIf(tokens, index);
+                return parseIf(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.ID_KEYWORD) {
                 return parseAssignment(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.FC_HEADER) {
@@ -201,7 +201,7 @@ public class JottParser {
             reportError("Unexpected end of input", null);
             return null;
         }
-        return null;
+        //return null;
     }
 
     private static JottTree parseAssignment(ArrayList<Token> tokens, int[] index) {
@@ -232,7 +232,85 @@ public class JottParser {
         return new AssignmentNode(varName, expression);
     }
 
+    private static JottTree parseIf(ArrayList<Token> tokens, int[] index) {
+        // Check for 'If' keyword
+        if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("If")) {
+            reportError("Expected 'If' keyword", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+        // Check for opening bracket '['
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
+            reportError("Expected '[' after 'If'", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
 
+        // Parse the condition expression
+        JottTree condition = parseExpression(tokens, index);
+        if (condition == null) {
+            return null;
+        }
+        // Check for closing bracket ']'
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
+            reportError("Expected ']' after condition in 'If'", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        // Check for opening brace '{'
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
+            reportError("Expected '{' to start 'If' body", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        ArrayList<JottTree> ifBody = new ArrayList<>();
+        while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
+            JottTree statement = parseStatement(tokens, index);
+            if (statement == null) {
+                return null;
+            }
+            ifBody.add(statement);
+        }
+
+        // Check for closing brace '}'
+        if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
+            reportError("Expected '}' to end 'If' body", tokens.get(index[0]));
+            return null;
+        }
+        index[0]++;
+
+        ArrayList<JottTree> elseBody = new ArrayList<>();
+        // Check for 'Else' keyword
+        if (index[0] < tokens.size() && tokens.get(index[0]).getToken().equals("Else")) {
+            index[0]++;
+
+            // Check for opening brace '{' for Else
+            if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
+                reportError("Expected '{' to start 'Else' body", tokens.get(index[0]));
+                return null;
+            }
+            index[0]++;
+
+            while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
+                JottTree statement = parseStatement(tokens, index);
+                if (statement == null) {
+                    return null;
+                }
+                elseBody.add(statement);
+            }
+
+            // Check for closing brace '}'
+            if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
+                reportError("Expected '}' to end 'Else' body", tokens.get(index[0]));
+                return null;
+            }
+            index[0]++;
+        }
+
+        return new IfNode(condition, new BodyNode(ifBody), new BodyNode(elseBody));
+    }
 
 
     private static JottTree parsePrint(ArrayList<Token> tokens, int[] index) {
@@ -348,6 +426,11 @@ public class JottParser {
             return null;
         }
         index[0]++;
+
+        if (tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
+            reportError("Expected '}'", tokens.get(index[0]));
+            return null;
+        }
 
         return new ReturnNode(expression);
     }
