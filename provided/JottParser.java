@@ -4,7 +4,12 @@ package provided;
  * This class is responsible for paring Jott Tokens
  * into a Jott parse tree.
  *
- * @author
+ * @author Zehua Sun
+ * @author Sean Hopkins
+ * @author Adam Harnish
+ * @author Jerry Lay
+ * @author Beining Zhou
+ * @author Joseph Esposito
  */
 
 import java.lang.reflect.Array;
@@ -128,7 +133,6 @@ public class JottParser {
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            reportError("Expected '}'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -178,6 +182,12 @@ public class JottParser {
 
 
     private static JottTree parseStatement(ArrayList<Token> tokens, int[] index) {
+        if (index[0] >= tokens.size()) {
+            reportError("Unexpected end of input", null);
+            return null;
+        }
+
+
         if (index[0] < tokens.size()) {
             Token currentToken = tokens.get(index[0]);
 
