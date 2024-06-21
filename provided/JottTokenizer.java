@@ -271,9 +271,9 @@ public class JottTokenizer {
 		if (sb.length() > 0) {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
-		for (Token token : tokens) {
-			System.out.println(token.getToken() + token.getTokenType());
-		}
+//		for (Token token : tokens) {
+//			System.out.println(token.getToken() + token.getTokenType());
+//		}
 
 
 		return tokens;

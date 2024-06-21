@@ -27,7 +27,7 @@ public class JottParser {
         int[] index = {0};
         JottTree root = parseProgram(tokens, index);
         if (index[0] < tokens.size()) {
-            reportError("Unexpected tokens at the end of the program", tokens.get(index[0]));
+            //reportError("Unexpected tokens at the end of the program", tokens.get(index[0]));
             return null;
         }
         return root;
@@ -47,44 +47,44 @@ public class JottParser {
 
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Def")) {
-            reportError("Expected 'Def' keyword", tokens.get(index[0]));
+            //reportError("Expected 'Def' keyword", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected function name", tokens.get(index[0]));
+            //reportError("Expected function name", tokens.get(index[0]));
             return null;
         }
         String functionName = tokens.get(index[0]).getToken();
         if (!isValidIdentifier(functionName)) {
-            reportError("Expected valid function name", tokens.get(index[0]));
+            //reportError("Expected valid function name", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
-            reportError("Expected '['", tokens.get(index[0]));
+            //reportError("Expected '['", tokens.get(index[0]));
             return null;
         }
         index[0]++;
         ArrayList<JottTree> parameters = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-                reportError("Expected parameter name", tokens.get(index[0]));
+                //reportError("Expected parameter name", tokens.get(index[0]));
                 return null;
             }
             String paramName = tokens.get(index[0]).getToken();
             index[0]++;
 
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.COLON) {
-                reportError("Expected ':'", tokens.get(index[0]));
+                //reportError("Expected ':'", tokens.get(index[0]));
                 return null;
             }
             index[0]++;
 
             if (index[0] >= tokens.size() || !isTypeKeyword(tokens.get(index[0]).getToken())) {
-                reportError("Expected parameter type", tokens.get(index[0]));
+                //reportError("Expected parameter type", tokens.get(index[0]));
                 return null;
             }
             String paramType = tokens.get(index[0]).getToken();
@@ -99,26 +99,26 @@ public class JottParser {
             }
         }
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            reportError("Expected ']'", tokens.get(index[0]));
+            //reportError("Expected ']'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.COLON) {
-            reportError("Expected ':'", tokens.get(index[0]));
+            //reportError("Expected ':'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected return type", tokens.get(index[0]));
+            //reportError("Expected return type", tokens.get(index[0]));
             return null;
         }
         String returnType = tokens.get(index[0]).getToken();
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
-            reportError("Expected '{'", tokens.get(index[0]));
+            //reportError("Expected '{'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -151,26 +151,26 @@ public class JottParser {
             index[0]++;
             return new TypeNode(token.getToken());
         }
-        reportError("Expected a type", token);
+        //reportError("Expected a type", token);
         return null;
     }
     private static JottTree parseVarDec(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected a type", tokens.get(index[0]));
+            //reportError("Expected a type", tokens.get(index[0]));
             return null;
         }
         String type = tokens.get(index[0]).getToken();
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected an identifier", tokens.get(index[0]));
+            //reportError("Expected an identifier", tokens.get(index[0]));
             return null;
         }
         String varName = tokens.get(index[0]).getToken();
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]));
+            //reportError("Expected ';'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -183,7 +183,7 @@ public class JottParser {
 
     private static JottTree parseStatement(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
-            reportError("Unexpected end of input", null);
+            //reportError("Unexpected end of input", null);
             return null;
         }
 
@@ -204,11 +204,11 @@ public class JottParser {
             } else if (currentToken.getTokenType() == TokenType.FC_HEADER) {
                 return parsePrint(tokens, index);
             } else {
-                reportError("Expected a statement", currentToken);
+                //reportError("Expected a statement", currentToken);
                 return null;
             }
         } else {
-            reportError("Unexpected end of input", null);
+            //reportError("Unexpected end of input", null);
             return null;
         }
         //return null;
@@ -216,14 +216,14 @@ public class JottParser {
 
     private static JottTree parseAssignment(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected an identifier", tokens.get(index[0]));
+            //reportError("Expected an identifier", tokens.get(index[0]));
             return null;
         }
         String varName = tokens.get(index[0]).getToken();
         index[0]++;
 
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("=")) {
-            reportError("Expected '='", tokens.get(index[0]));
+            //reportError("Expected '='", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -234,7 +234,7 @@ public class JottParser {
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]));
+            //reportError("Expected ';'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -245,13 +245,13 @@ public class JottParser {
     private static JottTree parseIf(ArrayList<Token> tokens, int[] index) {
         // Check for 'If' keyword
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("If")) {
-            reportError("Expected 'If' keyword", tokens.get(index[0]));
+            //reportError("Expected 'If' keyword", tokens.get(index[0]));
             return null;
         }
         index[0]++;
         // Check for opening bracket '['
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
-            reportError("Expected '[' after 'If'", tokens.get(index[0]));
+            //reportError("Expected '[' after 'If'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -263,14 +263,14 @@ public class JottParser {
         }
         // Check for closing bracket ']'
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            reportError("Expected ']' after condition in 'If'", tokens.get(index[0]));
+            //reportError("Expected ']' after condition in 'If'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         // Check for opening brace '{'
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
-            reportError("Expected '{' to start 'If' body", tokens.get(index[0]));
+            //reportError("Expected '{' to start 'If' body", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -286,7 +286,7 @@ public class JottParser {
 
         // Check for closing brace '}'
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            reportError("Expected '}' to end 'If' body", tokens.get(index[0]));
+            //reportError("Expected '}' to end 'If' body", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -298,7 +298,7 @@ public class JottParser {
 
             // Check for opening brace '{' for Else
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
-                reportError("Expected '{' to start 'Else' body", tokens.get(index[0]));
+                //reportError("Expected '{' to start 'Else' body", tokens.get(index[0]));
                 return null;
             }
             index[0]++;
@@ -313,7 +313,7 @@ public class JottParser {
 
             // Check for closing brace '}'
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-                reportError("Expected '}' to end 'Else' body", tokens.get(index[0]));
+                //reportError("Expected '}' to end 'Else' body", tokens.get(index[0]));
                 return null;
             }
             index[0]++;
@@ -325,19 +325,19 @@ public class JottParser {
 
     private static JottTree parsePrint(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
-            reportError("Expected '::' for print statement", tokens.get(index[0]));
+            //reportError("Expected '::' for print statement", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("print")) {
-            reportError("Expected 'print' keyword", tokens.get(index[0]));
+            //reportError("Expected 'print' keyword", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
-            reportError("Expected '['", tokens.get(index[0]));
+            //reportError("Expected '['", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -349,13 +349,13 @@ public class JottParser {
 
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            reportError("Expected ']'", tokens.get(index[0]));
+            //reportError("Expected ']'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]));
+            //reportError("Expected ';'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -365,7 +365,7 @@ public class JottParser {
 
     private static JottTree parseExpression(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
-            reportError("Unexpected end of input in expression", null);
+            //reportError("Unexpected end of input in expression", null);
             return null;
         }
 
@@ -393,7 +393,7 @@ public class JottParser {
 
     private static JottTree parsePrimary(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
-            reportError("Unexpected end of input in primary expression", null);
+            //reportError("Unexpected end of input in primary expression", null);
             return null;
         }
 
@@ -413,7 +413,7 @@ public class JottParser {
                 return null;
             }
         } else {
-            reportError("Expected a number, string, identifier, or function call", token);
+            //reportError("Expected a number, string, identifier, or function call", token);
             return null;
         }
 
@@ -421,7 +421,7 @@ public class JottParser {
     }
     private static JottTree parseReturn(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Return")) {
-            reportError("Expected 'Return' keyword", tokens.get(index[0]));
+            //reportError("Expected 'Return' keyword", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -432,13 +432,13 @@ public class JottParser {
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]));
+            //reportError("Expected ';'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            reportError("Expected '}'", tokens.get(index[0]));
+            //reportError("Expected '}'", tokens.get(index[0]));
             return null;
         }
 
@@ -446,13 +446,13 @@ public class JottParser {
     }
     private static JottTree parseWhile(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("While")) {
-            reportError("Expected 'While' keyword", tokens.get(index[0]));
+            //reportError("Expected 'While' keyword", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
-            reportError("Expected '[' after 'While'", tokens.get(index[0]));
+            //reportError("Expected '[' after 'While'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -463,13 +463,13 @@ public class JottParser {
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            reportError("Expected ']' after condition in 'While'", tokens.get(index[0]));
+            //reportError("Expected ']' after condition in 'While'", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
-            reportError("Expected '{' to start 'While' body", tokens.get(index[0]));
+            //reportError("Expected '{' to start 'While' body", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -484,7 +484,7 @@ public class JottParser {
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            reportError("Expected '}' to end 'While' body", tokens.get(index[0]));
+            //reportError("Expected '}' to end 'While' body", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -494,20 +494,20 @@ public class JottParser {
     }
     private static JottTree parseFunctCall(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
-            reportError("Expected '::' for function call", tokens.get(index[0]));
+            //reportError("Expected '::' for function call", tokens.get(index[0]));
             return null;
         }
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
-            reportError("Expected function name after '::'", tokens.get(index[0]));
+            //reportError("Expected function name after '::'", tokens.get(index[0]));
             return null;
         }
         String functionName = tokens.get(index[0]).getToken();
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {
-            reportError("Expected '[' after function name", tokens.get(index[0]));
+            //reportError("Expected '[' after function name", tokens.get(index[0]));
             return null;
         }
         index[0]++;
@@ -527,7 +527,7 @@ public class JottParser {
             }
         }
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            reportError("Expected ']' after function call arguments", tokens.get(index[0]));
+            //reportError("Expected ']' after function call arguments", tokens.get(index[0]));
             return null;
         }
         index[0]++;
