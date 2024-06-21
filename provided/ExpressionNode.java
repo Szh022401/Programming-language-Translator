@@ -1,12 +1,24 @@
 package provided;
 
+/**
+ * Node representing an expression
+ */
 public class ExpressionNode implements JottTree {
-    private String value;
+    private String value; // value of the expression
 
+    /**
+     * Constructor for ExpressionNode
+     *
+     * @param value value of the expression
+     */
     public ExpressionNode(String value) {
         this.value = value;
     }
 
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         return value;
