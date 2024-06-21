@@ -33,6 +33,12 @@ public class JottParser {
         return root;
     }
 
+    /**
+     * parses the program and creates the root node
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return program node
+     */
     private static JottTree parseProgram(ArrayList<Token> tokens, int[] index) {
         ArrayList<JottTree> functions = new ArrayList<>();
         while (index[0] < tokens.size()) {
@@ -45,6 +51,12 @@ public class JottParser {
         return new ProgramNode(functions);
     }
 
+    /**
+     * parses a defined function in the program
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Def")) {
             reportError("Expected 'Def' keyword", tokens.get(index[0]));
@@ -141,7 +153,12 @@ public class JottParser {
     }
 
 
-
+    /**
+     * parses a return type for a function
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseType(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             return null;
@@ -154,6 +171,13 @@ public class JottParser {
         reportError("Expected a type", token);
         return null;
     }
+
+    /**
+     * parses a variable definition
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseVarDec(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
             reportError("Expected a type", tokens.get(index[0]));
@@ -180,7 +204,12 @@ public class JottParser {
 
 
 
-
+    /**
+     * parses a statement, such as: if, while, returning, etc
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseStatement(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             reportError("Unexpected end of input", null);
@@ -214,6 +243,12 @@ public class JottParser {
         //return null;
     }
 
+    /**
+     * parses an assignment of a variable
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseAssignment(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
             reportError("Expected an identifier", tokens.get(index[0]));
@@ -242,6 +277,12 @@ public class JottParser {
         return new AssignmentNode(varName, expression);
     }
 
+    /**
+     * parses an if statement
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseIf(ArrayList<Token> tokens, int[] index) {
         // Check for 'If' keyword
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("If")) {
@@ -322,6 +363,12 @@ public class JottParser {
         return new IfNode(condition, new BodyNode(ifBody), new BodyNode(elseBody));
     }
 
+    /**
+     * parses a print statement
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
 
     private static JottTree parsePrint(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
@@ -363,6 +410,12 @@ public class JottParser {
         return new PrintNode(expression);
     }
 
+    /**
+     * parses ?????
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseExpression(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             reportError("Unexpected end of input in expression", null);
@@ -390,7 +443,12 @@ public class JottParser {
 
         return leftExpr;
     }
-
+    /**
+     * parses ?????
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parsePrimary(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             reportError("Unexpected end of input in primary expression", null);
@@ -419,6 +477,13 @@ public class JottParser {
 
         return expr;
     }
+
+    /**
+     * parses a return statement
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseReturn(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Return")) {
             reportError("Expected 'Return' keyword", tokens.get(index[0]));
@@ -444,6 +509,13 @@ public class JottParser {
 
         return new ReturnNode(expression);
     }
+
+    /**
+     * parses a while loop
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseWhile(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("While")) {
             reportError("Expected 'While' keyword", tokens.get(index[0]));
@@ -492,6 +564,12 @@ public class JottParser {
         return new WhileNode(condition, new BodyNode(body));
 
     }
+    /**
+     * parses a function statement (besides print)
+     * @param tokens the ArrayList of Jott tokens to parse
+     * @param index pointer to current location
+     * @return updated program node
+     */
     private static JottTree parseFunctCall(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
             reportError("Expected '::' for function call", tokens.get(index[0]));
@@ -535,19 +613,44 @@ public class JottParser {
         return new FunctCallNode(functionName, args);
     }
 
-
+    /**
+     * tests if the value is a type
+     * @param token the ArrayList of Jott tokens to parse
+     * @return boolean determining validity
+     */
     private static boolean isTypeKeyword(String token) {
         return token.equals("Double") || token.equals("Integer") || token.equals("String") || token.equals("Boolean");
     }
+    /**
+     * tests if the value is a relational operator
+     * @param token the ArrayList of Jott tokens to parse
+     * @return boolean determining validity
+     */
     private static boolean isRelationalOperator(Token token) {
         return token.getTokenType() == TokenType.REL_OP;
     }
+    /**
+     * tests if the value is an arithmetic operator
+     * @param token the ArrayList of Jott tokens to parse
+     * @return boolean determining validity
+     */
     private static boolean isArithmeticOperator(Token token) {
         return token.getTokenType() == TokenType.MATH_OP;
     }
+    /**
+     * tests if the value is a proper string
+     * @param name string of characters
+     * @return boolean determining validity
+     */
     private static boolean isValidIdentifier(String name) {
         return name.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");
     }
+
+    /**
+     * reports a syntax error depending on the reason of error
+     * @param message message to be displayed
+     * @param token location of error
+     */
     private static void reportError(String message, Token token) {
         System.err.println("Syntax Error: " + message);
         if (token != null) {
