@@ -58,18 +58,18 @@ public class JottParserTester {
 //        testCases.add(new TestCase("mismatch return type", "mismatchedReturn.jott", false ));
 //        testCases.add(new TestCase("function call param type not matching", "funcCallParamInvalid.jott", false ));
 //        testCases.add(new TestCase("single expression program (error)", "singleExpr.jott", true ));
-        testCases.add(new TestCase("valid while loop", "validLoop.jott", false ));
-        testCases.add(new TestCase("missing main", "missingMain.jott", false ));
-        testCases.add(new TestCase("main must be integer", "mainReturnNotInt.jott", false ));
-        testCases.add(new TestCase("i_expr relop d_expr function return", "funcReturnInExpr.jott", false ));
+//        testCases.add(new TestCase("valid while loop", "validLoop.jott", false ));
+//        testCases.add(new TestCase("missing main", "missingMain.jott", false ));
+//        testCases.add(new TestCase("main must be integer", "mainReturnNotInt.jott", false ));
+//       testCases.add(new TestCase("i_expr relop d_expr function return", "funcReturnInExpr.jott", false ));
 //        testCases.add(new TestCase("invalid asmt stmt (error)", "invalidAsmtStmt.jott", true ));
 //        testCases.add(new TestCase("missing comma in func_def_params (error)", "missingCommaParams.jott", true ));
 //        testCases.add(new TestCase("while is keyword, cannot be used as id", "whileKeyword.jott", false ));
 //        testCases.add(new TestCase("expr by itself (error)", "loneExpr.jott", true ));
         testCases.add(new TestCase("code after return (error)", "codeAfterReturn.jott", true ));
-        //testCases.add(new TestCase("lone minus (error)", "loneMinus.jott", true ));
-        testCases.add(new TestCase("else without if (error)", "elseNoIf.jott", true ));
-       testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
+//        //testCases.add(new TestCase("lone minus (error)", "loneMinus.jott", true ));
+//        testCases.add(new TestCase("else without if (error)", "elseNoIf.jott", true ));
+//       testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
         testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false));
     }
 

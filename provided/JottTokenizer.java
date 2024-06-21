@@ -163,9 +163,9 @@ public class JottTokenizer {
 						i++;
 						continue;
 					}
-					if (Character.isLetterOrDigit(currentChar) || currentChar == '"' || currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
+					if (Character.isLetterOrDigit(currentChar) || currentChar == '"' || currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!' || currentChar == ':' || currentChar == '.') {
 						sb.append(currentChar);
-						if (currentChar == '"') {  // Handle strings within brackets
+						if (currentChar == '"') {
 							i++;
 							while (i < chars.length && chars[i] != '"') {
 								sb.append(chars[i]);
@@ -176,27 +176,70 @@ public class JottTokenizer {
 								tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.STRING));
 								sb.setLength(0);
 							} else {
-								return null;  // Error: Unclosed string literal
+								return null;
 							}
-						} else {
-							// Handle relational operators like "==", "!=", "<=", ">="
-							if ((currentChar == '=' || currentChar == '!' || currentChar == '<' || currentChar == '>') && i + 1 < chars.length && chars[i + 1] == '=') {
+						} else if (currentChar == ':') {
+							if (i + 1 < chars.length && chars[i + 1] == ':') {
 								sb.append(chars[++i]);
-								tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.REL_OP));
+								tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.FC_HEADER));
 								sb.setLength(0);
 							} else {
-								while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]) || chars[i + 1] == '.')) {
-									i++;
-									sb.append(chars[i]);
-								}
-								tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+								tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COLON));
 								sb.setLength(0);
+								i++;
+
+								while (i < chars.length && Character.isLetter(chars[i])) {
+									sb.append(chars[i]);
+									i++;
+								}
+								if (sb.length() > 0) {
+									tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
+									sb.setLength(0);
+								}
+								i--;
 							}
+						} else if ((currentChar == '=' || currentChar == '!' || currentChar == '<' || currentChar == '>') && i + 1 < chars.length && chars[i + 1] == '=') {
+							sb.append(chars[++i]);
+							tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.REL_OP));
+							sb.setLength(0);
+						}
+						else if (currentChar == '<' || currentChar == '>') {
+							tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.REL_OP));
+							sb.setLength(0);
+						}
+						else if (Character.isDigit(currentChar) || currentChar == '.') {
+							boolean isDecimal = currentChar == '.';
+							while (i + 1 < chars.length && (Character.isDigit(chars[i + 1]) || (!isDecimal && chars[i + 1] == '.'))) {
+								if (chars[i + 1] == '.') {
+									isDecimal = true;
+								}
+								sb.append(chars[++i]);
+							}
+							tokens.add(new Token(sb.toString(), filename, lineNum, TokenType.NUMBER));
+							sb.setLength(0);
+						} else {
+							while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]) || chars[i + 1] == '.')) {
+								sb.append(chars[++i]);
+							}
+							TokenType type = getType(sb.toString());
+							if (type != null) {
+								tokens.add(new Token(sb.toString(), filename, lineNum, type));
+							} else {
+								return null;
+							}
+							sb.setLength(0);
 						}
 					} else if (currentChar == ':') {
 						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COLON));
+						sb.setLength(0);
 					} else if (currentChar == ',') {
 						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.COMMA));
+						sb.setLength(0);
+					} else if (currentChar == '[') {
+						tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, TokenType.L_BRACKET));
+						sb.setLength(0);
+						i++;
+						continue;
 					} else {
 						return null;
 					}
@@ -208,6 +251,8 @@ public class JottTokenizer {
 					return null;
 				}
 			}
+
+
 
 
 

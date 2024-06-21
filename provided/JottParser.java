@@ -281,34 +281,52 @@ public class JottParser {
             return null;
         }
 
+        JottTree leftExpr = parsePrimary(tokens, index);
+        if (leftExpr == null) {
+            return null;
+        }
+
+        while (index[0] < tokens.size() && (isRelationalOperator(tokens.get(index[0])) || isArithmeticOperator(tokens.get(index[0])))) {
+            Token operator = tokens.get(index[0]);
+            index[0]++;
+            JottTree rightExpr = parsePrimary(tokens, index);
+            if (rightExpr == null) {
+                return null;
+            }
+            if (isRelationalOperator(operator)) {
+                leftExpr = new RelationalExprNode(leftExpr, operator.getToken(), rightExpr);
+            } else if (isArithmeticOperator(operator)) {
+                leftExpr = new ArithmeticExprNode(leftExpr, operator.getToken(), rightExpr);
+            }
+        }
+
+        return leftExpr;
+    }
+
+    private static JottTree parsePrimary(ArrayList<Token> tokens, int[] index) {
+        if (index[0] >= tokens.size()) {
+            reportError("Unexpected end of input in primary expression", null);
+            return null;
+        }
+
         Token token = tokens.get(index[0]);
         JottTree expr;
 
-        // Handle function call expressions
-        if (token.getTokenType() == TokenType.FC_HEADER) {
+
+        if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
+            expr = new ExpressionNode(token.getToken());
+            index[0]++;
+        }
+
+
+        else if (token.getTokenType() == TokenType.FC_HEADER) {
             expr = parseFunctCall(tokens, index);
             if (expr == null) {
                 return null;
             }
-        }
-        // Handle numbers, strings, or identifiers
-        else if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
-            expr = new ExpressionNode(token.getToken());
-            index[0]++;
         } else {
-            reportError("Expected a number, string, or function call", token);
+            reportError("Expected a number, string, identifier, or function call", token);
             return null;
-        }
-
-        // Check for relational operator
-        if (index[0] < tokens.size() && isRelationalOperator(tokens.get(index[0]))) {
-            Token relOp = tokens.get(index[0]);
-            index[0]++;
-            JottTree rightExpr = parseExpression(tokens, index);
-            if (rightExpr == null) {
-                return null;
-            }
-            expr = new RelationalExprNode(expr, relOp.getToken(), rightExpr);
         }
 
         return expr;
@@ -379,6 +397,7 @@ public class JottParser {
         index[0]++;
 
         return new WhileNode(condition, new BodyNode(body));
+
     }
     private static JottTree parseFunctCall(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
@@ -429,6 +448,9 @@ public class JottParser {
     }
     private static boolean isRelationalOperator(Token token) {
         return token.getTokenType() == TokenType.REL_OP;
+    }
+    private static boolean isArithmeticOperator(Token token) {
+        return token.getTokenType() == TokenType.MATH_OP;
     }
     private static boolean isValidIdentifier(String name) {
         return name.matches("^[a-zA-Z_][a-zA-Z0-9_]*$");
