@@ -1,14 +1,27 @@
 package provided;
 
+/**
+ * Node representing a parameter
+ */
 public class ParamNode implements JottTree {
-    private String paramName;
-    private String paramType;
+    private String paramName;   //name of the parameter
+    private String paramType;   //type of the parameter
 
+    /**
+     * Constructor for ParamNode
+     *
+     * @param paramName name of the parameter
+     * @param paramType the type of the parameter
+     */
     public ParamNode(String paramName, String paramType) {
         this.paramName = paramName;
         this.paramType = paramType;
     }
 
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         return paramName + ":" + paramType;

@@ -1,8 +1,16 @@
 package provided;
 
+/**
+ * Node representing a type
+ */
 public class TypeNode implements JottTree {
-    private String type;
+    private String type; //the type
 
+    /**
+     * Constructor for TypeNode
+     *
+     * @param type the type
+     */
     public TypeNode(String type) {
         this.type = type;
     }
@@ -11,6 +19,10 @@ public class TypeNode implements JottTree {
         return type;
     }
 
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         return type;

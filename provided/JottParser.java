@@ -411,7 +411,7 @@ public class JottParser {
     }
 
     /**
-     * parses ?????
+     * parses an expression
      * @param tokens the ArrayList of Jott tokens to parse
      * @param index pointer to current location
      * @return updated program node
@@ -444,7 +444,7 @@ public class JottParser {
         return leftExpr;
     }
     /**
-     * parses ?????
+     * parses primary expression
      * @param tokens the ArrayList of Jott tokens to parse
      * @param index pointer to current location
      * @return updated program node

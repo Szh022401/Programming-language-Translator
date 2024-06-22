@@ -1,5 +1,8 @@
 package provided;
 
+/**
+ * Node representing an if statement
+ */
 public class IfNode implements JottTree {
     private JottTree condition;      // Expression for the 'if' condition
     private JottTree ifBody;         // Block of statements executed if condition is true
@@ -17,6 +20,11 @@ public class IfNode implements JottTree {
         this.ifBody = ifBody;
         this.elseBody = elseBody;
     }
+
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         if (elseBody != null) {

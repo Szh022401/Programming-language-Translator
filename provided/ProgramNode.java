@@ -2,13 +2,25 @@ package provided;
 
 import java.util.ArrayList;
 
+/**
+ * Node representing the program
+ */
 public class ProgramNode implements JottTree {
-    private ArrayList<JottTree> functions;
+    private ArrayList<JottTree> functions; //functions of the program
 
+    /**
+     * Constructor for ProgramNode
+     *
+     * @param functions a list of functions within the program
+     */
     public ProgramNode(ArrayList<JottTree> functions) {
         this.functions = functions;
     }
 
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         StringBuilder sb = new StringBuilder();

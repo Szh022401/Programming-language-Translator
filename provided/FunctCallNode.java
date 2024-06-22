@@ -2,15 +2,28 @@ package provided;
 
 import java.util.ArrayList;
 
+/**
+ * Node representing a function call
+ */
 public class FunctCallNode implements JottTree {
-    private String functionName;
-    private ArrayList<JottTree> arguments;
+    private String functionName;            //Name of the function
+    private ArrayList<JottTree> arguments;  //Arguments of the function
 
+    /**
+     * Constructor for FunctCallNode
+     *
+     * @param functionName name of the function
+     * @param argument list of arguments for the function
+     */
     public FunctCallNode(String functionName, ArrayList<JottTree> arguments) {
         this.functionName = functionName;
         this.arguments = arguments;
     }
 
+    /**
+     * @brief converts the node into Jott language
+     * @return the Jott language as a string
+     */
     @Override
     public String convertToJott() {
         StringBuilder jottString = new StringBuilder();
@@ -24,6 +37,7 @@ public class FunctCallNode implements JottTree {
         jottString.append("]");
         return jottString.toString();
         }
+
     @Override
     public String convertToJava(String className) { return null; }
 
