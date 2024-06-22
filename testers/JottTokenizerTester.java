@@ -104,11 +104,11 @@ public class JottTokenizerTester {
 //        filename = "tokenizerTestCases/errorTokens1.jott";
 //        testCases.add(new TestCase("ErrorTokens1", filename, null, true));
 //
-//        filename = "tokenizerTestCases/errorTokens2.jott";
-//        testCases.add(new TestCase("ErrorTokens2", filename, null, true));
+        filename = "tokenizerTestCases/errorTokens2.jott";
+        testCases.add(new TestCase("ErrorTokens2", filename, null, true));
 //
-//        filename = "tokenizerTestCases/errorTokens3.jott";
-//        testCases.add(new TestCase("ErrorTokens3", filename, null, true));
+        filename = "tokenizerTestCases/errorTokens3.jott";
+        testCases.add(new TestCase("ErrorTokens3", filename, null, true));
 //
 //        filename = "tokenizerTestCases/stringMissingClosing.jott";
 //        testCases.add(new TestCase("StringMissingClosing", filename, null, true));

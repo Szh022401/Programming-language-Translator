@@ -2,7 +2,7 @@ package provided;
 
 /**
  * This class is responsible for tokenizing Jott code.
- * 
+ *
  * @author Zehua Sun
  * @author Sean Hopkins
  * @author Adam Harnish
@@ -57,7 +57,6 @@ public class JottTokenizer {
 		ArrayList<Token> tokens = new ArrayList<>();
 		StringBuilder sb = new StringBuilder();
 		char[] chars = lines.toCharArray();
-		//System.out.println(lines);
 
 		for (int i = 0; i < chars.length; i++) {
 			char currentChar = chars[i];
@@ -76,13 +75,6 @@ public class JottTokenizer {
 			// Append numeric characters to the current token
 			else if (Character.isDigit(currentChar)) {
 				sb.append(currentChar);
-//				while (i + 1 < chars.length && (Character.isLetterOrDigit(chars[i + 1]))) {
-//					i++;
-//					sb.append(chars[i]);
-//				}
-//				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
-//				sb.setLength(0);
-
 			}// Build token strings for identifiers or keywords.
 			else if (Character.isLetter(lines.charAt(i))) {
 				sb.append(currentChar);
@@ -118,6 +110,9 @@ public class JottTokenizer {
 			// Process operators, particularly looking for combinations like '!='.
 			else if (currentChar == '<' || currentChar == '>' || currentChar == '=' || currentChar == '!') {
 				sb.append(currentChar);
+				if (currentChar == '!' && (i + 1 >= chars.length || chars[i + 1] != '=')) {
+					return null;
+				}
 				if (i + 1 < chars.length && chars[i + 1] == '=') {
 					i++;
 					sb.append(chars[i]);
@@ -251,11 +246,6 @@ public class JottTokenizer {
 					return null;
 				}
 			}
-
-
-
-
-
 			else {
 				if (sb.length() > 0) {
 					tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
@@ -264,17 +254,12 @@ public class JottTokenizer {
 				if (!Character.isWhitespace(currentChar)) {
 					tokens.add(new Token(String.valueOf(currentChar), filename, lineNum, getType(String.valueOf(currentChar))));
 				}
-
 			}
 		}
 
 		if (sb.length() > 0) {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
-		for (Token token : tokens) {
-			System.out.println(token.getToken() + token.getTokenType());
-		}
-
 
 		return tokens;
 	}
@@ -290,11 +275,9 @@ public class JottTokenizer {
 			return TokenType.NUMBER;
 		}
 
-
 		if (word.matches("\"[^\"]*\"")) {
 			return TokenType.STRING;
 		}
-
 
 		if (word.matches("[a-zA-Z_][a-zA-Z0-9_]*")) {
 			switch (word) {
@@ -310,7 +293,6 @@ public class JottTokenizer {
 		if (word.matches("\\d+[a-zA-Z_]+[a-zA-Z0-9_]*")) {
 			return TokenType.ID_KEYWORD;
 		}
-
 
 		switch (word) {
 			case ";":
