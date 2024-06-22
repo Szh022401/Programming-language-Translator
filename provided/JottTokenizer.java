@@ -122,6 +122,10 @@ public class JottTokenizer {
 					i++;
 					sb.append(chars[i]);
 				}
+				if(chars[i] == '!'){
+					return null;
+				}
+
 				tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 				sb.setLength(0);
 			}
@@ -271,9 +275,9 @@ public class JottTokenizer {
 		if (sb.length() > 0) {
 			tokens.add(new Token(sb.toString(), filename, lineNum, getType(sb.toString())));
 		}
-//		for (Token token : tokens) {
-//			System.out.println(token.getToken() + token.getTokenType());
-//		}
+		for (Token token : tokens) {
+			System.out.println(token.getToken() + token.getTokenType());
+		}
 
 
 		return tokens;
