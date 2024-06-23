@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Node representing a function call
  */
 public class FunctCallNode implements JottTree {
-    private String functionName;            //Name of the function
+    private Token functionName;            //Name of the function
     private ArrayList<JottTree> arguments;  //Arguments of the function
 
     /**
@@ -15,8 +15,8 @@ public class FunctCallNode implements JottTree {
      * @param functionName name of the function
      * @param argument list of arguments for the function
      */
-    public FunctCallNode(String functionName, ArrayList<JottTree> arguments) {
-        this.functionName = functionName;
+    public FunctCallNode(Token functionName, ArrayList<JottTree> arguments) {
+        this.functionName = functionName.CloneToken();
         this.arguments = arguments;
     }
 
@@ -27,7 +27,7 @@ public class FunctCallNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder jottString = new StringBuilder();
-        jottString.append("::").append(functionName).append("[");
+        jottString.append("::").append(functionName.getToken()).append("[");
         for (int i = 0; i < arguments.size(); i++) {
             if (i > 0) {
                 jottString.append(",");

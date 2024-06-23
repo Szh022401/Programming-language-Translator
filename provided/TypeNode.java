@@ -4,19 +4,19 @@ package provided;
  * Node representing a type
  */
 public class TypeNode implements JottTree {
-    private String type; //the type
+    private Token type; //the type
 
     /**
      * Constructor for TypeNode
      *
      * @param type the type
      */
-    public TypeNode(String type) {
-        this.type = type;
+    public TypeNode(Token type) {
+        this.type = type.CloneToken();
     }
 
     public String getType() {
-        return type;
+        return type.getToken();
     }
 
     /**
@@ -25,7 +25,7 @@ public class TypeNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return type;
+        return type.getToken();
     }
     @Override
     public String convertToJava(String className) { return null; }

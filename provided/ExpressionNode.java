@@ -3,16 +3,16 @@ package provided;
 /**
  * Node representing an expression
  */
-public class ExpressionNode implements JottTree {
-    private String value; // value of the expression
+public class ExpressionNode implements IExpression {
+    private Token value; // value of the expression
 
     /**
      * Constructor for ExpressionNode
      *
      * @param value value of the expression
      */
-    public ExpressionNode(String value) {
-        this.value = value;
+    public ExpressionNode(Token value) {
+        this.value = value.CloneToken();
     }
 
     /**
@@ -21,7 +21,7 @@ public class ExpressionNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return value;
+        return value.getToken();
     }
 
     @Override
@@ -42,5 +42,9 @@ public class ExpressionNode implements JottTree {
     @Override
     public boolean validateTree() {
         return true;
+    }
+
+    public String getType{
+        
     }
 }

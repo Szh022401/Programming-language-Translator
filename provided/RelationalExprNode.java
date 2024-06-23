@@ -5,7 +5,7 @@ package provided;
  */
 public class RelationalExprNode implements JottTree {
     private JottTree leftExpr;      //left expression
-    private String operator;        //operator
+    private Token operator;        //operator
     private JottTree rightExpr;     //right expression
 
     /**
@@ -15,9 +15,9 @@ public class RelationalExprNode implements JottTree {
      * @param operator operator of the expression
      * @param rightExpr right expression
      */
-    public RelationalExprNode(JottTree leftExpr, String operator, JottTree rightExpr) {
+    public RelationalExprNode(JottTree leftExpr, Token operator, JottTree rightExpr) {
         this.leftExpr = leftExpr;
-        this.operator = operator;
+        this.operator = operator.CloneToken();
         this.rightExpr = rightExpr;
     }
 
@@ -27,7 +27,7 @@ public class RelationalExprNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return leftExpr.convertToJott() + " " + operator + " " + rightExpr.convertToJott();
+        return leftExpr.convertToJott() + " " + operator.getToken() + " " + rightExpr.convertToJott();
     }
 
     @Override

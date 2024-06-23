@@ -5,7 +5,7 @@ package provided;
  */
 public class ArithmeticExprNode implements JottTree {
     private final JottTree left;    // Left operand
-    private final String operator;  // Operator
+    private final Token operator;  // Operator
     private final JottTree right;   // Right operand
 
     /**
@@ -15,9 +15,9 @@ public class ArithmeticExprNode implements JottTree {
      * @param operator the operator of the expression
      * @param right the right operand of the expression
      */
-    public ArithmeticExprNode(JottTree left, String operator, JottTree right) {
+    public ArithmeticExprNode(JottTree left, Token operator, JottTree right) {
         this.left = left;
-        this.operator = operator;
+        this.operator = operator.CloneToken();
         this.right = right;
     }
 
@@ -27,7 +27,7 @@ public class ArithmeticExprNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return left.convertToJott() + " " + operator + " " + right.convertToJott();
+        return left.convertToJott() + " " + operator.getToken() + " " + right.convertToJott();
     }
     @Override
     public String convertToJava(String className) {

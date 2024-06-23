@@ -4,7 +4,7 @@ package provided;
  * Node representing an assignment
  */
 public class AssignmentNode implements JottTree {
-    private String variableName;    //Name of the variable to be assigned a value
+    private Token variableName;    //Name of the variable to be assigned a value
     private JottTree expression;    //Expression to be assigned
 
     /**
@@ -13,8 +13,8 @@ public class AssignmentNode implements JottTree {
      * @param variableName Name of the variable to be assigned a value
      * @param expression Expression to be assigned
      */
-    public AssignmentNode(String variableName, JottTree expression) {
-        this.variableName = variableName;
+    public AssignmentNode(Token variableName, JottTree expression) {
+        this.variableName = variableName.CloneToken();
         this.expression = expression;
     }
 
@@ -24,7 +24,7 @@ public class AssignmentNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return variableName + " = " + expression.convertToJott() + ";";
+        return variableName.getToken() + " = " + expression.convertToJott() + ";";
     }
 
     @Override

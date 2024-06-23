@@ -68,8 +68,8 @@ public class JottParser {
             //reportError("Expected function name", tokens.get(index[0]));
             return null;
         }
-        String functionName = tokens.get(index[0]).getToken();
-        if (!isValidIdentifier(functionName)) {
+        Token functionName = tokens.get(index[0]);
+        if (!isValidIdentifier(functionName.getToken())) {
             //reportError("Expected valid function name", tokens.get(index[0]));
             return null;
         }
@@ -86,7 +86,7 @@ public class JottParser {
                 //reportError("Expected parameter name", tokens.get(index[0]));
                 return null;
             }
-            String paramName = tokens.get(index[0]).getToken();
+            Token paramName = tokens.get(index[0]);
             index[0]++;
 
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.COLON) {
@@ -99,7 +99,7 @@ public class JottParser {
                 //reportError("Expected parameter type", tokens.get(index[0]));
                 return null;
             }
-            String paramType = tokens.get(index[0]).getToken();
+            Token paramType = tokens.get(index[0]);
             index[0]++;
 
             parameters.add(new ParamNode(paramName, paramType));
@@ -126,7 +126,7 @@ public class JottParser {
             //reportError("Expected return type", tokens.get(index[0]));
             return null;
         }
-        String returnType = tokens.get(index[0]).getToken();
+        Token returnType = tokens.get(index[0]);
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACE) {
@@ -166,7 +166,7 @@ public class JottParser {
         Token token = tokens.get(index[0]);
         if (isTypeKeyword(token.getToken())){
             index[0]++;
-            return new TypeNode(token.getToken());
+            return new TypeNode(token);
         }
         //reportError("Expected a type", token);
         return null;
@@ -183,14 +183,14 @@ public class JottParser {
             //reportError("Expected a type", tokens.get(index[0]));
             return null;
         }
-        String type = tokens.get(index[0]).getToken();
+        Token type = tokens.get(index[0]);
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
             //reportError("Expected an identifier", tokens.get(index[0]));
             return null;
         }
-        String varName = tokens.get(index[0]).getToken();
+        Token varName = tokens.get(index[0]);
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
@@ -254,7 +254,7 @@ public class JottParser {
             //reportError("Expected an identifier", tokens.get(index[0]));
             return null;
         }
-        String varName = tokens.get(index[0]).getToken();
+        Token varName = tokens.get(index[0]);
         index[0]++;
 
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("=")) {
@@ -435,9 +435,9 @@ public class JottParser {
                 return null;
             }
             if (isRelationalOperator(operator)) {
-                leftExpr = new RelationalExprNode(leftExpr, operator.getToken(), rightExpr);
+                leftExpr = new RelationalExprNode(leftExpr, operator, rightExpr);
             } else if (isArithmeticOperator(operator)) {
-                leftExpr = new ArithmeticExprNode(leftExpr, operator.getToken(), rightExpr);
+                leftExpr = new ArithmeticExprNode(leftExpr, operator, rightExpr);
             }
         }
 
@@ -460,7 +460,7 @@ public class JottParser {
 
 
         if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
-            expr = new ExpressionNode(token.getToken());
+            expr = new ExpressionNode(token);
             index[0]++;
         }
 
@@ -581,7 +581,7 @@ public class JottParser {
             //reportError("Expected function name after '::'", tokens.get(index[0]));
             return null;
         }
-        String functionName = tokens.get(index[0]).getToken();
+        Token functionName = tokens.get(index[0]);
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.L_BRACKET) {

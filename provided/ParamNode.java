@@ -4,8 +4,8 @@ package provided;
  * Node representing a parameter
  */
 public class ParamNode implements JottTree {
-    private String paramName;   //name of the parameter
-    private String paramType;   //type of the parameter
+    private Token paramName;   //name of the parameter
+    private Token paramType;   //type of the parameter
 
     /**
      * Constructor for ParamNode
@@ -13,9 +13,9 @@ public class ParamNode implements JottTree {
      * @param paramName name of the parameter
      * @param paramType the type of the parameter
      */
-    public ParamNode(String paramName, String paramType) {
-        this.paramName = paramName;
-        this.paramType = paramType;
+    public ParamNode(Token paramName, Token paramType) {
+        this.paramName = paramName.CloneToken();
+        this.paramType = paramType.CloneToken();
     }
 
     /**
@@ -24,7 +24,7 @@ public class ParamNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return paramName + ":" + paramType;
+        return paramName.getToken() + ":" + paramType.getToken();
     }
     @Override
     public String convertToJava(String className) { return null; }
@@ -39,10 +39,10 @@ public class ParamNode implements JottTree {
     public boolean validateTree() { return true; }
 
     public String getParamName() {
-        return paramName;
+        return paramName.getToken();
     }
 
     public String getParamType() {
-        return paramType;
+        return paramType.getToken();
     }
 }
