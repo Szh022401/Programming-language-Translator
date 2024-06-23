@@ -44,7 +44,17 @@ public class ExpressionNode implements IExpression {
         return true;
     }
 
-    public String getType{
-        
+    public String getType()
+    {
+        if (value.getTokenType() == TokenType.STRING)
+            return "String";
+        else if (value.getTokenType() == TokenType.NUMBER) {
+            if (value.getToken().contains("."))
+                return "Double";
+            else
+                return "Integer";
+        }
+        else
+            return null;
     }
 }

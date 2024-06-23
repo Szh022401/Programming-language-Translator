@@ -10,7 +10,7 @@ public class FunctDefNode implements JottTree {
     private Token returnType;                  //return type of the function
     private BodyNode body;                      //body of the function
     private ArrayList<JottTree> parameters;     //parameters for the function
-
+    private ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
     /**
      * Constructor for FunctDefNode
      *
@@ -24,6 +24,7 @@ public class FunctDefNode implements JottTree {
         this.returnType = returnType.CloneToken();
         this.body = body;
         this.parameters = parameters;
+        Allfunctions.add(this);
     }
 
     /**
@@ -56,4 +57,6 @@ public class FunctDefNode implements JottTree {
 
     @Override
     public boolean validateTree() { return true; }
+
+    public String getType() { return returnType.getToken(); }
 }

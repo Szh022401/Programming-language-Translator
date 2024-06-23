@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Node representing a function call
  */
-public class FunctCallNode implements JottTree {
+public class FunctCallNode implements IExpression {
     private Token functionName;            //Name of the function
     private ArrayList<JottTree> arguments;  //Arguments of the function
 
@@ -49,4 +49,9 @@ public class FunctCallNode implements JottTree {
 
     @Override
     public boolean validateTree() { return true; }
+
+    public String getType()
+    {
+        return "";
+    }
 }

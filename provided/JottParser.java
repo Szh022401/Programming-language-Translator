@@ -467,9 +467,6 @@ public class JottParser {
 
         else if (token.getTokenType() == TokenType.FC_HEADER) {
             expr = parseFunctCall(tokens, index);
-            if (expr == null) {
-                return null;
-            }
         } else {
             //reportError("Expected a number, string, identifier, or function call", token);
             return null;
