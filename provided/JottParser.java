@@ -422,7 +422,7 @@ public class JottParser {
             return null;
         }
 
-        JottTree leftExpr = parsePrimary(tokens, index);
+        IExpression leftExpr = parsePrimary(tokens, index);
         if (leftExpr == null) {
             return null;
         }
@@ -430,7 +430,7 @@ public class JottParser {
         while (index[0] < tokens.size() && (isRelationalOperator(tokens.get(index[0])) || isArithmeticOperator(tokens.get(index[0])))) {
             Token operator = tokens.get(index[0]);
             index[0]++;
-            JottTree rightExpr = parsePrimary(tokens, index);
+            IExpression rightExpr = parsePrimary(tokens, index);
             if (rightExpr == null) {
                 return null;
             }
@@ -449,14 +449,14 @@ public class JottParser {
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parsePrimary(ArrayList<Token> tokens, int[] index) {
+    private static IExpression parsePrimary(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             //reportError("Unexpected end of input in primary expression", null);
             return null;
         }
 
         Token token = tokens.get(index[0]);
-        JottTree expr;
+        IExpression expr;
 
 
         if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
@@ -567,7 +567,7 @@ public class JottParser {
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseFunctCall(ArrayList<Token> tokens, int[] index) {
+    private static FunctCallNode parseFunctCall(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
             //reportError("Expected '::' for function call", tokens.get(index[0]));
             return null;

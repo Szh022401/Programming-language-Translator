@@ -1,12 +1,14 @@
 package provided;
 
+import java.util.Objects;
+
 /**
  * Node representing an arithmetic expression
  */
-public class ArithmeticExprNode implements JottTree {
-    private final JottTree left;    // Left operand
+public class ArithmeticExprNode implements IExpression {
+    private final IExpression left;    // Left operand
     private final Token operator;  // Operator
-    private final JottTree right;   // Right operand
+    private final IExpression right;   // Right operand
 
     /**
      * Constructor for ArithmeticExprNode.
@@ -15,7 +17,7 @@ public class ArithmeticExprNode implements JottTree {
      * @param operator the operator of the expression
      * @param right the right operand of the expression
      */
-    public ArithmeticExprNode(JottTree left, Token operator, JottTree right) {
+    public ArithmeticExprNode(IExpression left, Token operator, IExpression right) {
         this.left = left;
         this.operator = operator.CloneToken();
         this.right = right;
@@ -47,5 +49,14 @@ public class ArithmeticExprNode implements JottTree {
     @Override
     public boolean validateTree() {
         return true;
+    }
+
+    public String getType()
+    {
+        if (Objects.equals(left.getType(), right.getType())){
+            return left.getType();
+        }
+        else
+            return null;
     }
 }

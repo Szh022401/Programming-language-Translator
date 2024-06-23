@@ -1,12 +1,14 @@
 package provided;
 
+import java.util.Objects;
+
 /**
  * Node representing a relational expression
  */
-public class RelationalExprNode implements JottTree {
-    private JottTree leftExpr;      //left expression
+public class RelationalExprNode implements IExpression {
+    private IExpression leftExpr;      //left expression
     private Token operator;        //operator
-    private JottTree rightExpr;     //right expression
+    private IExpression rightExpr;     //right expression
 
     /**
      * Constructor for RelationalExprNode
@@ -15,7 +17,7 @@ public class RelationalExprNode implements JottTree {
      * @param operator operator of the expression
      * @param rightExpr right expression
      */
-    public RelationalExprNode(JottTree leftExpr, Token operator, JottTree rightExpr) {
+    public RelationalExprNode(IExpression leftExpr, Token operator, IExpression rightExpr) {
         this.leftExpr = leftExpr;
         this.operator = operator.CloneToken();
         this.rightExpr = rightExpr;
@@ -41,4 +43,13 @@ public class RelationalExprNode implements JottTree {
 
     @Override
     public boolean validateTree() { return true; }
+
+    public String getType()
+    {
+        if (Objects.equals(leftExpr.getType(), rightExpr.getType())){
+            return leftExpr.getType();
+        }
+        else
+            return null;
+    }
 }

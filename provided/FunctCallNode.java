@@ -13,7 +13,7 @@ public class FunctCallNode implements IExpression {
      * Constructor for FunctCallNode
      *
      * @param functionName name of the function
-     * @param argument list of arguments for the function
+     * @param arguments list of arguments for the function
      */
     public FunctCallNode(Token functionName, ArrayList<JottTree> arguments) {
         this.functionName = functionName.CloneToken();
@@ -52,6 +52,10 @@ public class FunctCallNode implements IExpression {
 
     public String getType()
     {
-        return "";
+        FunctDefNode func = FunctDefNode.findFunction(functionName.getToken());
+        if (func != null)
+            return func.getType();
+        else
+            return null;
     }
 }

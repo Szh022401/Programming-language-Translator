@@ -10,7 +10,7 @@ public class FunctDefNode implements JottTree {
     private Token returnType;                  //return type of the function
     private BodyNode body;                      //body of the function
     private ArrayList<JottTree> parameters;     //parameters for the function
-    private ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
+    private static ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
     /**
      * Constructor for FunctDefNode
      *
@@ -59,4 +59,13 @@ public class FunctDefNode implements JottTree {
     public boolean validateTree() { return true; }
 
     public String getType() { return returnType.getToken(); }
+
+    public static FunctDefNode findFunction(String FunctionName){
+        for (FunctDefNode f : Allfunctions) {
+            if(f.functionName.getToken().equals(FunctionName)){
+                return f;
+            }
+        }
+        return null;
+    }
 }
