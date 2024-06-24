@@ -62,11 +62,15 @@ public class FunctDefNode implements JottTree {
         if (!body.validateTree())
             return false;
         //Check a return exists
-        ReturnNode returnNode = findReturnNode();
-        if (returnNode == null)
-            return false;
-        //Check return value type matches
-        return Objects.equals(getType(), returnNode.getType());
+        if (!Objects.equals(returnType.getToken(), "Void")){
+            ReturnNode returnNode = findReturnNode();
+            if (returnNode == null)
+                return false;
+            //Check return value type matches
+            return Objects.equals(getType(), returnNode.getType());
+        }
+        return true;
+
     }
 
     public String getType() { return returnType.getToken(); }
