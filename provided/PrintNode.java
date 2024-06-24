@@ -34,5 +34,5 @@ public class PrintNode implements JottTree {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() { return expression.validateTree(); }
 }

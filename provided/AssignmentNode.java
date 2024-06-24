@@ -44,6 +44,6 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return true;
+        return IdNode.findId(variableName.getToken()) != null;
     }
 }

@@ -44,6 +44,6 @@ public class ReturnNode implements JottTree {
     @Override
     public boolean validateTree() {
         // Validate the program node
-        return true;
+        return expression.validateTree();
     }
 }

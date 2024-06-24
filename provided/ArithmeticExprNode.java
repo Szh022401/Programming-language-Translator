@@ -48,7 +48,11 @@ public class ArithmeticExprNode implements IExprType {
 
     @Override
     public boolean validateTree() {
-        return (Objects.equals(left.getType(), right.getType()));
+        if (!left.validateTree())
+            return false;
+        if (!right.validateTree())
+            return false;
+        return getType() != null;
     }
 
     public String getType()

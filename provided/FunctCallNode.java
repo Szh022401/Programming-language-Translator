@@ -48,7 +48,19 @@ public class FunctCallNode implements IExprType {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() {
+        FunctDefNode Func = FunctDefNode.findFunction(functionName.getToken());
+        if (Func == null) {
+            return false;
+        }
+        for (IExprType arg : arguments) {
+            if (!arg.validateTree()) {
+                return false;
+            }
+        }
+        return !Func.verifyParams(arguments);
+
+    }
 
     public String getType()
     {

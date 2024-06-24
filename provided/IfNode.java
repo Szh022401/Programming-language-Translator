@@ -43,5 +43,5 @@ public class IfNode implements JottTree {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() { return condition.validateTree() && ifBody.validateTree() && elseBody.validateTree(); }
 }

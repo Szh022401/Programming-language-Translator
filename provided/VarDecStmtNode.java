@@ -47,6 +47,8 @@ public class VarDecStmtNode implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if (expression != null)
+            return expression.validateTree();
         return true;
     }
 }

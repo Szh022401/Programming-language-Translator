@@ -1,6 +1,7 @@
 package provided;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Node representing a function definition
@@ -56,10 +57,27 @@ public class FunctDefNode implements JottTree {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() { return body.validateTree(); }
 
     public String getType() { return returnType.getToken(); }
 
+    public Boolean verifyParams(ArrayList<IExprType> arguments){
+        if (arguments.size() != parameters.size())
+                return false;
+        for (int i = 0; i < arguments.size(); i++) {
+            if (!Objects.equals(parameters.get(i).getParamType(), arguments.get(i).getType()))
+                return false;
+        }
+        return true;
+    }
+    public ParamNode getParam(String ParamName) {
+        for (ParamNode p : parameters) {
+            if(p.getParamName().equals(ParamName)){
+                return p;
+            }
+        }
+        return null;
+    }
     public static FunctDefNode findFunction(String FunctionName){
         for (FunctDefNode f : Allfunctions) {
             if(f.functionName.getToken().equals(FunctionName)){

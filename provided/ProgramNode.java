@@ -50,7 +50,11 @@ public class ProgramNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        // Validate the program node
+        for (JottTree function : functions) {
+            if (!function.validateTree()) {
+                return false;
+            }
+        }
         return true;
     }
 }

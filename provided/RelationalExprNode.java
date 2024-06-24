@@ -42,7 +42,7 @@ public class RelationalExprNode implements IExprType {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() { return leftExpr.validateTree() && rightExpr.validateTree() && getType() != null; }
 
     public String getType()
     {

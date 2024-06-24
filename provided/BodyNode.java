@@ -40,5 +40,10 @@ public class BodyNode implements JottTree {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() {
+        for (JottTree statement : statements) {
+            if (!statement.validateTree()) return false;
+        }
+        return true;
+    }
 }
