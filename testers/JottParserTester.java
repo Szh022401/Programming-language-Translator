@@ -98,19 +98,13 @@ public class JottParserTester {
         testCases.add(new TestCase("returnId", "returnId.jott", true ));
         testCases.add(new TestCase("voidReturn", "voidReturn.jott", true ));
         testCases.add(new TestCase("whileKeyword", "whileKeyword.jott", true ));
-
-
+        testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
+        testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
 
         //ISSUES WITH BELOW
         testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
         testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
-        testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
         testCases.add(new TestCase("validLoop", "validLoop.jott", false ));
-        testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
-
-
-
-
 
     }
 

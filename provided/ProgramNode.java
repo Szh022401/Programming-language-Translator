@@ -58,7 +58,7 @@ public class ProgramNode implements JottTree {
             }
         }
         if (FunctDefNode.findFunction("main") == null){
-            JottParser.reportError("Missing Main Function", startToken, "Semantic");
+            JottParser.reportError("Missing main Function in program", startToken, "Semantic");
             return false;
         }
         return true;
