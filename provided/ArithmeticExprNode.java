@@ -48,10 +48,16 @@ public class ArithmeticExprNode implements IExprType {
 
     @Override
     public boolean validateTree() {
-        if (!left.validateTree())
+        if (!left.validateTree()){
             return false;
+        }
+
         if (!right.validateTree())
             return false;
+        if (getType() == null){
+            JottParser.reportError("Type Error: " + left.getType() + " and " + right.getType(), operator, "Semantic");
+            return false;
+        }
         return getType() != null;
     }
 

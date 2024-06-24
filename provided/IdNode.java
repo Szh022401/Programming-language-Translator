@@ -45,6 +45,10 @@ public class IdNode implements IExprType {
         return Name.getToken();
     }
 
+    public Token getNameToken() {
+        return Name;
+    }
+
     public String getType() {
         return Type.getToken();
     }

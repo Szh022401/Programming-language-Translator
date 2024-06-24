@@ -87,8 +87,8 @@ public class JottParserTester {
         //testCases.add(new TestCase("funcNotDefined", "funcNotDefined.jott", true ));
         //testCases.add(new TestCase("funcReturnInExpr", "funcReturnInExpr.jott", true ));
         //testCases.add(new TestCase("funcWrongParamType", "funcWrongParamType.jott", true ));
-        testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
-        //testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
+        //testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
+        testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
         //testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
         //testCases.add(new TestCase("mainReturnNotInt", "mainReturnNotInt.jott", true ));
         //testCases.add(new TestCase("mismatchedReturn", "mismatchedReturn.jott", true ));

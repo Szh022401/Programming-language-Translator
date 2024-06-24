@@ -267,7 +267,7 @@ public class JottParser {
         }
         index[0]++;
 
-        JottTree expression = parseExpression(tokens, index);
+        IExprType expression = parseExpression(tokens, index);
         if (expression == null) {
             return null;
         }
@@ -652,8 +652,9 @@ public class JottParser {
      * @param message message to be displayed
      * @param token location of error
      */
-    private static void reportError(String message, Token token) {
-        System.err.println("Syntax Error: " + message);
+    public static void reportError(String message, Token token, String ErrorType) {
+        //Syntax and Semantic
+        System.err.println(ErrorType + " Error: " + message);
         if (token != null) {
             System.err.println(token.getFilename() + ":" + token.getLineNum());
         }

@@ -1,11 +1,13 @@
 package provided;
 
+import java.util.Objects;
+
 /**
  * Node representing a variable declaration statement
  */
 public class VarDecStmtNode implements JottTree {
     private IdNode Id;            //variable type
-    private JottTree expression;    //expression to be assigned
+    private IExprType expression;    //expression to be assigned
 
     /**
      * Constructor for VarDecStmtNode
@@ -13,7 +15,7 @@ public class VarDecStmtNode implements JottTree {
      * @param Id Name and Type of the variable
      * @param expression expression that is assigned to the variable
      */
-    public VarDecStmtNode(IdNode Id, JottTree expression) {
+    public VarDecStmtNode(IdNode Id, IExprType expression) {
         this.Id = Id;
         this.expression = expression;
     }
@@ -47,8 +49,14 @@ public class VarDecStmtNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        if (expression != null)
+        if (expression != null) {
+            if (!Objects.equals(Id.getType(), expression.getType()))
+            {
+                JottParser.reportError("Type Error: " + Id.getType() + " and " + expression.getType(), Id.getNameToken(), "Semantic");
+                return false;
+            }
             return expression.validateTree();
+        }
         return true;
     }
 }

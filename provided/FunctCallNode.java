@@ -51,6 +51,7 @@ public class FunctCallNode implements IExprType {
     public boolean validateTree() {
         FunctDefNode Func = FunctDefNode.findFunction(functionName.getToken());
         if (Func == null) {
+            JottParser.reportError("Cannot resolve function " + functionName.getToken(), functionName, "Semantic");
             return false;
         }
         for (IExprType arg : arguments) {
@@ -58,9 +59,15 @@ public class FunctCallNode implements IExprType {
                 return false;
             }
         }
-        return !Func.verifyParams(arguments);
+        return !Func.verifyParams(this);
 
     }
+
+    public ArrayList<IExprType> getArguments() {
+        return arguments;
+    }
+
+    public Token getFunctionName() {return functionName;}
 
     public String getType()
     {

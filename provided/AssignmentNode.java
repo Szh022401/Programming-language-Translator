@@ -1,11 +1,13 @@
 package provided;
 
+import java.util.Objects;
+
 /**
  * Node representing an assignment
  */
 public class AssignmentNode implements JottTree {
     private Token variableName;    //Name of the variable to be assigned a value
-    private JottTree expression;    //Expression to be assigned
+    private IExprType expression;    //Expression to be assigned
 
     /**
      * Constructor for AssignmentNode
@@ -13,7 +15,7 @@ public class AssignmentNode implements JottTree {
      * @param variableName Name of the variable to be assigned a value
      * @param expression Expression to be assigned
      */
-    public AssignmentNode(Token variableName, JottTree expression) {
+    public AssignmentNode(Token variableName, IExprType expression) {
         this.variableName = variableName;
         this.expression = expression;
     }
@@ -44,6 +46,16 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return IdNode.findId(variableName.getToken()) != null;
+        IdNode _IdNode = IdNode.findId(variableName.getToken());
+        if (_IdNode == null){
+            JottParser.reportError("Cannot resolve symbol " + variableName.getToken(), variableName, "Semantic");
+            return false;
+        }
+        if (!Objects.equals(_IdNode.getType(), expression.getType()))
+        {
+            JottParser.reportError("Type Error: " + _IdNode.getType() + " and " + expression.getType(), variableName, "Semantic");
+            return false;
+        }
+        return true;
     }
 }

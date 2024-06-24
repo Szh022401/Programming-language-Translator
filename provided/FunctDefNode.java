@@ -75,13 +75,22 @@ public class FunctDefNode implements JottTree {
 
     public String getType() { return returnType.getToken(); }
 
-    public Boolean verifyParams(ArrayList<IExprType> arguments){
-        if (arguments.size() != parameters.size())
-                return false;
+    public Boolean verifyParams(FunctCallNode functionCall){
+        if (functionCall.getArguments().size() < parameters.size()) {
+            JottParser.reportError("Missing parameters for function call " + functionCall.getFunctionName().getToken(), functionCall.getFunctionName(), "Semantic");
+            return false;
+        }
+        if (functionCall.getArguments().size() > parameters.size()) {
+            JottParser.reportError("Too many parameters for function call " + functionCall.getFunctionName().getToken(), functionCall.getFunctionName(), "Semantic");
+            return false;
+        }
 
-        for (int i = 0; i < arguments.size(); i++) {
-            if (!Objects.equals(parameters.get(i).getParamType(), arguments.get(i).getType()))
+
+        for (int i = 0; i < functionCall.getArguments().size(); i++) {
+            if (!Objects.equals(parameters.get(i).getParamType(), functionCall.getArguments().get(i).getType())){
+                JottParser.reportError("Type Error " + parameters.get(i).getParamType() + " and " + functionCall.getArguments().get(i).getType(), functionCall.getFunctionName(), "Semantic");
                 return false;
+            }
         }
         return true;
 

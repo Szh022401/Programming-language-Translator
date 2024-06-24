@@ -42,7 +42,14 @@ public class RelationalExprNode implements IExprType {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return leftExpr.validateTree() && rightExpr.validateTree() && getType() != null; }
+    public boolean validateTree() {
+        if (getType() == null){
+            JottParser.reportError("Type Error " + leftExpr.getType() + " and " + rightExpr.getType(), operator, "Semantic");
+            return false;
+        }
+
+        return leftExpr.validateTree() && rightExpr.validateTree();
+    }
 
     public String getType()
     {
