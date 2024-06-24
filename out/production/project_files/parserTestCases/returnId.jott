@@ -1,7 +1,7 @@
 #this should pass parsing but fail sematic analysis (phase3)
-#return type does not match function return type and main must have a void return
+#return <id> is not allowed from void
 
-Def main[]:Integer{
+Def main[]:Void{
     Double x;
     x = 5.0;
 	Return x;

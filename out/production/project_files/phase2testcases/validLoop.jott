@@ -1,11 +1,10 @@
-#this will pass phase 2 and fail phase 3
-#missing main function
+#this will pass phase 2 and phase 3
 
 Def foo[x:Integer]:Integer{
     Return x + 1;
 }
 
-Def main1[]:Void{
+Def main[]:Void{
     Integer x;
     x = 0;
 	While[x<10]{

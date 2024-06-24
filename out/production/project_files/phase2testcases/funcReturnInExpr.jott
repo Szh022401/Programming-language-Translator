@@ -8,7 +8,7 @@ Def foo[x:Integer]:Integer{
 
 Def main[]:Void{
     Integer x;
-    x = 0;
+	x = 0;
 	While[::foo[x]<10.0]{
 	    x = ::foo[x];
 		::print[x];

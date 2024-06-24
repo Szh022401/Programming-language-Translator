@@ -46,15 +46,29 @@ public class ExpressionNode implements IExprType {
 
     public String getType()
     {
+        String returnValue;
         if (value.getTokenType() == TokenType.STRING)
-            return "String";
+            returnValue= "String";
         else if (value.getTokenType() == TokenType.NUMBER) {
             if (value.getToken().contains("."))
-                return "Double";
+                returnValue= "Double";
             else
-                return "Integer";
+                returnValue= "Integer";
+        }
+        else if (value.getTokenType() == TokenType.ID_KEYWORD) {
+            IdNode Id = IdNode.findId(value.getToken());
+            if (Id != null){
+                returnValue= Id.getType();
+            }
+            else
+                returnValue= null;
         }
         else
-            return null;
+            returnValue= null;
+        /*if (returnValue != null)
+            System.out.println(value.getLineNum() + ": Type -> " + returnValue);
+        else
+            System.out.println(value.getLineNum() + ": Type -> null");*/
+        return returnValue;
     }
 }

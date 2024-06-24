@@ -7,14 +7,16 @@ import java.util.ArrayList;
  */
 public class ProgramNode implements JottTree {
     private ArrayList<JottTree> functions; //functions of the program
+    private Token startToken;
 
     /**
      * Constructor for ProgramNode
      *
      * @param functions a list of functions within the program
      */
-    public ProgramNode(ArrayList<JottTree> functions) {
+    public ProgramNode(Token startToken, ArrayList<JottTree> functions) {
         this.functions = functions;
+        this.startToken = startToken;
     }
 
     /**
@@ -54,6 +56,10 @@ public class ProgramNode implements JottTree {
             if (!function.validateTree()) {
                 return false;
             }
+        }
+        if (FunctDefNode.findFunction("Main") == null){
+            JottParser.reportError("Missing Main Function", startToken, "Semantic");
+            return false;
         }
         return true;
     }

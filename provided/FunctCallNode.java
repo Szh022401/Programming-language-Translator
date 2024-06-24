@@ -59,7 +59,7 @@ public class FunctCallNode implements IExprType {
                 return false;
             }
         }
-        return !Func.verifyParams(this);
+        return Func.verifyParams(this);
 
     }
 

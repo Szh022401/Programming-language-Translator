@@ -64,10 +64,15 @@ public class FunctDefNode implements JottTree {
         //Check a return exists
         if (!Objects.equals(returnType.getToken(), "Void")){
             ReturnNode returnNode = findReturnNode();
-            if (returnNode == null)
+            if (returnNode == null){
+                JottParser.reportError("Return missing in function " + functionName.getToken(), functionName, "Semantic");
                 return false;
+            }
             //Check return value type matches
-            return Objects.equals(getType(), returnNode.getType());
+            if (!Objects.equals(getType(), returnNode.getType())){
+                JottParser.reportError("Return Type Error in function "+functionName.getToken()+": " + getType() + " and " + returnNode.getType(), functionName, "Semantic");
+                return false;
+            }
         }
         return true;
 
@@ -85,10 +90,9 @@ public class FunctDefNode implements JottTree {
             return false;
         }
 
-
         for (int i = 0; i < functionCall.getArguments().size(); i++) {
             if (!Objects.equals(parameters.get(i).getParamType(), functionCall.getArguments().get(i).getType())){
-                JottParser.reportError("Type Error " + parameters.get(i).getParamType() + " and " + functionCall.getArguments().get(i).getType(), functionCall.getFunctionName(), "Semantic");
+                JottParser.reportError("Type Error -> " + parameters.get(i).getParamType() + " and " + functionCall.getArguments().get(i).getType(), functionCall.getFunctionName(), "Semantic");
                 return false;
             }
         }

@@ -1,15 +1,14 @@
-#this will pass phase 2 and fail phase 3
-#missing main function
+#this will fail phase 3 for missing params in function call.
 
 Def foo[x:Integer]:Integer{
     Return x + 1;
 }
 
-Def main1[]:Void{
+Def main[]:Void{
     Integer x;
     x = 0;
 	While[x<10]{
-	    x = ::foo[x];
+	    x = ::foo[];
 		::print[x];
 	}
 }

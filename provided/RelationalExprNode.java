@@ -44,7 +44,7 @@ public class RelationalExprNode implements IExprType {
     @Override
     public boolean validateTree() {
         if (getType() == null){
-            JottParser.reportError("Type Error " + leftExpr.getType() + " and " + rightExpr.getType(), operator, "Semantic");
+            JottParser.reportError("Type Error -> " + leftExpr.getType() + " and " + rightExpr.getType(), operator, "Semantic");
             return false;
         }
 

@@ -45,6 +45,7 @@ public class JottParser {
      */
     private static JottTree parseProgram(ArrayList<Token> tokens, int[] index) {
         ArrayList<JottTree> functions = new ArrayList<>();
+        Token startToken = tokens.get(index[0]);
         while (index[0] < tokens.size()) {
             JottTree function = parseFunctDef(tokens, index);
             if (function == null) {
@@ -52,7 +53,7 @@ public class JottParser {
             }
             functions.add(function);
         }
-        return new ProgramNode(functions);
+        return new ProgramNode(startToken, functions);
     }
 
     /**
@@ -658,5 +659,7 @@ public class JottParser {
         if (token != null) {
             System.err.println(token.getFilename() + ":" + token.getLineNum());
         }
+        else
+            System.err.println(token.getFilename() + ":" + token.getLineNum());
     }
 }

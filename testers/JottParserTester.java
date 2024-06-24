@@ -83,25 +83,33 @@ public class JottParserTester {
     public void AddPhase3TestCases()
     {
 
-        //testCases.add(new TestCase("funcCallParamInvalid", "funcCallParamInvalid.jott", true ));
-        //testCases.add(new TestCase("funcNotDefined", "funcNotDefined.jott", true ));
-        //testCases.add(new TestCase("funcReturnInExpr", "funcReturnInExpr.jott", true ));
-        //testCases.add(new TestCase("funcWrongParamType", "funcWrongParamType.jott", true ));
-        //testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
+        //Working in last batch test
+        testCases.add(new TestCase("funcCallParamInvalid", "funcCallParamInvalid.jott", true ));
+        testCases.add(new TestCase("funcNotDefined", "funcNotDefined.jott", true ));
+        testCases.add(new TestCase("funcReturnInExpr", "funcReturnInExpr.jott", true ));
+        testCases.add(new TestCase("funcWrongParamType", "funcWrongParamType.jott", true ));
+        testCases.add(new TestCase("mainReturnNotInt", "mainReturnNotInt.jott", true ));
+        testCases.add(new TestCase("mismatchedReturn", "mismatchedReturn.jott", true ));
+        testCases.add(new TestCase("missingReturn", "missingReturn.jott", true ));
+        testCases.add(new TestCase("missingFuncParams", "missingFuncParams.jott", true ));
+        testCases.add(new TestCase("missingMain", "missingMain.jott", true ));
+        testCases.add(new TestCase("noReturnIf", "noReturnIf.jott", true ));
+        testCases.add(new TestCase("noReturnWhile", "noReturnWhile.jott", true ));
+        testCases.add(new TestCase("returnId", "returnId.jott", true ));
+        testCases.add(new TestCase("voidReturn", "voidReturn.jott", true ));
+        testCases.add(new TestCase("whileKeyword", "whileKeyword.jott", true ));
+
+
+
+        //ISSUES WITH BELOW
         testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
-        //testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
-        //testCases.add(new TestCase("mainReturnNotInt", "mainReturnNotInt.jott", true ));
-        //testCases.add(new TestCase("mismatchedReturn", "mismatchedReturn.jott", true ));
-        //testCases.add(new TestCase("missingFuncParams", "missingFuncParams.jott", true ));
-        //testCases.add(new TestCase("missingMain", "missingMain.jott", true ));
-        //testCases.add(new TestCase("missingReturn", "missingReturn.jott", true ));
-        //testCases.add(new TestCase("noReturnIf", "noReturnIf.jott", true ));
-        //testCases.add(new TestCase("noReturnWhile", "noReturnWhile.jott", true ));
-        //testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
-        //testCases.add(new TestCase("returnId", "returnId.jott", true ));
-        //testCases.add(new TestCase("validLoop", "validLoop.jott", false ));
-        //testCases.add(new TestCase("voidReturn", "voidReturn.jott", true ));
-        //testCases.add(new TestCase("whileKeyword", "whileKeyword.jott", true ));
+        testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
+        testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
+        testCases.add(new TestCase("validLoop", "validLoop.jott", false ));
+        testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
+
+
+
 
 
     }

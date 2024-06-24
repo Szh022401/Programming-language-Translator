@@ -5,11 +5,12 @@ Def foo[x:Integer]:Integer{
     Return x + 1;
 }
 
-Def main1[]:Void{
+Def main1[]:Integer{
     Integer x;
     x = 0;
 	While[x<10]{
 	    x = ::foo[x];
 		::print[x];
 	}
+	Return x;
 }

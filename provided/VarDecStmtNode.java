@@ -52,7 +52,7 @@ public class VarDecStmtNode implements JottTree {
         if (expression != null) {
             if (!Objects.equals(Id.getType(), expression.getType()))
             {
-                JottParser.reportError("Type Error: " + Id.getType() + " and " + expression.getType(), Id.getNameToken(), "Semantic");
+                JottParser.reportError("Type Error -> " + Id.getType() + " and " + expression.getType(), Id.getNameToken(), "Semantic");
                 return false;
             }
             return expression.validateTree();

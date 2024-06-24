@@ -1,8 +1,10 @@
 #should pass phase 2 but fail phase 3
-#while is a keyword
+#while is a keyword and starts with an uppercase letter
 
 Def foo[]:Void{
-    Integer while;
-    while = 5;
-	::print[while];
+    Integer While;
+    While = 5;
+	::print[While];
 }
+
+Def main[]:void{}

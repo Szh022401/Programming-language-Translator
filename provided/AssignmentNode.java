@@ -47,15 +47,15 @@ public class AssignmentNode implements JottTree {
     @Override
     public boolean validateTree() {
         IdNode _IdNode = IdNode.findId(variableName.getToken());
+
         if (_IdNode == null){
             JottParser.reportError("Cannot resolve symbol " + variableName.getToken(), variableName, "Semantic");
             return false;
         }
-        if (!Objects.equals(_IdNode.getType(), expression.getType()))
-        {
-            JottParser.reportError("Type Error: " + _IdNode.getType() + " and " + expression.getType(), variableName, "Semantic");
+        if (!Objects.equals(_IdNode.getType(), expression.getType())) {
+            JottParser.reportError("Type Error -> " + _IdNode.getType() + " and " + expression.getType(), variableName, "Semantic");
             return false;
         }
-        return true;
+        return expression.validateTree();
     }
 }
