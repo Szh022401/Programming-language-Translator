@@ -12,7 +12,6 @@ package provided;
  * @author Joseph Esposito
  */
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class JottParser {
@@ -80,7 +79,7 @@ public class JottParser {
             return null;
         }
         index[0]++;
-        ArrayList<JottTree> parameters = new ArrayList<>();
+        ArrayList<ParamNode> parameters = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
                 //reportError("Expected parameter name", tokens.get(index[0]));
@@ -199,7 +198,7 @@ public class JottParser {
         }
         index[0]++;
 
-        return new VarDecStmtNode(type, varName, null);
+        return new VarDecStmtNode(new IdNode(varName, type), null);
     }
 
 
@@ -416,13 +415,13 @@ public class JottParser {
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseExpression(ArrayList<Token> tokens, int[] index) {
+    private static IExprType parseExpression(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             //reportError("Unexpected end of input in expression", null);
             return null;
         }
 
-        IExpression leftExpr = parsePrimary(tokens, index);
+        IExprType leftExpr = parsePrimary(tokens, index);
         if (leftExpr == null) {
             return null;
         }
@@ -430,7 +429,7 @@ public class JottParser {
         while (index[0] < tokens.size() && (isRelationalOperator(tokens.get(index[0])) || isArithmeticOperator(tokens.get(index[0])))) {
             Token operator = tokens.get(index[0]);
             index[0]++;
-            IExpression rightExpr = parsePrimary(tokens, index);
+            IExprType rightExpr = parsePrimary(tokens, index);
             if (rightExpr == null) {
                 return null;
             }
@@ -449,14 +448,14 @@ public class JottParser {
      * @param index pointer to current location
      * @return updated program node
      */
-    private static IExpression parsePrimary(ArrayList<Token> tokens, int[] index) {
+    private static IExprType parsePrimary(ArrayList<Token> tokens, int[] index) {
         if (index[0] >= tokens.size()) {
             //reportError("Unexpected end of input in primary expression", null);
             return null;
         }
 
         Token token = tokens.get(index[0]);
-        IExpression expr;
+        IExprType expr;
 
 
         if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
@@ -587,9 +586,9 @@ public class JottParser {
         }
         index[0]++;
 
-        ArrayList<JottTree> args = new ArrayList<>();
+        ArrayList<IExprType> args = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACKET) {
-            JottTree arg = parseExpression(tokens, index);
+            IExprType arg = parseExpression(tokens, index);
             if (arg == null) {
                 return null;
             }

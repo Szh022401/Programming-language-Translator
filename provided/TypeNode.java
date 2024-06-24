@@ -12,7 +12,7 @@ public class TypeNode implements JottTree {
      * @param type the type
      */
     public TypeNode(Token type) {
-        this.type = type.CloneToken();
+        this.type = type;
     }
 
     public String getType() {

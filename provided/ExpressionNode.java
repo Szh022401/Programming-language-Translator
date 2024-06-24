@@ -3,7 +3,7 @@ package provided;
 /**
  * Node representing an expression
  */
-public class ExpressionNode implements IExpression {
+public class ExpressionNode implements IExprType {
     private Token value; // value of the expression
 
     /**
@@ -12,7 +12,7 @@ public class ExpressionNode implements IExpression {
      * @param value value of the expression
      */
     public ExpressionNode(Token value) {
-        this.value = value.CloneToken();
+        this.value = value;
     }
 
     /**

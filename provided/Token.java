@@ -25,10 +25,6 @@ public class Token {
         this.type = type;
     }
 
-    public Token CloneToken() {
-        return new Token(token, filename, lineNum, type);
-    }
-
     /**
      * Getter for the token string
      * @return the token string

@@ -14,8 +14,8 @@ public class ParamNode implements JottTree {
      * @param paramType the type of the parameter
      */
     public ParamNode(Token paramName, Token paramType) {
-        this.paramName = paramName.CloneToken();
-        this.paramType = paramType.CloneToken();
+        this.paramName = paramName;
+        this.paramType = paramType;
     }
 
     /**

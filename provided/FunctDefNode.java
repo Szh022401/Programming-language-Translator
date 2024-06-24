@@ -9,7 +9,7 @@ public class FunctDefNode implements JottTree {
     private Token functionName;                //name of the function
     private Token returnType;                  //return type of the function
     private BodyNode body;                      //body of the function
-    private ArrayList<JottTree> parameters;     //parameters for the function
+    private ArrayList<ParamNode> parameters;     //parameters for the function
     private static ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
     /**
      * Constructor for FunctDefNode
@@ -19,9 +19,9 @@ public class FunctDefNode implements JottTree {
      * @param body the node representing the body of the function
      * @param parameters a list of parameters for the function
      */
-    public FunctDefNode(Token functionName, Token returnType, BodyNode body, ArrayList<JottTree> parameters) {
-        this.functionName = functionName.CloneToken();
-        this.returnType = returnType.CloneToken();
+    public FunctDefNode(Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+        this.functionName = functionName;
+        this.returnType = returnType;
         this.body = body;
         this.parameters = parameters;
         Allfunctions.add(this);

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 /**
  * Node representing a function call
  */
-public class FunctCallNode implements IExpression {
+public class FunctCallNode implements IExprType {
     private Token functionName;            //Name of the function
-    private ArrayList<JottTree> arguments;  //Arguments of the function
+    private ArrayList<IExprType> arguments;  //Arguments of the function
 
     /**
      * Constructor for FunctCallNode
@@ -15,8 +15,8 @@ public class FunctCallNode implements IExpression {
      * @param functionName name of the function
      * @param arguments list of arguments for the function
      */
-    public FunctCallNode(Token functionName, ArrayList<JottTree> arguments) {
-        this.functionName = functionName.CloneToken();
+    public FunctCallNode(Token functionName, ArrayList<IExprType> arguments) {
+        this.functionName = functionName;
         this.arguments = arguments;
     }
 

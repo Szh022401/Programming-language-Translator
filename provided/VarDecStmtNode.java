@@ -4,20 +4,17 @@ package provided;
  * Node representing a variable declaration statement
  */
 public class VarDecStmtNode implements JottTree {
-    private Token type;            //variable type
-    private Token variableName;    //name of the variable
+    private IdNode Id;            //variable type
     private JottTree expression;    //expression to be assigned
 
     /**
      * Constructor for VarDecStmtNode
      *
-     * @param type type of the variable
-     * @param variableName name of the variable
+     * @param Id Name and Type of the variable
      * @param expression expression that is assigned to the variable
      */
-    public VarDecStmtNode(Token type, Token variableName, JottTree expression) {
-        this.type = type.CloneToken();
-        this.variableName = variableName.CloneToken();
+    public VarDecStmtNode(IdNode Id, JottTree expression) {
+        this.Id = Id;
         this.expression = expression;
     }
 
@@ -28,9 +25,9 @@ public class VarDecStmtNode implements JottTree {
     @Override
     public String convertToJott() {
         if (expression != null) {
-            return type.getToken() + " " + variableName.getToken() + " = " + expression.convertToJott() + ";";
+            return Id.getType() + " " + Id.getName() + " = " + expression.convertToJott() + ";";
         } else {
-            return type.getToken() + " " + variableName.getToken() + ";";
+            return Id.getType() + " " + Id.getName() + ";";
         }
     }
     @Override

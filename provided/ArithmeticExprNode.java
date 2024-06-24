@@ -5,10 +5,10 @@ import java.util.Objects;
 /**
  * Node representing an arithmetic expression
  */
-public class ArithmeticExprNode implements IExpression {
-    private final IExpression left;    // Left operand
+public class ArithmeticExprNode implements IExprType {
+    private final IExprType left;    // Left operand
     private final Token operator;  // Operator
-    private final IExpression right;   // Right operand
+    private final IExprType right;   // Right operand
 
     /**
      * Constructor for ArithmeticExprNode.
@@ -17,9 +17,9 @@ public class ArithmeticExprNode implements IExpression {
      * @param operator the operator of the expression
      * @param right the right operand of the expression
      */
-    public ArithmeticExprNode(IExpression left, Token operator, IExpression right) {
+    public ArithmeticExprNode(IExprType left, Token operator, IExprType right) {
         this.left = left;
-        this.operator = operator.CloneToken();
+        this.operator = operator;
         this.right = right;
     }
 
@@ -48,7 +48,7 @@ public class ArithmeticExprNode implements IExpression {
 
     @Override
     public boolean validateTree() {
-        return true;
+        return (Objects.equals(left.getType(), right.getType()));
     }
 
     public String getType()

@@ -5,10 +5,10 @@ import java.util.Objects;
 /**
  * Node representing a relational expression
  */
-public class RelationalExprNode implements IExpression {
-    private IExpression leftExpr;      //left expression
+public class RelationalExprNode implements IExprType {
+    private IExprType leftExpr;      //left expression
     private Token operator;        //operator
-    private IExpression rightExpr;     //right expression
+    private IExprType rightExpr;     //right expression
 
     /**
      * Constructor for RelationalExprNode
@@ -17,9 +17,9 @@ public class RelationalExprNode implements IExpression {
      * @param operator operator of the expression
      * @param rightExpr right expression
      */
-    public RelationalExprNode(IExpression leftExpr, Token operator, IExpression rightExpr) {
+    public RelationalExprNode(IExprType leftExpr, Token operator, IExprType rightExpr) {
         this.leftExpr = leftExpr;
-        this.operator = operator.CloneToken();
+        this.operator = operator;
         this.rightExpr = rightExpr;
     }
 

@@ -14,7 +14,7 @@ public class AssignmentNode implements JottTree {
      * @param expression Expression to be assigned
      */
     public AssignmentNode(Token variableName, JottTree expression) {
-        this.variableName = variableName.CloneToken();
+        this.variableName = variableName;
         this.expression = expression;
     }
 

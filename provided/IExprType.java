@@ -4,7 +4,7 @@ package provided;
  * Interface for all Expression type tree nodes
  *
  */
-public interface IExpression extends JottTree {
+public interface IExprType extends JottTree {
 
     /**
      * Will output a string of type of this Node
