@@ -63,16 +63,19 @@ public class FunctDefNode implements JottTree {
             return false;
         //Check a return exists
         if (!Objects.equals(returnType.getToken(), "Void")){
-            ReturnNode returnNode = findReturnNode();
-            if (returnNode == null){
-                JottParser.reportError("Return missing in function " + functionName.getToken(), functionName, "Semantic");
+            ArrayList<ReturnNode> returnNodes = findReturnNodes();
+            if (returnNodes.isEmpty()){
+                JottParser.reportError("Missing return statement in function " + functionName.getToken(), functionName, "Semantic");
                 return false;
             }
             //Check return value type matches
-            if (!Objects.equals(getType(), returnNode.getType())){
-                JottParser.reportError("Return Type Error in function "+functionName.getToken()+": " + getType() + " and " + returnNode.getType(), functionName, "Semantic");
-                return false;
+            for (ReturnNode returnNode : returnNodes) {
+                if (!Objects.equals(getType(), returnNode.getType())){
+                    JottParser.reportError("Return Type Error in function "+functionName.getToken()+": " + getType() + " and " + returnNode.getType(), returnNode.getReturnToken(), "Semantic");
+                    return false;
+                }
             }
+
         }
         return true;
 
@@ -116,28 +119,22 @@ public class FunctDefNode implements JottTree {
         return null;
     }
 
-    private ReturnNode TryFindReturnNodeInStatement(JottTree node ){
+    private void TryFindReturnNodesInStatement(JottTree node, ArrayList<ReturnNode> listOfReturnNodes){
         if (node instanceof ReturnNode) {
-            return (ReturnNode) node;
+            listOfReturnNodes.add((ReturnNode) node);
         }
         else if (node instanceof IfNode) {
-            ReturnNode newNode = TryFindReturnNodeInStatement(((IfNode) node).getIfBody());
+            TryFindReturnNodesInStatement(((IfNode) node).getIfBody(), listOfReturnNodes);
 
-            if (newNode == null)
-                newNode = TryFindReturnNodeInStatement(((IfNode) node).getElseBody());
-
-            return newNode;
+            TryFindReturnNodesInStatement(((IfNode) node).getElseBody(), listOfReturnNodes);
         }
-        else
-            return null;
     }
 
-    private ReturnNode findReturnNode(){
+    private ArrayList<ReturnNode> findReturnNodes(){
+        ArrayList<ReturnNode> result = new ArrayList<>();
         for (JottTree s : body.getStatements()) {
-            ReturnNode node = TryFindReturnNodeInStatement(s);
-            if (node != null)
-                return node;
+            TryFindReturnNodesInStatement(s, result);
         }
-        return null;
+        return result;
     }
 }

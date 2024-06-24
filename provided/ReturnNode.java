@@ -5,14 +5,15 @@ package provided;
  */
 public class ReturnNode implements IExprType {
     private IExprType expression; //the expression to be returned
-
+    private Token ReturnToken;
     /**
      * Constructor for ReturnNode
      *
      * @param expression expression of the return statement
      */
-    public ReturnNode(IExprType expression) {
+    public ReturnNode(IExprType expression, Token ReturnToken) {
         this.expression = expression;
+        this.ReturnToken = ReturnToken;
     }
 
     /**
@@ -50,5 +51,9 @@ public class ReturnNode implements IExprType {
     @Override
     public String getType() {
         return expression.getType();
+    }
+
+    public Token getReturnToken() {
+        return ReturnToken;
     }
 }

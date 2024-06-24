@@ -491,6 +491,7 @@ public class JottParser {
             //reportError("Expected 'Return' keyword", tokens.get(index[0]));
             return null;
         }
+        Token returnToken = tokens.get(index[0]);
         index[0]++;
 
         IExprType expression = parseExpression(tokens, index);
@@ -509,7 +510,7 @@ public class JottParser {
             return null;
         }
 
-        return new ReturnNode(expression);
+        return new ReturnNode(expression, returnToken);
     }
 
     /**
