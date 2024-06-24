@@ -71,7 +71,7 @@ public class FunctDefNode implements JottTree {
             //Check return value type matches
             for (ReturnNode returnNode : returnNodes) {
                 if (!Objects.equals(getType(), returnNode.getType())){
-                    JottParser.reportError("Return Type Error in function "+functionName.getToken()+": " + getType() + " and " + returnNode.getType(), returnNode.getReturnToken(), "Semantic");
+                    JottParser.reportError("Return Type Error in function "+functionName.getToken()+" -> " + getType() + " and " + returnNode.getType(), returnNode.getReturnToken(), "Semantic");
                     return false;
                 }
             }
