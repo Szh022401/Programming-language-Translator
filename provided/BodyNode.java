@@ -46,4 +46,8 @@ public class BodyNode implements JottTree {
         }
         return true;
     }
+
+    public ArrayList<JottTree> getStatements(){
+        return statements;
+    }
 }

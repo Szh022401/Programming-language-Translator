@@ -44,4 +44,8 @@ public class IfNode implements JottTree {
 
     @Override
     public boolean validateTree() { return condition.validateTree() && ifBody.validateTree() && elseBody.validateTree(); }
+
+    public JottTree getIfBody() { return ifBody; }
+
+    public JottTree getElseBody() { return elseBody; }
 }

@@ -57,18 +57,30 @@ public class FunctDefNode implements JottTree {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return body.validateTree(); }
+    public boolean validateTree() {
+        //validate body
+        if (!body.validateTree())
+            return false;
+        //Check a return exists
+        ReturnNode returnNode = findReturnNode();
+        if (returnNode == null)
+            return false;
+        //Check return value type matches
+        return Objects.equals(getType(), returnNode.getType());
+    }
 
     public String getType() { return returnType.getToken(); }
 
     public Boolean verifyParams(ArrayList<IExprType> arguments){
         if (arguments.size() != parameters.size())
                 return false;
+
         for (int i = 0; i < arguments.size(); i++) {
             if (!Objects.equals(parameters.get(i).getParamType(), arguments.get(i).getType()))
                 return false;
         }
         return true;
+
     }
     public ParamNode getParam(String ParamName) {
         for (ParamNode p : parameters) {
@@ -83,6 +95,31 @@ public class FunctDefNode implements JottTree {
             if(f.functionName.getToken().equals(FunctionName)){
                 return f;
             }
+        }
+        return null;
+    }
+
+    private ReturnNode TryFindReturnNodeInStatement(JottTree node ){
+        if (node instanceof ReturnNode) {
+            return (ReturnNode) node;
+        }
+        else if (node instanceof IfNode) {
+            ReturnNode newNode = TryFindReturnNodeInStatement(((IfNode) node).getIfBody());
+
+            if (newNode == null)
+                newNode = TryFindReturnNodeInStatement(((IfNode) node).getElseBody());
+
+            return newNode;
+        }
+        else
+            return null;
+    }
+
+    private ReturnNode findReturnNode(){
+        for (JottTree s : body.getStatements()) {
+            ReturnNode node = TryFindReturnNodeInStatement(s);
+            if (node != null)
+                return node;
         }
         return null;
     }

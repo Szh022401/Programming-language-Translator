@@ -3,15 +3,15 @@ package provided;
 /**
  * Node representing a return statement
  */
-public class ReturnNode implements JottTree {
-    private JottTree expression; //the expression to be returned
+public class ReturnNode implements IExprType {
+    private IExprType expression; //the expression to be returned
 
     /**
      * Constructor for ReturnNode
      *
      * @param expression expression of the return statement
      */
-    public ReturnNode(JottTree expression) {
+    public ReturnNode(IExprType expression) {
         this.expression = expression;
     }
 
@@ -45,5 +45,10 @@ public class ReturnNode implements JottTree {
     public boolean validateTree() {
         // Validate the program node
         return expression.validateTree();
+    }
+
+    @Override
+    public String getType() {
+        return expression.getType();
     }
 }

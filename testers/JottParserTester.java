@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+
 public class JottParserTester {
     ArrayList<TestCase> testCases;
 
@@ -40,6 +41,11 @@ public class JottParserTester {
 
     private void createTestCases(){
         this.testCases = new ArrayList<>();
+        AddPhase3TestCases();
+    }
+
+    public void AddPhase2TestCases()
+    {
         testCases.add(new TestCase("provided writeup example1", "providedExample1.jott", false ));
         testCases.add(new TestCase("provided writeup example2 (error)", "providedExample2.jott", true ));
         testCases.add(new TestCase("provided writeup example3 (error)", "providedExample3.jott", true ));
@@ -61,16 +67,43 @@ public class JottParserTester {
         testCases.add(new TestCase("valid while loop", "validLoop.jott", false ));
         testCases.add(new TestCase("missing main", "missingMain.jott", false ));
         testCases.add(new TestCase("main must be integer", "mainReturnNotInt.jott", false ));
-       testCases.add(new TestCase("i_expr relop d_expr function return", "funcReturnInExpr.jott", false ));
+        testCases.add(new TestCase("i_expr relop d_expr function return", "funcReturnInExpr.jott", false ));
         testCases.add(new TestCase("invalid asmt stmt (error)", "invalidAsmtStmt.jott", true ));
         testCases.add(new TestCase("missing comma in func_def_params (error)", "missingCommaParams.jott", true ));
         testCases.add(new TestCase("while is keyword, cannot be used as id", "whileKeyword.jott", false ));
         testCases.add(new TestCase("expr by itself (error)", "loneExpr.jott", true ));
         testCases.add(new TestCase("code after return (error)", "codeAfterReturn.jott", true ));
-      testCases.add(new TestCase("lone minus (error)", "loneMinus.jott", true ));
+        testCases.add(new TestCase("lone minus (error)", "loneMinus.jott", true ));
         testCases.add(new TestCase("else without if (error)", "elseNoIf.jott", true ));
-       testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
+        testCases.add(new TestCase("missing closing } (error)", "missingClosing.jott", true ));
         testCases.add(new TestCase("valid if with return", "validIfReturn.jott", false));
+
+    }
+
+    public void AddPhase3TestCases()
+    {
+
+        //testCases.add(new TestCase("funcCallParamInvalid", "funcCallParamInvalid.jott", true ));
+        //testCases.add(new TestCase("funcNotDefined", "funcNotDefined.jott", true ));
+        //testCases.add(new TestCase("funcReturnInExpr", "funcReturnInExpr.jott", true ));
+        //testCases.add(new TestCase("funcWrongParamType", "funcWrongParamType.jott", true ));
+        testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
+        //testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
+        //testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
+        //testCases.add(new TestCase("mainReturnNotInt", "mainReturnNotInt.jott", true ));
+        //testCases.add(new TestCase("mismatchedReturn", "mismatchedReturn.jott", true ));
+        //testCases.add(new TestCase("missingFuncParams", "missingFuncParams.jott", true ));
+        //testCases.add(new TestCase("missingMain", "missingMain.jott", true ));
+        //testCases.add(new TestCase("missingReturn", "missingReturn.jott", true ));
+        //testCases.add(new TestCase("noReturnIf", "noReturnIf.jott", true ));
+        //testCases.add(new TestCase("noReturnWhile", "noReturnWhile.jott", true ));
+        //testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
+        //testCases.add(new TestCase("returnId", "returnId.jott", true ));
+        //testCases.add(new TestCase("validLoop", "validLoop.jott", false ));
+        //testCases.add(new TestCase("voidReturn", "voidReturn.jott", true ));
+        //testCases.add(new TestCase("whileKeyword", "whileKeyword.jott", true ));
+
+
     }
 
     private boolean parserTest(TestCase test, String orginalJottCode){

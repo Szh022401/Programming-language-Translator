@@ -29,6 +29,11 @@ public class JottParser {
             //reportError("Unexpected tokens at the end of the program", tokens.get(index[0]));
             return null;
         }
+
+        if (root != null){
+            if (!root.validateTree())
+                return null;
+        }
         return root;
     }
 
@@ -487,7 +492,7 @@ public class JottParser {
         }
         index[0]++;
 
-        JottTree expression = parseExpression(tokens, index);
+        IExprType expression = parseExpression(tokens, index);
         if (expression == null) {
             return null;
         }
