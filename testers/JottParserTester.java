@@ -42,6 +42,7 @@ public class JottParserTester {
     private void createTestCases(){
         this.testCases = new ArrayList<>();
         AddPhase2TestCases();
+        JottParser.DoValidate =  true;
     }
 
     public void AddPhase2TestCases()

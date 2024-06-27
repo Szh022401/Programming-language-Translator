@@ -15,7 +15,7 @@ package provided;
 import java.util.ArrayList;
 
 public class JottParser {
-
+public static Boolean DoValidate;
     /**
      * Parses an ArrayList of Jotton tokens into a Jott Parse Tree.
      * @param tokens the ArrayList of Jott tokens to parse
@@ -29,12 +29,10 @@ public class JottParser {
             reportError("Unexpected tokens at the end of the program", tokens.get(index[0]), "Syntax");
             return null;
         }
-        //change true/false to disable validateTree
-        if (false){
-            if (root != null){
-                if (!root.validateTree())
-                    return null;
-            }
+
+        if (root != null && DoValidate){
+            if (!root.validateTree())
+                return null;
         }
 
         return root;
@@ -66,7 +64,7 @@ public class JottParser {
      * @return updated program node
      */
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
-        if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def") && !tokens.get(index[0]).getToken().equals("def"))) { //CHANGE THIS TO SUPPORT LOWERCASE OR UPPERCASE DEF
+        if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def"))) {
             reportError("Expected 'Def' keyword", tokens.get(index[0]), "Syntax");
             return null;
         }
