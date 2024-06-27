@@ -29,11 +29,14 @@ public class JottParser {
             reportError("Unexpected tokens at the end of the program", tokens.get(index[0]), "Syntax");
             return null;
         }
-
-        if (root != null){
-            if (!root.validateTree())
-                return null;
+        //change true/false to disable validateTree
+        if (false){
+            if (root != null){
+                if (!root.validateTree())
+                    return null;
+            }
         }
+
         return root;
     }
 
@@ -63,7 +66,7 @@ public class JottParser {
      * @return updated program node
      */
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
-        if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("Def")) {
+        if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def") && !tokens.get(index[0]).getToken().equals("def"))) { //CHANGE THIS TO SUPPORT LOWERCASE OR UPPERCASE DEF
             reportError("Expected 'Def' keyword", tokens.get(index[0]), "Syntax");
             return null;
         }
