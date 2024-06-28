@@ -125,16 +125,38 @@ public class FunctDefNode implements JottTree {
         return null;
     }
 
-    private void TryFindReturnNodesInStatement(JottTree node, ArrayList<ReturnNode> listOfReturnNodes){
+    private void TryFindReturnNodesInStatement(JottTree node, ArrayList<ReturnNode> listOfReturnNodes, Boolean RestrictIfStatements, Boolean checkAllNodes){
         if (node instanceof ReturnNode) {
             listOfReturnNodes.add((ReturnNode) node);
         }
-        else if (node instanceof IfNode) { //If body does not guarantee a return, so we only need to check the else.
-            TryFindReturnNodesInStatement(((IfNode) node).getElseBody(), listOfReturnNodes);
+        else if (node instanceof IfNode && (RestrictIfStatements || checkAllNodes)) {
+            if (RestrictIfStatements){
+                ArrayList<ReturnNode> IfReturns = new ArrayList<>();
+
+                TryFindReturnNodesInStatement(((IfNode) node).getIfBody(), IfReturns, true, false);
+
+                if (!IfReturns.isEmpty()){
+                    int Before = IfReturns.size();
+                    TryFindReturnNodesInStatement(((IfNode) node).getElseBody(), IfReturns, true, false);
+                    int After = IfReturns.size();
+
+                    if (After > Before){
+                        listOfReturnNodes.addAll(IfReturns);
+                    }
+                }
+            }
+            else {
+                TryFindReturnNodesInStatement(((IfNode) node).getIfBody(), listOfReturnNodes, false, true);
+                TryFindReturnNodesInStatement(((IfNode) node).getElseBody(), listOfReturnNodes, false, true);
+            }
+
+        }
+        else if (node instanceof WhileNode && checkAllNodes) {
+            TryFindReturnNodesInStatement(((WhileNode) node).getBody(), listOfReturnNodes, RestrictIfStatements, true);
         }
         else if (node instanceof  BodyNode){
             for (JottTree s : ((BodyNode) node).getStatements()) {
-                TryFindReturnNodesInStatement(s, listOfReturnNodes);
+                TryFindReturnNodesInStatement(s, listOfReturnNodes, RestrictIfStatements, checkAllNodes);
             }
         }
     }
@@ -142,7 +164,19 @@ public class FunctDefNode implements JottTree {
     private ArrayList<ReturnNode> findReturnNodes(){
         ArrayList<ReturnNode> result = new ArrayList<>();
 
-        TryFindReturnNodesInStatement(body, result);
+        TryFindReturnNodesInStatement(body, result, false, false);
+        if (result.isEmpty()){
+            TryFindReturnNodesInStatement(body, result, true, false);
+            if (!result.isEmpty()){
+                result.clear();
+                TryFindReturnNodesInStatement(body, result, false, true);
+            }
+        }
+        else{
+            result.clear();
+            TryFindReturnNodesInStatement(body, result, false, true);
+        }
+
         return result;
     }
     public static void ClearFunctionsList(){

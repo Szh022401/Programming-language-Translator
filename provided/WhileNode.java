@@ -38,4 +38,8 @@ public class WhileNode implements JottTree {
 
     @Override
     public boolean validateTree() { return condition.validateTree() && body.validateTree(); }
+
+    public BodyNode getBody() {
+        return body;
+    }
 }
