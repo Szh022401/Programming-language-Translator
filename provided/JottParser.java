@@ -291,7 +291,7 @@ public static Boolean DoValidate;
         if (expression == null) {
             return null;
         }
-
+        Boolean AddSemiColon=true;
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
             index[0]--;
             //Adding this to account for a function call eating the semi color (this was a quick fix to stop from re-doing way more of the parser)                                                              //May want to remove
@@ -300,13 +300,14 @@ public static Boolean DoValidate;
                 reportError("Expected ';', after assignment", tokens.get(index[0]), "Syntax");
                 return null;
             }
+            AddSemiColon = false;
             index[0]++;
         }
         else{
             index[0]++;
         }
 
-        return new AssignmentNode(varName, expression);
+        return new AssignmentNode(varName, expression, AddSemiColon);
     }
 
     /**
@@ -639,8 +640,9 @@ public static Boolean DoValidate;
             return null;
         }
         index[0]++;
+        Token LastToken = tokens.get(index[0]);
 
-        if (!(tokens.get(index[0]).getTokenType() == TokenType.REL_OP || tokens.get(index[0]).getTokenType() == TokenType.MATH_OP || tokens.get(index[0]).getTokenType() == TokenType.R_BRACKET)) {
+        if (!(LastToken.getTokenType() == TokenType.REL_OP || LastToken.getTokenType() == TokenType.MATH_OP || LastToken.getTokenType() == TokenType.R_BRACKET)) {
             if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
                 reportError("Expected ';' after function call", tokens.get(index[0]), "Syntax");
                 return null;
@@ -648,7 +650,7 @@ public static Boolean DoValidate;
             index[0]++;
         }
 
-        return new FunctCallNode(functionName, args);
+        return new FunctCallNode(functionName, args, LastToken.getTokenType() == TokenType.SEMICOLON);
     }
 
     /**

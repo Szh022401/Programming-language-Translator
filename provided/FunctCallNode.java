@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class FunctCallNode implements IExprType {
     private Token functionName;            //Name of the function
     private ArrayList<IExprType> arguments;  //Arguments of the function
+    private Boolean AddSemiColon = false;
 
     /**
      * Constructor for FunctCallNode
@@ -15,9 +16,10 @@ public class FunctCallNode implements IExprType {
      * @param functionName name of the function
      * @param arguments list of arguments for the function
      */
-    public FunctCallNode(Token functionName, ArrayList<IExprType> arguments) {
+    public FunctCallNode(Token functionName, ArrayList<IExprType> arguments, Boolean addSemiColon) {
         this.functionName = functionName;
         this.arguments = arguments;
+        this.AddSemiColon = addSemiColon;
     }
 
     /**
@@ -35,6 +37,9 @@ public class FunctCallNode implements IExprType {
             jottString.append(arguments.get(i).convertToJott());
         }
         jottString.append("]");
+        if (AddSemiColon) {
+            jottString.append(";");
+        }
         return jottString.toString();
         }
 
