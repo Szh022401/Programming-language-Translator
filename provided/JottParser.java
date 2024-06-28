@@ -202,7 +202,7 @@ public static Boolean DoValidate;
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]), "Syntax");
+            reportError("Expected ';' after variable declaration", tokens.get(index[0]), "Syntax");
             return null;
         }
         index[0]++;
@@ -210,7 +210,23 @@ public static Boolean DoValidate;
         return new VarDecStmtNode(new IdNode(varName, type), null);
     }
 
+    private static JottTree parsePrintOrFuncCall(ArrayList<Token> tokens, int[] index) {
+        if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("::")) {
+            reportError("Expected '::' for print statement", tokens.get(index[0]), "Syntax");
+            return null;
+        }
+        index[0]++;
 
+        if (tokens.get(index[0]).getToken().equals("print")) {
+            index[0]--;
+            return parsePrint(tokens, index);
+        }
+        else {
+            index[0]--;
+            return parseFunctCall(tokens, index);
+        }
+
+    }
 
     /**
      * parses a statement, such as: if, while, returning, etc
@@ -239,7 +255,7 @@ public static Boolean DoValidate;
             } else if (currentToken.getTokenType() == TokenType.ID_KEYWORD) {
                 return parseAssignment(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.FC_HEADER) {
-                return parsePrint(tokens, index);
+                return parsePrintOrFuncCall(tokens, index);
             } else {
                 reportError("Expected a statement", currentToken, "Syntax");
                 return null;
@@ -277,10 +293,18 @@ public static Boolean DoValidate;
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]), "Syntax");
-            return null;
+            index[0]--;
+            //Adding this to account for a function call eating the semi color (this was a quick fix to stop from re-doing way more of the parser)                                                              //May want to remove
+            if (tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON){
+                index[0]++;
+                reportError("Expected ';', after assignment", tokens.get(index[0]), "Syntax");
+                return null;
+            }
+            index[0]++;
         }
-        index[0]++;
+        else{
+            index[0]++;
+        }
 
         return new AssignmentNode(varName, expression);
     }
@@ -410,7 +434,7 @@ public static Boolean DoValidate;
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]), "Syntax");
+            reportError("Expected ';' after print command", tokens.get(index[0]), "Syntax");
             return null;
         }
         index[0]++;
@@ -503,7 +527,7 @@ public static Boolean DoValidate;
         }
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
-            reportError("Expected ';'", tokens.get(index[0]), "Syntax");
+            reportError("Expected ';' after return statement", tokens.get(index[0]), "Syntax");
             return null;
         }
         index[0]++;
@@ -616,6 +640,14 @@ public static Boolean DoValidate;
         }
         index[0]++;
 
+        if (!(tokens.get(index[0]).getTokenType() == TokenType.REL_OP || tokens.get(index[0]).getTokenType() == TokenType.MATH_OP || tokens.get(index[0]).getTokenType() == TokenType.R_BRACKET)) {
+            if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.SEMICOLON) {
+                reportError("Expected ';' after function call", tokens.get(index[0]), "Syntax");
+                return null;
+            }
+            index[0]++;
+        }
+
         return new FunctCallNode(functionName, args);
     }
 
@@ -665,5 +697,6 @@ public static Boolean DoValidate;
         }
         else
             System.err.println(token.getFilename() + ":" + token.getLineNum());
+        System.err.println("---------------");
     }
 }

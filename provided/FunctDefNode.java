@@ -129,18 +129,20 @@ public class FunctDefNode implements JottTree {
         if (node instanceof ReturnNode) {
             listOfReturnNodes.add((ReturnNode) node);
         }
-        else if (node instanceof IfNode) {
-            TryFindReturnNodesInStatement(((IfNode) node).getIfBody(), listOfReturnNodes);
-
+        else if (node instanceof IfNode) { //If body does not guarantee a return, so we only need to check the else.
             TryFindReturnNodesInStatement(((IfNode) node).getElseBody(), listOfReturnNodes);
+        }
+        else if (node instanceof  BodyNode){
+            for (JottTree s : ((BodyNode) node).getStatements()) {
+                TryFindReturnNodesInStatement(s, listOfReturnNodes);
+            }
         }
     }
 
     private ArrayList<ReturnNode> findReturnNodes(){
         ArrayList<ReturnNode> result = new ArrayList<>();
-        for (JottTree s : body.getStatements()) {
-            TryFindReturnNodesInStatement(s, result);
-        }
+
+        TryFindReturnNodesInStatement(body, result);
         return result;
     }
     public static void ClearFunctionsList(){
