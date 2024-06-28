@@ -39,7 +39,9 @@ public class IdNode implements IExprType {
     public String convertToPython() { return null; }
 
     @Override
-    public boolean validateTree() { return true; }
+    public boolean validateTree() {
+        //todo verify this is not a reserved word
+        return true; }
 
     public String getName() {
         return Name.getToken();

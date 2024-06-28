@@ -83,6 +83,7 @@ public class FunctDefNode implements JottTree {
                 return false;
             }
         }
+        //todo verify the function does not share a name with a built in function (print and concat)
         return true;
 
     }

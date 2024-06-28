@@ -61,6 +61,10 @@ public class ProgramNode implements JottTree {
             JottParser.reportError("Missing main Function in program", startToken, "Semantic");
             return false;
         }
+        //todo verify main has no parameters
+        //todo verify no other main exists
+        //todo verify main is a Void type
+        //todat
         return true;
     }
 }
