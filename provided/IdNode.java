@@ -61,4 +61,7 @@ public class IdNode implements IExprType {
         }
         return null;
     }
+    public static void ClearIdList(){
+        AllIds.clear();
+    }
 }

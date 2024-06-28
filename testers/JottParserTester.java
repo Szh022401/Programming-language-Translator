@@ -41,7 +41,7 @@ public class JottParserTester {
 
     private void createTestCases(){
         this.testCases = new ArrayList<>();
-        AddPhase2TestCases();
+        AddPhase3TestCases();
         JottParser.DoValidate =  true;
     }
 
@@ -83,7 +83,7 @@ public class JottParserTester {
 
     public void AddPhase3TestCases()
     {
-/*
+
         //Working in last batch test
         testCases.add(new TestCase("funcCallParamInvalid", "funcCallParamInvalid.jott", true ));
         testCases.add(new TestCase("funcNotDefined", "funcNotDefined.jott", true ));
@@ -101,9 +101,9 @@ public class JottParserTester {
         testCases.add(new TestCase("whileKeyword", "whileKeyword.jott", true ));
         testCases.add(new TestCase("helloWorld", "helloWorld.jott", false ));
         testCases.add(new TestCase("providedExample1", "providedExample1.jott", false ));
-*/
+
         //ISSUES WITH BELOW
-        //testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
+        testCases.add(new TestCase("ifStmtReturns", "ifStmtReturns.jott", false ));
         //testCases.add(new TestCase("largerValid", "largerValid.jott", false ));
         testCases.add(new TestCase("validLoop", "validLoop.jott", false ));
 

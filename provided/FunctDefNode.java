@@ -77,6 +77,12 @@ public class FunctDefNode implements JottTree {
             }
 
         }
+        else {
+            if (!findReturnNodes().isEmpty()){
+                JottParser.reportError("Void type function, return not allowed" + functionName.getToken(), functionName, "Semantic");
+                return false;
+            }
+        }
         return true;
 
     }
@@ -136,5 +142,8 @@ public class FunctDefNode implements JottTree {
             TryFindReturnNodesInStatement(s, result);
         }
         return result;
+    }
+    public static void ClearFunctionsList(){
+        Allfunctions.clear();
     }
 }

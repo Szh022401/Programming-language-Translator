@@ -24,6 +24,8 @@ public static Boolean DoValidate;
      */
     public static JottTree parse(ArrayList<Token> tokens) {
         int[] index = {0};
+        IdNode.ClearIdList();
+        FunctDefNode.ClearFunctionsList();
         JottTree root = parseProgram(tokens, index);
         if (index[0] < tokens.size()) {
             reportError("Unexpected tokens at the end of the program", tokens.get(index[0]), "Syntax");
