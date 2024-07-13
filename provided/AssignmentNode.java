@@ -9,6 +9,7 @@ public class AssignmentNode implements JottTree {
     private Token variableName;    //Name of the variable to be assigned a value
     private IExprType expression;    //Expression to be assigned
     private Boolean AddSemiColon = true;
+    private FunctDefNode Function; //Parent Function
 
     /**
      * Constructor for AssignmentNode
@@ -16,10 +17,11 @@ public class AssignmentNode implements JottTree {
      * @param variableName Name of the variable to be assigned a value
      * @param expression Expression to be assigned
      */
-    public AssignmentNode(Token variableName, IExprType expression, Boolean addSemiColon) {
+    public AssignmentNode(Token variableName, IExprType expression, Boolean addSemiColon, FunctDefNode Function) {
         this.variableName = variableName;
         this.expression = expression;
         this.AddSemiColon = addSemiColon;
+        this.Function = Function;
     }
 
     /**
@@ -52,7 +54,7 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public boolean validateTree() {
-        IdNode _IdNode = IdNode.findId(variableName.getToken());
+        IdNode _IdNode = Function.findId(variableName.getToken());
 
         if (_IdNode == null){
             JottParser.reportError("Cannot resolve symbol " + variableName.getToken(), variableName, "Semantic");

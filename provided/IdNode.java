@@ -8,17 +8,17 @@ import java.util.ArrayList;
 public class IdNode implements IExprType {
     private Token Name;   //name of the parameter
     private Token Type;   //type of the parameter
-    private static ArrayList<IdNode> AllIds = new ArrayList<>();
+
     /**
      * Constructor for IdNode
      *
      * @param paramName name of the ID
-     * @param paramType the type of the ID
+     * @param paramType the type of the IDl
      */
-    public IdNode(Token paramName, Token paramType) {
+    public IdNode(Token paramName, Token paramType, FunctDefNode Function) {
         this.Name = paramName;
         this.Type = paramType;
-        AllIds.add(this);
+        Function.AllIds.add(this);
     }
 
     /**
@@ -55,15 +55,4 @@ public class IdNode implements IExprType {
         return Type.getToken();
     }
 
-    public static IdNode findId(String Name){
-        for (IdNode f : AllIds) {
-            if(f.Name.getToken().equals(Name)){
-                return f;
-            }
-        }
-        return null;
-    }
-    public static void ClearIdList(){
-        AllIds.clear();
-    }
 }

@@ -1,5 +1,7 @@
 package provided;
 
+import java.util.Objects;
+
 /**
  * Node representing an if statement
  */
@@ -27,7 +29,7 @@ public class IfNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        if (elseBody != null) {
+        if (elseBody != null && !Objects.equals(elseBody.convertToJott(), "")) {
             return "If[" + condition.convertToJott() + "]{" + ifBody.convertToJott() + "}" + "Else{" + elseBody.convertToJott() + "}";
         }
         return "If[" + condition.convertToJott() + "]{" + ifBody.convertToJott() + "}";

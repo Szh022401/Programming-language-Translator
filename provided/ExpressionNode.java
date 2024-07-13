@@ -5,14 +5,17 @@ package provided;
  */
 public class ExpressionNode implements IExprType {
     private Token value; // value of the expression
+    private FunctDefNode Function; // parent function
 
     /**
      * Constructor for ExpressionNode
      *
      * @param value value of the expression
      */
-    public ExpressionNode(Token value) {
+    public ExpressionNode(Token value, FunctDefNode Function) {
         this.value = value;
+        this.Function = Function;
+
     }
 
     /**
@@ -56,7 +59,7 @@ public class ExpressionNode implements IExprType {
                 returnValue= "Integer";
         }
         else if (value.getTokenType() == TokenType.ID_KEYWORD) {
-            IdNode Id = IdNode.findId(value.getToken());
+            IdNode Id = Function.findId(value.getToken());
             if (Id != null){
                 returnValue= Id.getType();
             }

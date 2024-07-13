@@ -13,9 +13,10 @@ public class ParamNode implements JottTree {
      * @param paramName name of the parameter
      * @param paramType the type of the parameter
      */
-    public ParamNode(Token paramName, Token paramType) {
+    public ParamNode(Token paramName, Token paramType, FunctDefNode Function) {
         this.paramName = paramName;
         this.paramType = paramType;
+        Function.AllIds.add(new IdNode(paramName, paramType, Function));
     }
 
     /**

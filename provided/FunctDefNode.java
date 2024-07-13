@@ -11,6 +11,7 @@ public class FunctDefNode implements JottTree {
     private Token returnType;                  //return type of the function
     private BodyNode body;                      //body of the function
     private ArrayList<ParamNode> parameters;     //parameters for the function
+    public ArrayList<IdNode> AllIds = new ArrayList<>();
     private static ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
     /**
      * Constructor for FunctDefNode
@@ -26,6 +27,15 @@ public class FunctDefNode implements JottTree {
         this.body = body;
         this.parameters = parameters;
         Allfunctions.add(this);
+    }
+    public FunctDefNode() {
+        Allfunctions.add(this);
+    }
+    public void setVariables(Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+        this.functionName = functionName;
+        this.returnType = returnType;
+        this.body = body;
+        this.parameters = parameters;
     }
 
     /**
@@ -160,6 +170,15 @@ public class FunctDefNode implements JottTree {
                 TryFindReturnNodesInStatement(s, listOfReturnNodes, RestrictIfStatements, checkAllNodes);
             }
         }
+    }
+
+    public IdNode findId(String Name){
+        for (IdNode f : AllIds) {
+            if(f.getName().equals(Name)){
+                return f;
+            }
+        }
+        return null;
     }
 
     private ArrayList<ReturnNode> findReturnNodes(){

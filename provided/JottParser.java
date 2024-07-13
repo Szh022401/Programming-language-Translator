@@ -15,6 +15,7 @@ package provided;
 import java.util.ArrayList;
 
 public class JottParser {
+    private static FunctDefNode CurrentFunction;
 public static Boolean DoValidate;
     /**
      * Parses an ArrayList of Jotton tokens into a Jott Parse Tree.
@@ -24,7 +25,7 @@ public static Boolean DoValidate;
      */
     public static JottTree parse(ArrayList<Token> tokens) {
         int[] index = {0};
-        IdNode.ClearIdList();
+        //IdNode.ClearIdList();
         FunctDefNode.ClearFunctionsList();
         JottTree root = parseProgram(tokens, index);
         if (index[0] < tokens.size()) {
@@ -66,6 +67,7 @@ public static Boolean DoValidate;
      * @return updated program node
      */
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
+        CurrentFunction =  new FunctDefNode();
         if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def"))) {
             reportError("Expected 'Def' keyword", tokens.get(index[0]), "Syntax");
             return null;
@@ -110,7 +112,7 @@ public static Boolean DoValidate;
             Token paramType = tokens.get(index[0]);
             index[0]++;
 
-            parameters.add(new ParamNode(paramName, paramType));
+            parameters.add(new ParamNode(paramName, paramType, CurrentFunction));
 
             if (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() == TokenType.COMMA) {
                 index[0]++;
@@ -145,7 +147,7 @@ public static Boolean DoValidate;
 
         ArrayList<JottTree> body = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            JottTree statement = parseStatement(tokens, index);
+            JottTree statement = parseStatement(tokens, index, CurrentFunction);
             if (statement == null) {
                 return null;
             }
@@ -156,8 +158,8 @@ public static Boolean DoValidate;
             return null;
         }
         index[0]++;
-
-        return new FunctDefNode(functionName, returnType, new BodyNode(body), parameters);
+        CurrentFunction.setVariables(functionName, returnType, new BodyNode(body), parameters);
+        return CurrentFunction;
     }
 
 
@@ -186,7 +188,7 @@ public static Boolean DoValidate;
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseVarDec(ArrayList<Token> tokens, int[] index) {
+    private static JottTree parseVarDec(ArrayList<Token> tokens, int[] index, FunctDefNode Function) {
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
             reportError("Expected a type", tokens.get(index[0]), "Syntax");
             return null;
@@ -207,7 +209,7 @@ public static Boolean DoValidate;
         }
         index[0]++;
 
-        return new VarDecStmtNode(new IdNode(varName, type), null);
+        return new VarDecStmtNode(new IdNode(varName, type, Function), null);
     }
 
     private static JottTree parsePrintOrFuncCall(ArrayList<Token> tokens, int[] index) {
@@ -234,7 +236,7 @@ public static Boolean DoValidate;
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseStatement(ArrayList<Token> tokens, int[] index) {
+    private static JottTree parseStatement(ArrayList<Token> tokens, int[] index, FunctDefNode Function) {
         if (index[0] >= tokens.size()) {
             reportError("Unexpected end of input", null, "Syntax");
             return null;
@@ -245,13 +247,13 @@ public static Boolean DoValidate;
             Token currentToken = tokens.get(index[0]);
 
             if (isTypeKeyword(currentToken.getToken())) {
-                return parseVarDec(tokens, index);
+                return parseVarDec(tokens, index, Function);
             } else if (currentToken.getToken().equals("Return")) {
                 return parseReturn(tokens, index);
             } else if (currentToken.getToken().equals("While")) {
-                return parseWhile(tokens, index);
+                return parseWhile(tokens, index, Function);
             } else if (currentToken.getToken().equals("If")) {
-                return parseIf(tokens, index);
+                return parseIf(tokens, index, Function);
             } else if (currentToken.getTokenType() == TokenType.ID_KEYWORD) {
                 return parseAssignment(tokens, index);
             } else if (currentToken.getTokenType() == TokenType.FC_HEADER) {
@@ -307,7 +309,7 @@ public static Boolean DoValidate;
             index[0]++;
         }
 
-        return new AssignmentNode(varName, expression, AddSemiColon);
+        return new AssignmentNode(varName, expression, AddSemiColon, CurrentFunction);
     }
 
     /**
@@ -316,7 +318,7 @@ public static Boolean DoValidate;
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseIf(ArrayList<Token> tokens, int[] index) {
+    private static JottTree parseIf(ArrayList<Token> tokens, int[] index, FunctDefNode Function) {
         // Check for 'If' keyword
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("If")) {
             reportError("Expected 'If' keyword", tokens.get(index[0]), "Syntax");
@@ -351,7 +353,7 @@ public static Boolean DoValidate;
 
         ArrayList<JottTree> ifBody = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            JottTree statement = parseStatement(tokens, index);
+            JottTree statement = parseStatement(tokens, index, Function);
             if (statement == null) {
                 return null;
             }
@@ -378,7 +380,7 @@ public static Boolean DoValidate;
             index[0]++;
 
             while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-                JottTree statement = parseStatement(tokens, index);
+                JottTree statement = parseStatement(tokens, index, Function);
                 if (statement == null) {
                     return null;
                 }
@@ -493,7 +495,7 @@ public static Boolean DoValidate;
 
 
         if (token.getTokenType() == TokenType.NUMBER || token.getTokenType() == TokenType.ID_KEYWORD || token.getTokenType() == TokenType.STRING) {
-            expr = new ExpressionNode(token);
+            expr = new ExpressionNode(token, CurrentFunction);
             index[0]++;
         }
 
@@ -547,7 +549,7 @@ public static Boolean DoValidate;
      * @param index pointer to current location
      * @return updated program node
      */
-    private static JottTree parseWhile(ArrayList<Token> tokens, int[] index) {
+    private static JottTree parseWhile(ArrayList<Token> tokens, int[] index, FunctDefNode Function) {
         if (index[0] >= tokens.size() || !tokens.get(index[0]).getToken().equals("While")) {
             reportError("Expected 'While' keyword", tokens.get(index[0]), "Syntax");
             return null;
@@ -579,7 +581,7 @@ public static Boolean DoValidate;
 
         ArrayList<JottTree> body = new ArrayList<>();
         while (index[0] < tokens.size() && tokens.get(index[0]).getTokenType() != TokenType.R_BRACE) {
-            JottTree statement = parseStatement(tokens, index);
+            JottTree statement = parseStatement(tokens, index, Function);
             if (statement == null) {
                 return null;
             }
