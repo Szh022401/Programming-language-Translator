@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class JottParser {
     private static FunctDefNode CurrentFunction;
-public static Boolean DoValidate;
     /**
      * Parses an ArrayList of Jotton tokens into a Jott Parse Tree.
      * @param tokens the ArrayList of Jott tokens to parse
@@ -33,7 +32,7 @@ public static Boolean DoValidate;
             return null;
         }
 
-        if (root != null && DoValidate){
+        if (root != null){
             if (!root.validateTree())
                 return null;
         }
