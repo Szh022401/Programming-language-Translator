@@ -24,7 +24,6 @@ public class JottParser {
      */
     public static JottTree parse(ArrayList<Token> tokens) {
         int[] index = {0};
-        //IdNode.ClearIdList();
         FunctDefNode.ClearFunctionsList();
         JottTree root = parseProgram(tokens, index);
         if (index[0] < tokens.size()) {
