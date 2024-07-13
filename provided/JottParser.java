@@ -66,10 +66,12 @@ public class JottParser {
      */
     private static JottTree parseFunctDef(ArrayList<Token> tokens, int[] index) {
         CurrentFunction =  new FunctDefNode();
-        if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def"))) {
+        Token defType =tokens.get(index[0]);
+        if (index[0] >= tokens.size() || (!tokens.get(index[0]).getToken().equals("Def") && !tokens.get(index[0]).getToken().equals("def"))) {
             reportError("Expected 'Def' keyword", tokens.get(index[0]), "Syntax");
             return null;
         }
+
         index[0]++;
 
         if (index[0] >= tokens.size() || tokens.get(index[0]).getTokenType() != TokenType.ID_KEYWORD) {
@@ -156,7 +158,8 @@ public class JottParser {
             return null;
         }
         index[0]++;
-        CurrentFunction.setVariables(functionName, returnType, new BodyNode(body), parameters);
+
+        CurrentFunction.setVariables(defType,functionName, returnType, new BodyNode(body), parameters);
         return CurrentFunction;
     }
 

@@ -11,6 +11,7 @@ public class FunctDefNode implements JottTree {
     private Token returnType;                  //return type of the function
     private BodyNode body;                      //body of the function
     private ArrayList<ParamNode> parameters;     //parameters for the function
+    private Token defType;
     public ArrayList<IdNode> AllIds = new ArrayList<>();
     private static ArrayList<FunctDefNode> Allfunctions = new ArrayList<>();
     /**
@@ -21,7 +22,8 @@ public class FunctDefNode implements JottTree {
      * @param body the node representing the body of the function
      * @param parameters a list of parameters for the function
      */
-    public FunctDefNode(Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+    public FunctDefNode(Token defType,Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+        this.defType = defType;
         this.functionName = functionName;
         this.returnType = returnType;
         this.body = body;
@@ -31,7 +33,8 @@ public class FunctDefNode implements JottTree {
     public FunctDefNode() {
         Allfunctions.add(this);
     }
-    public void setVariables(Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+    public void setVariables(Token defType,Token functionName, Token returnType, BodyNode body, ArrayList<ParamNode> parameters) {
+        this.defType = defType;
         this.functionName = functionName;
         this.returnType = returnType;
         this.body = body;
@@ -45,7 +48,8 @@ public class FunctDefNode implements JottTree {
     @Override
     public String convertToJott() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Def ").append(functionName.getToken()).append("[");
+        String defKeyword = defType.getToken();
+        sb.append(defKeyword).append(" ").append(functionName.getToken()).append("[");
         for (int i = 0; i < parameters.size(); i++) {
             sb.append(parameters.get(i).convertToJott());
             if (i < parameters.size() - 1) {

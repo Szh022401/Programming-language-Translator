@@ -4,7 +4,7 @@ Def foo[x:Integer]:Integer{
     Return x + 1;
 }
 
-Def main[]:Void{
+def main[]:Void{
     Integer x;
     x = 0;
 	While[x<10]{

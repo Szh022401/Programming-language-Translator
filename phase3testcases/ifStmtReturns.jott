@@ -12,6 +12,6 @@ Def foo[]:Integer{
     }
 }
 
-Def main[]:Void{
+def main[]:Void{
     ::foo[];
 }
