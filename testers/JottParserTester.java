@@ -110,7 +110,7 @@ public class JottParserTester {
 
     private boolean parserTest(TestCase test, String orginalJottCode){
         try {
-            ArrayList<Token> tokens = JottTokenizer.tokenize("parserTestCases/" + test.fileName);
+            ArrayList<Token> tokens = JottTokenizer.tokenize("phase3testcases/" + test.fileName);
 
             if (tokens == null) {
                 System.err.println("\tFailed Test: " + test.testName);
@@ -144,7 +144,7 @@ public class JottParserTester {
             System.out.println(jottCode);*/
 
             try {
-                FileWriter writer = new FileWriter("parserTestCases/parserTestTemp.jott");
+                FileWriter writer = new FileWriter("phase3testcases/parserTestTemp.jott");
                 if (jottCode == null) {
                     System.err.println("\tFailed Test: " + test.testName);
                     System.err.println("Expected a program string; got null");
@@ -156,7 +156,7 @@ public class JottParserTester {
                 e.printStackTrace();
             }
 
-            ArrayList<Token> newTokens = JottTokenizer.tokenize("parserTestCases/parserTestTemp.jott");
+            ArrayList<Token> newTokens = JottTokenizer.tokenize("phase3testcases/parserTestTemp.jott");
 
             if (newTokens == null) {
                 System.err.println("\tFailed Test: " + test.testName);
@@ -214,7 +214,7 @@ public class JottParserTester {
         String orginalJottCode;
         try {
             orginalJottCode = new String(
-                    Files.readAllBytes(Paths.get("parserTestCases/" + test.fileName)));
+                    Files.readAllBytes(Paths.get("phase3testcases/" + test.fileName)));
         } catch (IOException e) {
             e.printStackTrace();
             return false;
