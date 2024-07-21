@@ -46,6 +46,7 @@ public class JottParser {
      * @return program node
      */
     private static JottTree parseProgram(ArrayList<Token> tokens, int[] index) {
+
         ArrayList<JottTree> functions = new ArrayList<>();
         Token startToken = tokens.get(index[0]);
         while (index[0] < tokens.size()) {
