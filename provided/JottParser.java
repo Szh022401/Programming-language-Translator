@@ -30,12 +30,12 @@ public class JottParser {
             reportError("Unexpected tokens at the end of the program", tokens.get(index[0]), "Syntax");
             return null;
         }
-
+        /*
         if (root != null){
             if (!root.validateTree())
                 return null;
         }
-
+        */
         return root;
     }
 

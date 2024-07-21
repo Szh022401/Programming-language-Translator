@@ -45,7 +45,7 @@ public class Jott {
                 System.exit(1);
             }
 
-            if (!parseTree.validateTree()) {
+            if (!validateTree(parseTree)) {
                 System.err.println("Semantic validation failed.");
                 System.exit(1);
             }
@@ -85,5 +85,9 @@ public class Jott {
             return filename.substring(0, dotIndex);
         }
         return filename;
+    }
+
+    private static Boolean validateTree(JottTree parseTree) {
+        return parseTree.validateTree();
     }
 }
