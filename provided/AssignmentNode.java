@@ -60,10 +60,14 @@ public class AssignmentNode implements JottTree {
             JottParser.reportError("Cannot resolve symbol " + variableName.getToken(), variableName, "Semantic");
             return false;
         }
+
+        if (!expression.validateTree()){
+            return false;
+        }
         if (!Objects.equals(_IdNode.getType(), expression.getType())) {
             JottParser.reportError("Type Error -> " + _IdNode.getType() + " and " + expression.getType(), variableName, "Semantic");
             return false;
         }
-        return expression.validateTree();
+        return true;
     }
 }
