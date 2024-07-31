@@ -35,18 +35,18 @@ public class VarDecStmtNode implements JottTree {
     @Override
     public String convertToJava(String className) {
         if (expression != null) {
-            return convertTypeToC(Id.getType()) + " " + Id.getName() + "=" + expression.convertToJava(className) + ";";
+            return convertTypeToJava(Id.getType()) + " " + Id.getName() + "=" + expression.convertToJava(className) + ";";
         } else {
-            return convertTypeToC(Id.getType()) + " " + Id.getName() + ";";
+            return convertTypeToJava(Id.getType()) + " " + Id.getName() + ";";
         }
     }
 
     @Override
     public String convertToC() {
         if (expression != null) {
-            return  convertTypeToJava(Id.getType()) + " " + Id.getName() + " = " + expression.convertToC() + ";";
+            return  convertTypeToC(Id.getType()) + " " + Id.getName() + " = " + expression.convertToC() + ";";
         } else {
-            return  convertTypeToJava(Id.getType()) + " " + Id.getName() + ";";
+            return  convertTypeToC(Id.getType()) + " " + Id.getName() + ";";
         }
     }
 

@@ -39,9 +39,9 @@ public class WhileNode implements JottTree {
         StringBuilder sb = new StringBuilder();
         sb.append("while(").append(condition.convertToJava(className)).append("){\n");
         for (JottTree statement : body.getStatements()){
-            sb.append("\t\t").append(statement.convertToJava(className)).append("\n");
+            sb.append("\t\t\t").append(statement.convertToJava(className)).append("\n");
         }
-        sb.append("\t}");
+        sb.append("\t\t}");
         return sb.toString();
     }
 

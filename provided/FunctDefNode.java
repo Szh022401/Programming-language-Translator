@@ -64,34 +64,70 @@ public class FunctDefNode implements JottTree {
     @Override
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
-        String defKeyword = defType.getToken();
-        sb.append("    public static ").append(returnType.getToken().toLowerCase()).append(" ").append(functionName.getToken()).append("(");
-        for (int i = 0; i < parameters.size(); i++) {
-            sb.append(parameters.get(i).convertToJava(className));
-            if (i < parameters.size() - 1) {
-                sb.append(", ");
+        if(functionName.getToken().equals("main")){
+            sb.append("\tpublic static void ").append(functionName.getToken()).append("(").append("String args[])");
+            for (int i = 0; i < parameters.size(); i++) {
+                sb.append(parameters.get(i).convertToJava(className));
+                if (i < parameters.size() - 1) {
+                    sb.append(", ");
+                }
             }
+            sb.append("{\n");
+            sb.append(body.convertToJava(className));
+            sb.append("\t}");
+        }else
+        {
+            sb.append("\tstatic ").append(returnType.getToken().toLowerCase()).append(" ").append(functionName.getToken());
+            sb.append("(");
+            for (int i = 0; i < parameters.size(); i++) {
+                sb.append(parameters.get(i).convertToJava(className));
+                if (i < parameters.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+
+            sb.append("){\n");
+            sb.append(body.convertToJava(className));
+            sb.append("\t}");
         }
-        sb.append(") {\n");
-        sb.append(body.convertToJava(className));
-        sb.append("\t}");
         return sb.toString();
     }
 
     @Override
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\nint ").append(functionName.getToken()).append("(").append(returnType.getToken().toLowerCase());
-        for (int i = 0; i < parameters.size(); i++) {
-            sb.append(parameters.get(i).convertToC());
-            if (i < parameters.size() - 1) {
-                sb.append(", ");
+        if(functionName.getToken().equals("main")){
+            sb.append("int ").append(functionName.getToken()).append("(").append(returnType.getToken().toLowerCase()).append(")");
+            for (int i = 0; i < parameters.size(); i++) {
+                sb.append(parameters.get(i).convertToC());
+                if (i < parameters.size() - 1) {
+                    sb.append(", ");
+                }
             }
+            sb.append("{\n");
+            sb.append(body.convertToC());
+            sb.append("    return 1;");
+            sb.append("\n}");
+        }else
+        {
+            String type = returnType.getToken();
+            if(returnType.getToken().equals("String")){
+                    type = "char *";
+            }
+            sb.append(type.toLowerCase()).append(" ").append(functionName.getToken());
+            sb.append("(");
+            for (int i = 0; i < parameters.size(); i++) {
+                sb.append(parameters.get(i).convertToC());
+                if (i < parameters.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+
+            sb.append("){\n");
+            sb.append(body.convertToC());
+            sb.append("}");
         }
-        sb.append("){\n");
-        sb.append(body.convertToC());
-        sb.append("    return 1;");
-        sb.append("\n}");
+
 
         return sb.toString();
     }
@@ -109,6 +145,7 @@ public class FunctDefNode implements JottTree {
         sb.append("):\n");
         sb.append(body.convertToPython());
         sb.append("\n");
+        sb.append("main()");
         return sb.toString();
     }
 
@@ -145,7 +182,11 @@ public class FunctDefNode implements JottTree {
 
     }
 
-    public String getType() { return returnType.getToken(); }
+    public String getType() {
+
+
+        return returnType.getToken();
+    }
 
     public Boolean verifyParams(FunctCallNode functionCall){
         if (functionCall.getArguments().size() < parameters.size()) {

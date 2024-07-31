@@ -40,7 +40,7 @@ public class ProgramNode implements JottTree {
             sb.append(function.convertToJava(className)).append("\n");
         }
         sb.append("}");
-        return sb.toString().trim();
+        return sb.toString();
     }
 
     @Override
@@ -59,7 +59,6 @@ public class ProgramNode implements JottTree {
         for (JottTree function : functions) {
             sb.append(function.convertToPython()).append("\n");
         }
-        sb.append("main()");
         return sb.toString();
     }
 

@@ -39,9 +39,9 @@ public class IfNode implements JottTree {
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
         sb.append("if (").append(condition.convertToJava(className)).append(") {\n");
-        sb.append(ifBody.convertToJava(className)).append("\n}");
+        sb.append("\t").append(ifBody.convertToJava(className)).append("\t\t}");
         if (elseBody != null && !Objects.equals(elseBody.convertToJava(className), "")) {
-            sb.append(" else {\n").append(elseBody.convertToJava(className)).append("\n}");
+            sb.append(" else {\n").append(elseBody.convertToJava(className)).append("\n\t\t}");
         }
         return sb.toString();
     }
@@ -50,9 +50,9 @@ public class IfNode implements JottTree {
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
         sb.append("if (").append(condition.convertToC()).append(") {\n");
-        sb.append(ifBody.convertToC()).append("\n}");
+        sb.append("\t").append(ifBody.convertToC()).append("\t}");
         if (elseBody != null && !Objects.equals(elseBody.convertToC(), "")) {
-            sb.append(" else {\n").append(elseBody.convertToC()).append("\n}");
+            sb.append("\t").append(" else {\n").append(elseBody.convertToC()).append("\t}");
         }
         return sb.toString();
     }

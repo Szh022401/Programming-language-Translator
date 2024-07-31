@@ -35,8 +35,8 @@ public class BodyNode implements JottTree {
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
         for (JottTree statement : statements) {
-//            System.out.println(statement.convertToJava(className));
-            sb.append("\t").append(statement.convertToJava(className)).append("\n");
+            System.out.println(statement);
+            sb.append("\t\t").append(statement.convertToJava(className)).append("\n");
         }
         return sb.toString();
     }

@@ -26,7 +26,7 @@ public class PrintNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return "\t\tSystem.out.println(" + expression.convertToJava(className) + ");";
+        return "System.out.println(" + expression.convertToJava(className) + ");";
     }
 
     @Override
