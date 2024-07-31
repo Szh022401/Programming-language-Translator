@@ -33,18 +33,19 @@ public class ArithmeticExprNode implements IExprType {
     }
     @Override
     public String convertToJava(String className) {
-        return null;
+        return left.convertToJava(className) + " " + operator.getToken() + " " + right.convertToJava(className);
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return left.convertToC() + " " + operator.getToken() + " " + right.convertToC();
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return left.convertToPython() + " " + operator.getToken() + " " + right.convertToPython();
     }
+
 
     @Override
     public boolean validateTree() {

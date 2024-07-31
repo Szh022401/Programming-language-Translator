@@ -34,21 +34,34 @@ public class ProgramNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        // Implementation for converting to Java code
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("public class ").append(className).append(" {\n");
+        for (JottTree function : functions) {
+            sb.append(function.convertToJava(className)).append("\n");
+        }
+        sb.append("}");
+        return sb.toString().trim();
     }
 
     @Override
     public String convertToC() {
-        // Implementation for converting to C code
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n");
+        for (JottTree function : functions) {
+            sb.append(function.convertToC()).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
     public String convertToPython() {
-        // Implementation for converting to Python code
-        return null;
+        StringBuilder sb = new StringBuilder();
+        for (JottTree function : functions) {
+            sb.append(function.convertToPython()).append("\n");
+        }
+        return sb.toString().trim();
     }
+
 
     @Override
     public boolean validateTree() {

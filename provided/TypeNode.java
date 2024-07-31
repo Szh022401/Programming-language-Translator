@@ -28,13 +28,20 @@ public class TypeNode implements JottTree {
         return type.getToken();
     }
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return type.getToken();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        return type.getToken();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return type.getToken();
+    }
+
 
     @Override
     public boolean validateTree() { return true; }

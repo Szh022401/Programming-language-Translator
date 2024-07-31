@@ -33,13 +33,20 @@ public class RelationalExprNode implements IExprType {
     }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return leftExpr.convertToJava(className) + " " + operator.getToken() + " " + rightExpr.convertToJava(className);
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        return leftExpr.convertToC() + " " + operator.getToken() + " " + rightExpr.convertToC();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return leftExpr.convertToPython() + " " + operator.getToken() + " " + rightExpr.convertToPython();
+    }
+
 
     @Override
     public boolean validateTree() {

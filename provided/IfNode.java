@@ -30,19 +30,44 @@ public class IfNode implements JottTree {
     @Override
     public String convertToJott() {
         if (elseBody != null && !Objects.equals(elseBody.convertToJott(), "")) {
-            return "If[" + condition.convertToJott() + "]{" + ifBody.convertToJott() + "}" + "Else{" + elseBody.convertToJott() + "}";
+            return "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott() + "}" + "Else{\n\t" + elseBody.convertToJott() + "\n\t}";
         }
-        return "If[" + condition.convertToJott() + "]{" + ifBody.convertToJott() + "}";
+        return  "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott() + "\t}";
     }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if (").append(condition.convertToJava(className)).append(") {\n");
+        sb.append(ifBody.convertToJava(className)).append("\n}");
+        if (elseBody != null && !Objects.equals(elseBody.convertToJava(className), "")) {
+            sb.append(" else {\n").append(elseBody.convertToJava(className)).append("\n}");
+        }
+        return sb.toString();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if (").append(condition.convertToC()).append(") {\n");
+        sb.append(ifBody.convertToC()).append("\n}");
+        if (elseBody != null && !Objects.equals(elseBody.convertToC(), "")) {
+            sb.append(" else {\n").append(elseBody.convertToC()).append("\n}");
+        }
+        return sb.toString();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if ").append(condition.convertToPython()).append(":\n");
+        sb.append(ifBody.convertToPython()).append("\n");
+        if (elseBody != null && !Objects.equals(elseBody.convertToPython(), "")) {
+            sb.append("else:\n").append(elseBody.convertToPython()).append("\n");
+        }
+        return sb.toString();
+    }
+
 
     @Override
     public boolean validateTree() { return condition.validateTree() && ifBody.validateTree() && elseBody.validateTree(); }

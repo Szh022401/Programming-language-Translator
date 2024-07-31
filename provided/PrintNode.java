@@ -25,14 +25,35 @@ public class PrintNode implements JottTree {
     }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return "\t\tSystem.out.println(" + expression.convertToJava(className) + ");";
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        String type = getType(expression);
+        String formatSpecifier = type.equals("String") ? "%s" : "%d";
+        if(type.equals("String")){
+            return "\tprintf(\"" + formatSpecifier + "\\n\"," + expression.convertToC() + ");";
+        }else {
+            return "\tprintf(\"" + formatSpecifier + "\\n\", " + expression.convertToC() + ");";
+        }
+
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return "\tprint(" + expression.convertToPython() + ")";
+    }
+
 
     @Override
     public boolean validateTree() { return expression.validateTree(); }
+
+    private String getType(JottTree expr) {
+        if (expr instanceof IExprType) {
+            return ((IExprType) expr).getType();
+        }
+        throw new UnsupportedOperationException("Expression type not supported for printing");
+    }
 }

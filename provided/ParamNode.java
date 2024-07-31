@@ -28,13 +28,20 @@ public class ParamNode implements JottTree {
         return paramName.getToken() + ":" + paramType.getToken();
     }
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return paramType.getToken() + " " + paramName.getToken();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        return paramType.getToken() + " " + paramName.getToken();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return paramName.getToken();
+    }
+
 
     @Override
     public boolean validateTree() { return true; }

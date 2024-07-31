@@ -53,22 +53,66 @@ public class FunctDefNode implements JottTree {
         for (int i = 0; i < parameters.size(); i++) {
             sb.append(parameters.get(i).convertToJott());
             if (i < parameters.size() - 1) {
-                sb.append(", ");
+                sb.append(",");
             }
         }
-        sb.append("]:").append(returnType.getToken()).append("{");
+        sb.append("]:").append(returnType.getToken()).append("{\n");
         sb.append(body.convertToJott());
         sb.append("}");
         return sb.toString();
     }
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        StringBuilder sb = new StringBuilder();
+        String defKeyword = defType.getToken();
+        sb.append("    public static ").append(returnType.getToken().toLowerCase()).append(" ").append(functionName.getToken()).append("(");
+        for (int i = 0; i < parameters.size(); i++) {
+            sb.append(parameters.get(i).convertToJava(className));
+            if (i < parameters.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append(") {\n");
+        sb.append(body.convertToJava(className));
+        sb.append("\t}");
+        return sb.toString();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nint ").append(functionName.getToken()).append("(").append(returnType.getToken().toLowerCase());
+        for (int i = 0; i < parameters.size(); i++) {
+            sb.append(parameters.get(i).convertToC());
+            if (i < parameters.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("){\n");
+        sb.append(body.convertToC());
+        sb.append("    return 1;");
+        sb.append("\n}");
+
+        return sb.toString();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("def ").append(functionName.getToken()).append("(");
+        for (int i = 0; i < parameters.size(); i++) {
+            sb.append(parameters.get(i).convertToPython());
+            if (i < parameters.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("):\n");
+        sb.append(body.convertToPython());
+        sb.append("\n");
+        sb.append("main()");
+        return sb.toString();
+    }
+
 
     @Override
     public boolean validateTree() {

@@ -25,19 +25,45 @@ public class BodyNode implements JottTree {
     public String convertToJott() {
         StringBuilder sb = new StringBuilder();
         for (JottTree statement : statements) {
-            sb.append(statement.convertToJott()).append(" ");
+            System.out.println(statement);
+            sb.append("\t").append(statement.convertToJott()).append("\n");
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        StringBuilder sb = new StringBuilder();
+        for (JottTree statement : statements) {
+//            System.out.println(statement.convertToJava(className));
+            sb.append(statement.convertToJava(className)).append("\n");
+        }
+        return sb.toString();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        StringBuilder sb = new StringBuilder();
+        for (JottTree statement : statements) {
+            //System.out.println(statement);
+            sb.append(statement.convertToC()).append("\n");
+        }
+        return sb.toString();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        StringBuilder sb = new StringBuilder();
+        for (JottTree statement : statements) {
+//            System.out.println(statement);
+            if(statement.convertToPython() != null){
+                sb.append(statement.convertToPython()).append("\n");
+            }
+
+        }
+        return sb.toString();
+    }
+
 
     @Override
     public boolean validateTree() {

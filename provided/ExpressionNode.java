@@ -29,18 +29,19 @@ public class ExpressionNode implements IExprType {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return value.getToken();
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return value.getToken();
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return value.getToken();
     }
+
 
     @Override
     public boolean validateTree() {

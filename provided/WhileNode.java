@@ -24,17 +24,32 @@ public class WhileNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return "While[" + condition.convertToJott() + "]{" + body.convertToJott() + "}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("While").append("[").append(condition.convertToJott()).append("]").append("{\n");
+        for (JottTree statement : body.getStatements()){
+            System.out.println(statement.convertToJott());
+            sb.append("\t\t").append(statement.convertToJott()).append("\n");
+        }
+
+
+        return sb.toString();
     }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return "while (" + condition.convertToJava(className) + ") {\n" + body.convertToJava(className) + "\n}";
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        return "while (" + condition.convertToC() + ") {\n" + body.convertToC() + "\n}";
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return "while " + condition.convertToPython() + ":\n" + body.convertToPython();
+    }
+
 
     @Override
     public boolean validateTree() { return condition.validateTree() && body.validateTree(); }

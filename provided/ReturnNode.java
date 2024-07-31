@@ -22,25 +22,23 @@ public class ReturnNode implements IExprType {
      */
     @Override
     public String convertToJott() {
-        return "Return " + expression.convertToJott() + ";";
+        return  "Return " + expression.convertToJott() + ";";
     }
     @Override
     public String convertToJava(String className) {
-        // Implementation for converting to Java code
-        return null;
+        return "return " + expression.convertToJava(className) + ";";
     }
 
     @Override
     public String convertToC() {
-        // Implementation for converting to C code
-        return null;
+        return "return " + expression.convertToC() + ";";
     }
 
     @Override
     public String convertToPython() {
-        // Implementation for converting to Python code
-        return null;
+        return "return " + expression.convertToPython();
     }
+
 
     @Override
     public boolean validateTree() {

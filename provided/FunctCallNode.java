@@ -44,13 +44,53 @@ public class FunctCallNode implements IExprType {
         }
 
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        StringBuilder javaString = new StringBuilder();
+        javaString.append(functionName.getToken()).append("(");
+        for (int i = 0; i < arguments.size(); i++) {
+            if (i > 0) {
+                javaString.append(", ");
+            }
+            javaString.append(arguments.get(i).convertToJava(className));
+        }
+        javaString.append(")");
+        if (AddSemiColon) {
+            javaString.append(";");
+        }
+        return javaString.toString();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        StringBuilder cString = new StringBuilder();
+        cString.append(functionName.getToken()).append("(");
+        for (int i = 0; i < arguments.size(); i++) {
+            if (i > 0) {
+                cString.append(",");
+            }
+            cString.append(arguments.get(i).convertToC());
+        }
+        cString.append(")");
+        if (AddSemiColon) {
+            cString.append(";");
+        }
+        return cString.toString();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        StringBuilder pythonString = new StringBuilder();
+        pythonString.append(functionName.getToken()).append("(");
+        for (int i = 0; i < arguments.size(); i++) {
+            if (i > 0) {
+                pythonString.append(", ");
+            }
+            pythonString.append(arguments.get(i).convertToPython());
+        }
+        pythonString.append(")");
+        return pythonString.toString();
+    }
+
 
     @Override
     public boolean validateTree() {

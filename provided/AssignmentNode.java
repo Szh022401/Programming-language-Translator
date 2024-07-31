@@ -30,27 +30,36 @@ public class AssignmentNode implements JottTree {
      */
     @Override
     public String convertToJott() {
-        String result = variableName.getToken() + " = " + expression.convertToJott();
+        String result =  variableName.getToken() + "=" + expression.convertToJott();
         if (AddSemiColon) {
-            result = result + "; ";
+            result = result + ";";
         }
         return result;
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String result = "\t\t" + variableName.getToken() + " = " + expression.convertToJava(className);
+        if (AddSemiColon) {
+            result += ";";
+        }
+        return result;
     }
 
     @Override
     public String convertToC() {
-        return null;
+        String result = "\t" + variableName.getToken() + "=" + expression.convertToC();
+        if (AddSemiColon) {
+            result += ";";
+        }
+        return result;
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return "\t" + variableName.getToken() + " = " + expression.convertToPython();
     }
+
 
     @Override
     public boolean validateTree() {

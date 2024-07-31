@@ -30,13 +30,20 @@ public class IdNode implements IExprType {
         return Name.getToken() + ":" + Type.getToken();
     }
     @Override
-    public String convertToJava(String className) { return null; }
+    public String convertToJava(String className) {
+        return convertTypeToJava(Type.getToken()) + " " + Name.getToken();
+    }
 
     @Override
-    public String convertToC() { return null; }
+    public String convertToC() {
+        return convertTypeToC(Type.getToken()) + " " + Name.getToken();
+    }
 
     @Override
-    public String convertToPython() { return null; }
+    public String convertToPython() {
+        return Name.getToken();
+    }
+
 
     @Override
     public boolean validateTree() {
@@ -53,6 +60,41 @@ public class IdNode implements IExprType {
 
     public String getType() {
         return Type.getToken();
+    }
+
+    private String convertTypeToJava(String jottType) {
+        switch (jottType) {
+            case "Integer":
+                return "int";
+            case "Double":
+                return "double";
+            case "String":
+                return "String";
+            case "Boolean":
+                return "boolean";
+            default:
+                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        }
+    }
+
+    /**
+     * Converts a Jott type to a C type
+     * @param jottType the Jott type as a string
+     * @return the corresponding C type as a string
+     */
+    private String convertTypeToC(String jottType) {
+        switch (jottType) {
+            case "Integer":
+                return "int";
+            case "Double":
+                return "double";
+            case "String":
+                return "char*";
+            case "Boolean":
+                return "int";  // C doesn't have a boolean type; typically 0 is false and non-zero is true
+            default:
+                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        }
     }
 
 }
