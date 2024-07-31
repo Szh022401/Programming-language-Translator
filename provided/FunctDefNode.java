@@ -110,10 +110,7 @@ public class FunctDefNode implements JottTree {
             sb.append("\n}");
         }else
         {
-            String type = returnType.getToken();
-            if(returnType.getToken().equals("String")){
-                    type = "char *";
-            }
+            String type = convertTypeToC(returnType.getToken());
             sb.append(type.toLowerCase()).append(" ").append(functionName.getToken());
             sb.append("(");
             for (int i = 0; i < parameters.size(); i++) {
@@ -144,8 +141,6 @@ public class FunctDefNode implements JottTree {
         }
         sb.append("):\n");
         sb.append(body.convertToPython());
-        sb.append("\n");
-        sb.append("main()");
         return sb.toString();
     }
 
@@ -290,4 +285,42 @@ public class FunctDefNode implements JottTree {
     public static void ClearFunctionsList(){
         Allfunctions.clear();
     }
+    private String convertTypeToJava(String jottType) {
+        switch (jottType) {
+            case "Integer":
+                return "int";
+            case "Double":
+                return "double";
+            case "String":
+                return "String";
+            case "Boolean":
+                return "boolean";
+            default:
+                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        }
+    }
+
+    /**
+     * Converts a Jott type to a C type
+     * @param jottType the Jott type as a string
+     * @return the corresponding C type as a string
+     */
+    private String convertTypeToC(String jottType) {
+        switch (jottType) {
+            case "Integer":
+                return "int";
+            case "Double":
+                return "double";
+            case "String":
+                return "char*";
+            case "Boolean":
+                return "int";
+            case "Void":
+                return "void";
+            default:
+                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        }
+    }
+
+
 }

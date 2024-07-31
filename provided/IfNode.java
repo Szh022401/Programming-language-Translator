@@ -30,18 +30,18 @@ public class IfNode implements JottTree {
     @Override
     public String convertToJott() {
         if (elseBody != null && !Objects.equals(elseBody.convertToJott(), "")) {
-            return "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott() + "}" + "Else{\n\t" + elseBody.convertToJott() + "\n\t}";
+            return "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott().replaceAll("\n", "\n\t")   + "Else{\n\t" + elseBody.convertToJott().replaceAll("\n", "\n\t") + "}";
         }
-        return  "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott() + "\t}";
+        return  "If[" + condition.convertToJott() + "]{\n\t" + ifBody.convertToJott().replaceAll("\n", "\n\t") ;
     }
 
     @Override
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
         sb.append("if (").append(condition.convertToJava(className)).append(") {\n");
-        sb.append("\t").append(ifBody.convertToJava(className)).append("\t\t}");
+        sb.append("\t").append(ifBody.convertToJava(className).replaceAll("\n", "\n\t")).append("\t}");
         if (elseBody != null && !Objects.equals(elseBody.convertToJava(className), "")) {
-            sb.append(" else {\n").append(elseBody.convertToJava(className)).append("\n\t\t}");
+            sb.append("else {\n\t").append(elseBody.convertToJava(className).replaceAll("\n", "\n\t")).append("\t}");
         }
         return sb.toString();
     }
@@ -50,9 +50,10 @@ public class IfNode implements JottTree {
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
         sb.append("if (").append(condition.convertToC()).append(") {\n");
-        sb.append("\t").append(ifBody.convertToC()).append("\t}");
+
+        sb.append("\t").append(ifBody.convertToC().replaceAll("\n", "\n\t")).append("}");
         if (elseBody != null && !Objects.equals(elseBody.convertToC(), "")) {
-            sb.append("\t").append(" else {\n").append(elseBody.convertToC()).append("\t}");
+            sb.append("else {\n\t").append(elseBody.convertToC().replaceAll("\n", "\n\t")).append("}");
         }
         return sb.toString();
     }
@@ -61,18 +62,23 @@ public class IfNode implements JottTree {
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
         sb.append("if ").append(condition.convertToPython()).append(":\n");
-        sb.append("\t").append(ifBody.convertToPython());
+        sb.append("\t").append(ifBody.convertToPython().replaceAll("\n", "\n\t"));
         if (elseBody != null && !Objects.equals(elseBody.convertToPython(), "")) {
-            sb.append("\t").append("else:\n").append(elseBody.convertToPython()).append("\n");
+            sb.append("else:\n\t").append(elseBody.convertToPython().replaceAll("\n", "\n\t"));
         }
         return sb.toString();
     }
 
-
     @Override
-    public boolean validateTree() { return condition.validateTree() && ifBody.validateTree() && elseBody.validateTree(); }
+    public boolean validateTree() {
+        return condition.validateTree() && ifBody.validateTree() && elseBody.validateTree();
+    }
 
-    public JottTree getIfBody() { return ifBody; }
+    public JottTree getIfBody() {
+        return ifBody;
+    }
 
-    public JottTree getElseBody() { return elseBody; }
+    public JottTree getElseBody() {
+        return elseBody;
+    }
 }

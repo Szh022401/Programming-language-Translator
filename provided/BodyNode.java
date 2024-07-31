@@ -45,7 +45,7 @@ public class BodyNode implements JottTree {
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
         for (JottTree statement : statements) {
-            //System.out.println(statement);
+            System.out.println(statement.convertToC());
             sb.append("\t").append(statement.convertToC()).append("\n");
         }
         return sb.toString();

@@ -72,6 +72,7 @@ public class VarDecStmtNode implements JottTree {
         }
         return true;
     }
+
     private String convertTypeToJava(String jottType) {
         switch (jottType) {
             case "Integer":
@@ -89,6 +90,7 @@ public class VarDecStmtNode implements JottTree {
 
     /**
      * Converts a Jott type to a C type
+     *
      * @param jottType the Jott type as a string
      * @return the corresponding C type as a string
      */
