@@ -34,16 +34,16 @@ public class PrintNode implements JottTree {
         String type = getType(expression);
         String formatSpecifier = type.equals("String") ? "%s" : "%d";
         if(type.equals("String")){
-            return "\tprintf(\"" + formatSpecifier + "\\n\"," + expression.convertToC() + ");";
+            return "printf(\"" + formatSpecifier + "\\n\"," + expression.convertToC() + ");";
         }else {
-            return "\tprintf(\"" + formatSpecifier + "\\n\", " + expression.convertToC() + ");";
+            return "printf(\"" + formatSpecifier + "\\n\", " + expression.convertToC() + ");";
         }
 
     }
 
     @Override
     public String convertToPython() {
-        return "\tprint(" + expression.convertToPython() + ")";
+        return "print(" + expression.convertToPython() + ")";
     }
 
 

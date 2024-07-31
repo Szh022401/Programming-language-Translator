@@ -39,7 +39,7 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        String result = "\t\t" + variableName.getToken() + " = " + expression.convertToJava(className);
+        String result = variableName.getToken() + " = " + expression.convertToJava(className);
         if (AddSemiColon) {
             result += ";";
         }
@@ -48,7 +48,7 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public String convertToC() {
-        String result = "\t" + variableName.getToken() + "=" + expression.convertToC();
+        String result = variableName.getToken() + "=" + expression.convertToC();
         if (AddSemiColon) {
             result += ";";
         }
@@ -57,7 +57,7 @@ public class AssignmentNode implements JottTree {
 
     @Override
     public String convertToPython() {
-        return "\t" + variableName.getToken() + " = " + expression.convertToPython();
+        return  variableName.getToken() + " = " + expression.convertToPython();
     }
 
 

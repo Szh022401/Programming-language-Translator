@@ -109,7 +109,6 @@ public class FunctDefNode implements JottTree {
         sb.append("):\n");
         sb.append(body.convertToPython());
         sb.append("\n");
-        sb.append("main()");
         return sb.toString();
     }
 

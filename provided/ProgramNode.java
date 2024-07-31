@@ -59,7 +59,8 @@ public class ProgramNode implements JottTree {
         for (JottTree function : functions) {
             sb.append(function.convertToPython()).append("\n");
         }
-        return sb.toString().trim();
+        sb.append("main()");
+        return sb.toString();
     }
 
 

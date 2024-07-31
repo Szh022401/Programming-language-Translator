@@ -30,24 +30,41 @@ public class WhileNode implements JottTree {
             System.out.println(statement.convertToJott());
             sb.append("\t\t").append(statement.convertToJott()).append("\n");
         }
-
-
+        sb.append("\t}");
         return sb.toString();
     }
 
     @Override
     public String convertToJava(String className) {
-        return "while (" + condition.convertToJava(className) + ") {\n" + body.convertToJava(className) + "\n}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("while(").append(condition.convertToJava(className)).append("){\n");
+        for (JottTree statement : body.getStatements()){
+            sb.append("\t\t").append(statement.convertToJava(className)).append("\n");
+        }
+        sb.append("\t}");
+        return sb.toString();
     }
 
     @Override
     public String convertToC() {
-        return "while (" + condition.convertToC() + ") {\n" + body.convertToC() + "\n}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("while (").append(condition.convertToC()).append("){\n");
+        for(JottTree statement : body.getStatements()){
+            sb.append("\t\t").append(statement.convertToC()).append("\n");
+        }
+        sb.append("\t}");
+        return sb.toString();
     }
 
     @Override
     public String convertToPython() {
-        return "while " + condition.convertToPython() + ":\n" + body.convertToPython();
+        StringBuilder sb = new StringBuilder();
+        sb.append("while (").append(condition.convertToPython()).append("){\n");
+       for(JottTree statement : body.getStatements()){
+           sb.append("\t\t").append(statement.convertToPython()).append("\n");
+       }
+       sb.append("\t}");
+       return sb.toString();
     }
 
 

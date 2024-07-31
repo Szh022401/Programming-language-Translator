@@ -36,7 +36,7 @@ public class BodyNode implements JottTree {
         StringBuilder sb = new StringBuilder();
         for (JottTree statement : statements) {
 //            System.out.println(statement.convertToJava(className));
-            sb.append(statement.convertToJava(className)).append("\n");
+            sb.append("\t").append(statement.convertToJava(className)).append("\n");
         }
         return sb.toString();
     }
@@ -46,7 +46,7 @@ public class BodyNode implements JottTree {
         StringBuilder sb = new StringBuilder();
         for (JottTree statement : statements) {
             //System.out.println(statement);
-            sb.append(statement.convertToC()).append("\n");
+            sb.append("\t").append(statement.convertToC()).append("\n");
         }
         return sb.toString();
     }
@@ -57,9 +57,8 @@ public class BodyNode implements JottTree {
         for (JottTree statement : statements) {
 //            System.out.println(statement);
             if(statement.convertToPython() != null){
-                sb.append(statement.convertToPython()).append("\n");
+                sb.append("\t").append(statement.convertToPython()).append("\n");
             }
-
         }
         return sb.toString();
     }

@@ -61,9 +61,9 @@ public class IfNode implements JottTree {
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
         sb.append("if ").append(condition.convertToPython()).append(":\n");
-        sb.append(ifBody.convertToPython()).append("\n");
+        sb.append("\t").append(ifBody.convertToPython());
         if (elseBody != null && !Objects.equals(elseBody.convertToPython(), "")) {
-            sb.append("else:\n").append(elseBody.convertToPython()).append("\n");
+            sb.append("\t").append("else:\n").append(elseBody.convertToPython()).append("\n");
         }
         return sb.toString();
     }
