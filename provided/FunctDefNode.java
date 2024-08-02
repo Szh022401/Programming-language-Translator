@@ -65,7 +65,7 @@ public class FunctDefNode implements JottTree {
     public String convertToJava(String className) {
         StringBuilder sb = new StringBuilder();
         if(functionName.getToken().equals("main")){
-            sb.append("\tpublic static void ").append(functionName.getToken()).append("(").append("String args[])");
+            sb.append("\tpublic static void ").append(functionName.getToken()).append("(").append("String[] args)");
             for (int i = 0; i < parameters.size(); i++) {
                 sb.append(parameters.get(i).convertToJava(className));
                 if (i < parameters.size() - 1) {
@@ -77,7 +77,7 @@ public class FunctDefNode implements JottTree {
             sb.append("\t}");
         }else
         {
-            sb.append("\tstatic ").append(returnType.getToken().toLowerCase()).append(" ").append(functionName.getToken());
+            sb.append("\tstatic ").append(JottParser.convertTypeToJava(returnType.getToken())).append(" ").append(functionName.getToken());
             sb.append("(");
             for (int i = 0; i < parameters.size(); i++) {
                 sb.append(parameters.get(i).convertToJava(className));
@@ -97,7 +97,7 @@ public class FunctDefNode implements JottTree {
     public String convertToC() {
         StringBuilder sb = new StringBuilder();
         if(functionName.getToken().equals("main")){
-            sb.append("int ").append(functionName.getToken()).append("(").append(returnType.getToken().toLowerCase()).append(")");
+            sb.append("int ").append(functionName.getToken()).append("(").append(JottParser.convertTypeToJava(returnType.getToken())).append(")");
             for (int i = 0; i < parameters.size(); i++) {
                 sb.append(parameters.get(i).convertToC());
                 if (i < parameters.size() - 1) {
@@ -110,7 +110,7 @@ public class FunctDefNode implements JottTree {
             sb.append("\n}");
         }else
         {
-            String type = convertTypeToC(returnType.getToken());
+            String type = JottParser.convertTypeToC(returnType.getToken());
             sb.append(type.toLowerCase()).append(" ").append(functionName.getToken());
             sb.append("(");
             for (int i = 0; i < parameters.size(); i++) {
@@ -284,42 +284,6 @@ public class FunctDefNode implements JottTree {
     }
     public static void ClearFunctionsList(){
         Allfunctions.clear();
-    }
-    private String convertTypeToJava(String jottType) {
-        switch (jottType) {
-            case "Integer":
-                return "int";
-            case "Double":
-                return "double";
-            case "String":
-                return "String";
-            case "Boolean":
-                return "boolean";
-            default:
-                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
-        }
-    }
-
-    /**
-     * Converts a Jott type to a C type
-     * @param jottType the Jott type as a string
-     * @return the corresponding C type as a string
-     */
-    private String convertTypeToC(String jottType) {
-        switch (jottType) {
-            case "Integer":
-                return "int";
-            case "Double":
-                return "double";
-            case "String":
-                return "char*";
-            case "Boolean":
-                return "int";
-            case "Void":
-                return "void";
-            default:
-                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
-        }
     }
 
 

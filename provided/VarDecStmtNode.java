@@ -35,18 +35,18 @@ public class VarDecStmtNode implements JottTree {
     @Override
     public String convertToJava(String className) {
         if (expression != null) {
-            return convertTypeToJava(Id.getType()) + " " + Id.getName() + "=" + expression.convertToJava(className) + ";";
+            return JottParser.convertTypeToJava(Id.getType()) + " " + Id.getName() + "=" + expression.convertToJava(className) + ";";
         } else {
-            return convertTypeToJava(Id.getType()) + " " + Id.getName() + ";";
+            return JottParser.convertTypeToJava(Id.getType()) + " " + Id.getName() + ";";
         }
     }
 
     @Override
     public String convertToC() {
         if (expression != null) {
-            return  convertTypeToC(Id.getType()) + " " + Id.getName() + " = " + expression.convertToC() + ";";
+            return  JottParser.convertTypeToC(Id.getType()) + " " + Id.getName() + " = " + expression.convertToC() + ";";
         } else {
-            return  convertTypeToC(Id.getType()) + " " + Id.getName() + ";";
+            return  JottParser.convertTypeToC(Id.getType()) + " " + Id.getName() + ";";
         }
     }
 
@@ -71,42 +71,6 @@ public class VarDecStmtNode implements JottTree {
             return expression.validateTree();
         }
         return true;
-    }
-
-    private String convertTypeToJava(String jottType) {
-        switch (jottType) {
-            case "Integer":
-                return "int";
-            case "Double":
-                return "double";
-            case "String":
-                return "String";
-            case "Boolean":
-                return "boolean";
-            default:
-                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
-        }
-    }
-
-    /**
-     * Converts a Jott type to a C type
-     *
-     * @param jottType the Jott type as a string
-     * @return the corresponding C type as a string
-     */
-    private String convertTypeToC(String jottType) {
-        switch (jottType) {
-            case "Integer":
-                return "int";
-            case "Double":
-                return "double";
-            case "String":
-                return "char*";
-            case "Boolean":
-                return "int";  // C doesn't have a boolean type; typically 0 is false and non-zero is true
-            default:
-                throw new IllegalArgumentException("Unknown Jott type: " + jottType);
-        }
     }
 
 

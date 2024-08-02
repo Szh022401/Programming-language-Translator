@@ -39,6 +39,28 @@ public class JottParser {
         return root;
     }
 
+    public static String convertTypeToJava(String jottType) {
+        return switch (jottType.toLowerCase()) {
+            case "integer" -> "int";
+            case "double" -> "double";
+            case "string" -> "String";
+            case "boolean" -> "boolean";
+            case "void" -> "void";
+            default -> throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        };
+    }
+
+    public static String convertTypeToC(String jottType) {
+        return switch (jottType.toLowerCase()) {
+            case "integer" -> "int";
+            case "double" -> "double";
+            case "string" -> "char*";
+            case "void" -> "void";
+            case "boolean" -> "int";  // C doesn't have a boolean type; typically 0 is false and non-zero is true
+            default -> throw new IllegalArgumentException("Unknown Jott type: " + jottType);
+        };
+    }
+
     /**
      * parses the program and creates the root node
      * @param tokens the ArrayList of Jott tokens to parse

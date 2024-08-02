@@ -59,11 +59,10 @@ public class WhileNode implements JottTree {
     @Override
     public String convertToPython() {
         StringBuilder sb = new StringBuilder();
-        sb.append("while (").append(condition.convertToPython()).append("){\n");
+        sb.append("while (").append(condition.convertToPython()).append("):\n");
        for(JottTree statement : body.getStatements()){
            sb.append("\t\t").append(statement.convertToPython()).append("\n");
        }
-       sb.append("\t}");
        return sb.toString();
     }
 
